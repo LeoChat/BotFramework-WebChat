@@ -1,6 +1,7 @@
 import { HostConfig } from 'adaptivecards';
 import { Activity, ConnectionStatus, IBotConnection, Media, MediaType, Message, User } from 'botframework-directlinejs';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { defaultIcons, IconPack, icons } from './Icons';
 import * as konsole from './Konsole';
 import { Speech } from './SpeechModule';
 import { defaultStrings, strings, Strings } from './Strings';
@@ -156,8 +157,10 @@ export interface FormatState {
     chatSubTitle: boolean | string;
     chatLogo: boolean | string;
     locale: string;
+    iconPack: string;
     showUploadButton: boolean;
     strings: Strings;
+    icons: IconPack;
     carouselMargin: number;
     userThumbnail: boolean | string;
     botThumbnail: boolean | string;
@@ -179,6 +182,9 @@ export type FormatAction = {
     type: 'Set_Locale',
     locale: string
 } | {
+    type: 'Set_Alternate_Icons',
+    iconPack: string
+} | {
     type: 'Set_Measurements',
     carouselMargin: number
 } | {
@@ -199,8 +205,10 @@ export const format: Reducer<FormatState> = (
         chatSubTitle: false,
         chatLogo: false,
         locale: 'en-us',
+        iconPack: 'default',
         showUploadButton: true,
         strings: defaultStrings,
+        icons: defaultIcons,
         carouselMargin: undefined,
         userThumbnail: false,
         botThumbnail: false
@@ -233,6 +241,11 @@ export const format: Reducer<FormatState> = (
                 ...state,
                 locale: action.locale,
                 strings: strings(action.locale)
+            };
+        case 'Set_Alternate_Icons':
+            return {
+                ...state,
+                icons: icons(action.iconPack)
             };
         case 'Set_Measurements':
             return {
