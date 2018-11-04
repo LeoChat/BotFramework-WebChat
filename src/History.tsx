@@ -323,7 +323,7 @@ export class WrappedActivity extends React.Component<WrappedActivityProps, {}> {
                         'data-activity-id': this.props.activity.id,
                         'onClick': this.props.onClickActivity
                     },
-                  <img src={ './' + who + '.png'} width={'46px'} height={'46px'} className={'wc-message-user-thumbnail wc-thumbnail-' + who} style={{ display: thumbnail ? 'inline' : 'none' }} />,
+                  <img src={ thumbnail && typeof thumbnail === 'string' ? thumbnail : '' } width={'46px'} height={'46px'} className={'wc-message-user-thumbnail wc-thumbnail-' + who} style={{ display: thumbnail ? 'inline' : 'none' }} />,
                     <div className={ 'wc-message wc-message-from-' + who } ref={ div => this.messageDiv = div }>
                         <div className={ contentClassName }>
                             <svg className="wc-message-callout">

@@ -3,12 +3,12 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/merge';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import * as konsole from './Konsole';
+import { Icon } from './Icons';
 
 export interface HScrollProps {
     scrollUnit?: 'page' | 'item'; // defaults to page
-    prevSvgPathData: string;
-    nextSvgPathData: string;
+    prevSvgPathData: Icon;
+    nextSvgPathData: Icon;
 }
 
 export class HScroll extends React.Component<HScrollProps, {}> {
@@ -154,7 +154,14 @@ export class HScroll extends React.Component<HScrollProps, {}> {
                     ref={ button => this.prevButton = button }
                     type="button"
                 >
-                    { this.props.prevSvgPathData }
+                {
+                    !!this.props.prevSvgPathData.svg &&
+                    <svg><path d={this.props.prevSvgPathData.svg} /></svg>
+                }
+                {
+                    !!this.props.prevSvgPathData.base64 &&
+                    <img src={this.props.prevSvgPathData.base64} />
+                }
                 </button>
                 <div className="wc-hscroll-outer">
                     <div className="wc-hscroll" ref={ div => this.scrollDiv = div }>
@@ -167,7 +174,14 @@ export class HScroll extends React.Component<HScrollProps, {}> {
                     ref={ button => this.nextButton = button }
                     type="button"
                 >
-                    { this.props.nextSvgPathData }
+                {
+                    !!this.props.nextSvgPathData.svg &&
+                    <svg><path d={this.props.nextSvgPathData.svg} /></svg>
+                }
+                {
+                    !!this.props.nextSvgPathData.base64 &&
+                    <img src={this.props.nextSvgPathData.base64} />
+                }
                 </button>
             </div >
         );
