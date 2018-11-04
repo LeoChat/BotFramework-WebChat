@@ -154,9 +154,7 @@ export class HScroll extends React.Component<HScrollProps, {}> {
                     ref={ button => this.prevButton = button }
                     type="button"
                 >
-                    <svg>
-                        <path d={ this.props.prevSvgPathData } />
-                    </svg>
+                    { this.props.prevSvgPathData }
                 </button>
                 <div className="wc-hscroll-outer">
                     <div className="wc-hscroll" ref={ div => this.scrollDiv = div }>
@@ -169,9 +167,7 @@ export class HScroll extends React.Component<HScrollProps, {}> {
                     ref={ button => this.nextButton = button }
                     type="button"
                 >
-                    <svg>
-                        <path d={ this.props.nextSvgPathData } />
-                    </svg>
+                    { this.props.nextSvgPathData }
                 </button>
             </div >
         );

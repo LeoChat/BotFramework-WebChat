@@ -5,8 +5,7 @@ import { activityWithSuggestedActions } from './activityWithSuggestedActions';
 import { classList, doCardAction, IDoCardAction } from './Chat';
 import { HScroll } from './HScroll';
 import * as konsole from './Konsole';
-import { ChatState } from './Store';
-import { ChatActions, sendMessage } from './Store';
+import {ChatActions, ChatState, FormatState, sendMessage} from './Store';
 
 export interface MessagePaneProps {
     activityWithSuggestedActions: Message;
@@ -14,6 +13,7 @@ export interface MessagePaneProps {
     disabled: boolean;
     doCardAction: IDoCardAction;
     takeSuggestedAction: (message: Message) => any;
+    format: FormatState;
 }
 
 const MessagePaneView = (props: MessagePaneProps) =>
@@ -49,8 +49,8 @@ class SuggestedActions extends React.Component<MessagePaneProps, {}> {
 
         return (
             <HScroll
-                prevSvgPathData="M 16.5 22 L 19 19.5 L 13.5 14 L 19 8.5 L 16.5 6 L 8.5 14 L 16.5 22 Z"
-                nextSvgPathData="M 12.5 22 L 10 19.5 L 15.5 14 L 10 8.5 L 12.5 6 L 20.5 14 L 12.5 22 Z"
+                prevSvgPathData={ this.props.format.icons.next }
+                nextSvgPathData={ this.props.format.icons.prev }
                 scrollUnit="page"
             >
                 <ul>{ this.props.activityWithSuggestedActions.suggestedActions.actions.map((action, index) =>
