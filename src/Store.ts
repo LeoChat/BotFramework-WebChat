@@ -153,6 +153,8 @@ export const shell: Reducer<ShellState> = (
 export interface FormatState {
     chatTitle: boolean | string;
     direction: string;
+    chatSubTitle: boolean | string;
+    chatLogo: boolean | string;
     locale: string;
     showUploadButton: boolean;
     strings: Strings;
@@ -165,6 +167,12 @@ export type FormatAction = {
 } | {
     type: 'Set_Direction',
     direction: string
+} | {
+    type: 'Set_Chat_Sub_Title',
+    chatSubTitle: boolean | string
+} | {
+    type: 'Set_Chat_Logo',
+    chatLogo: boolean | string
 } | {
     type: 'Set_Locale',
     locale: string
@@ -180,6 +188,8 @@ export const format: Reducer<FormatState> = (
     state: FormatState = {
         chatTitle: true,
         direction: 'ltr',
+        chatSubTitle: false,
+        chatLogo: false,
         locale: 'en-us',
         showUploadButton: true,
         strings: defaultStrings,
@@ -197,6 +207,16 @@ export const format: Reducer<FormatState> = (
             return {
                 ...state,
                 direction: ['ltr', 'rtl'].includes(action.direction) ? action.direction : 'ltr'
+            };
+        case 'Set_Chat_Sub_Title':
+            return {
+                ...state,
+                chatSubTitle: typeof action.chatSubTitle === 'undefined' ? false : action.chatSubTitle
+            };
+        case 'Set_Chat_Logo':
+            return {
+                ...state,
+                chatLogo: typeof action.chatLogo === 'undefined' ? false : action.chatLogo
             };
         case 'Set_Locale':
             return {
