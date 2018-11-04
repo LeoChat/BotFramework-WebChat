@@ -22,6 +22,7 @@ export interface ChatProps {
     directLine?: DirectLineOptions;
     disabled?: boolean;
     formatOptions?: FormatOptions;
+    direction?: string;
     locale?: string;
     resize?: 'none' | 'window' | 'detect';
     selectedActivity?: BehaviorSubject<ActivityOrID>;
@@ -63,10 +64,19 @@ export class Chat extends React.Component<ChatProps, {}> {
 
         konsole.log('BotChat.Chat props', props);
 
+        const locale = props.locale || (window.navigator as any).userLanguage || window.navigator.language || 'en';
+
         this.store.dispatch<ChatActions>({
             type: 'Set_Locale',
-            locale: props.locale || (window.navigator as any).userLanguage || window.navigator.language || 'en'
+            locale
         });
+
+        if (locale.startsWith('he')) {
+            this.store.dispatch<ChatActions>({
+                type: 'Set_Direction',
+                direction: 'rtl'
+            });
+        }
 
         if (props.adaptiveCardsHostConfig) {
             this.store.dispatch<ChatActions>({
@@ -285,6 +295,7 @@ export class Chat extends React.Component<ChatProps, {}> {
                     className="wc-chatview-panel"
                     onKeyDownCapture={ this._handleKeyDownCapture }
                     ref={ this._saveChatviewPanelRef }
+                    style={{ direction : typeof state.format.direction === 'string' ? state.format.direction : 'ltr'}}
                 >
                     {
                         !!state.format.chatTitle &&

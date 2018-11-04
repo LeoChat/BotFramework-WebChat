@@ -152,6 +152,7 @@ export const shell: Reducer<ShellState> = (
 
 export interface FormatState {
     chatTitle: boolean | string;
+    direction: string;
     locale: string;
     showUploadButton: boolean;
     strings: Strings;
@@ -161,6 +162,9 @@ export interface FormatState {
 export type FormatAction = {
     type: 'Set_Chat_Title',
     chatTitle: boolean | string
+} | {
+    type: 'Set_Direction',
+    direction: string
 } | {
     type: 'Set_Locale',
     locale: string
@@ -175,6 +179,7 @@ export type FormatAction = {
 export const format: Reducer<FormatState> = (
     state: FormatState = {
         chatTitle: true,
+        direction: 'ltr',
         locale: 'en-us',
         showUploadButton: true,
         strings: defaultStrings,
@@ -187,6 +192,11 @@ export const format: Reducer<FormatState> = (
             return {
                 ...state,
                 chatTitle: typeof action.chatTitle === 'undefined' ? true : action.chatTitle
+            };
+        case 'Set_Direction':
+            return {
+                ...state,
+                direction: ['ltr', 'rtl'].includes(action.direction) ? action.direction : 'ltr'
             };
         case 'Set_Locale':
             return {
