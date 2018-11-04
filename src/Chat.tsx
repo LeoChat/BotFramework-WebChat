@@ -34,6 +34,7 @@ export interface ChatProps {
     user: User;
     userThumbnail?: boolean | string;
     botThumbnail?: boolean | string;
+    color?: string;
 }
 
 import { History } from './History';
@@ -72,7 +73,7 @@ export class Chat extends React.Component<ChatProps, {}> {
 
         this.store.dispatch<ChatActions>({
             type: 'Set_Locale',
-            locale
+            locale: props.locale || (window.navigator as any).userLanguage || window.navigator.language || 'en'
         });
 
         if (locale.startsWith('he')) {
@@ -336,7 +337,7 @@ export class Chat extends React.Component<ChatProps, {}> {
                 >
                     {
                         !!state.format.chatTitle &&
-                        <div className="wc-header">
+                        <div className="wc-header wc-theme-bg" style={ state.format.color ? {backgroundColor: state.format.color} : {}}>
                             {!!state.format.chatLogo &&
                             <img className="wc-logo" src={typeof state.format.chatLogo === 'string' ? state.format.chatLogo : './logo.png'} />
                             }

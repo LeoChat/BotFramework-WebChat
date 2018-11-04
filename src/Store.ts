@@ -164,6 +164,7 @@ export interface FormatState {
     carouselMargin: number;
     userThumbnail: boolean | string;
     botThumbnail: boolean | string;
+    color: boolean | string;
 }
 
 export type FormatAction = {
@@ -196,6 +197,9 @@ export type FormatAction = {
 } | {
     type: 'Set_User_Thumbnail',
     userThumbnail: boolean | string
+} | {
+    type: 'Set_Color',
+    color: boolean | string
 };
 
 export const format: Reducer<FormatState> = (
@@ -211,7 +215,8 @@ export const format: Reducer<FormatState> = (
         icons: defaultIcons,
         carouselMargin: undefined,
         userThumbnail: false,
-        botThumbnail: false
+        botThumbnail: false,
+        color: false
     },
     action: FormatAction
 ) => {
@@ -266,6 +271,11 @@ export const format: Reducer<FormatState> = (
             return {
                 ...state,
                 userThumbnail: action.userThumbnail
+            };
+        case 'Set_Color':
+            return {
+                ...state,
+                color: typeof action.color === 'undefined' ? false : action.color
             };
         default:
             return state;
