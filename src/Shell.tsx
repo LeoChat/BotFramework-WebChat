@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-
 import { classList } from './Chat';
+import { IconPack } from './Icons';
 import { Speech } from './SpeechModule';
-import {ChatActions, ChatState, FormatState, ListeningState, sendFiles, sendMessage} from './Store';
+import { ChatActions, ChatState, ListeningState, sendFiles, sendMessage } from './Store';
 import { Strings } from './Strings';
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
     sendFiles: (files: FileList) => void;
     stopListening: () => void;
     startListening: () => void;
-    format: FormatState;
+    icons: IconPack;
 }
 
 export interface ShellFunctions {
@@ -132,7 +132,14 @@ class ShellContainer extends React.Component<Props> implements ShellFunctions {
                             onKeyPress={ evt => this.handleUploadButtonKeyPress(evt) }
                             tabIndex={ 0 }
                         >
-                            {this.props.format.icons.upload}
+                        {
+                            !!this.props.icons.upload.svg &&
+                            <svg><path d={this.props.icons.upload.svg} /></svg>
+                        }
+                        {
+                            !!this.props.icons.upload.base64 &&
+                            <img src={this.props.icons.upload.base64} />
+                        }
                         </label>
                 }
                 {
@@ -172,7 +179,14 @@ class ShellContainer extends React.Component<Props> implements ShellFunctions {
                     tabIndex={ 0 }
                     type="button"
                 >
-                    { this.props.format.icons.send }
+                {
+                    !!this.props.icons.send.svg &&
+                    <svg><path d={this.props.icons.send.svg} /></svg>
+                }
+                {
+                    !!this.props.icons.send.base64 &&
+                    <img src={this.props.icons.send.base64} />
+                }
                 </button>
                 <button
                     className={ micButtonClassName }
@@ -202,7 +216,8 @@ export const Shell = connect(
         // only used to create helper functions below
         locale: state.format.locale,
         user: state.connection.user,
-        listeningState: state.shell.listeningState
+        listeningState: state.shell.listeningState,
+        icons: state.format.icons
     }), {
         // passed down to ShellContainer
         onChangeText: (input: string) => ({ type: 'Update_Input', input, source: 'text' } as ChatActions),
@@ -217,6 +232,7 @@ export const Shell = connect(
         showUploadButton: stateProps.showUploadButton,
         strings: stateProps.strings,
         listeningState: stateProps.listeningState,
+        icons: stateProps.icons,
         // from dispatchProps
         onChangeText: dispatchProps.onChangeText,
         // helper functions

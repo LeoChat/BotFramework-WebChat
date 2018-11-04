@@ -35,6 +35,7 @@ export interface ChatProps {
     userThumbnail?: boolean | string;
     botThumbnail?: boolean | string;
     color?: string;
+    iconPack?: string;
 }
 
 import { History } from './History';
@@ -133,6 +134,13 @@ export class Chat extends React.Component<ChatProps, {}> {
             this.store.dispatch<ChatActions>({ type: 'Set_User_Thumbnail', userThumbnail : props.userThumbnail });
         }
 
+        if (typeof props.iconPack !== 'undefined') {
+            this.store.dispatch<ChatActions>({ type: 'Set_Alternate_Icons', iconPack : props.iconPack });
+        }
+
+        if (typeof props.color !== 'undefined') {
+            this.store.dispatch<ChatActions>({ type: 'Set_Color', color : props.color });
+        }
     }
 
     private handleIncomingActivity(activity: Activity) {
@@ -313,6 +321,34 @@ export class Chat extends React.Component<ChatProps, {}> {
             this.store.dispatch<ChatActions>({
                 type: 'Set_Chat_Logo',
                 chatLogo: nextProps.chatLogo
+            });
+        }
+
+        if (this.props.color !== nextProps.color) {
+            this.store.dispatch<ChatActions>({
+                type: 'Set_Color',
+                color: nextProps.color
+            });
+        }
+
+        if (this.props.iconPack !== nextProps.iconPack) {
+            this.store.dispatch<ChatActions>({
+                type: 'Set_Alternate_Icons',
+                iconPack: nextProps.iconPack
+            });
+        }
+
+        if (this.props.botThumbnail !== nextProps.botThumbnail) {
+            this.store.dispatch<ChatActions>({
+                type: 'Set_Bot_Thumbnail',
+                botThumbnail: nextProps.botThumbnail
+            });
+        }
+
+        if (this.props.userThumbnail !== nextProps.userThumbnail) {
+            this.store.dispatch<ChatActions>({
+                type: 'Set_User_Thumbnail',
+                userThumbnail: nextProps.userThumbnail
             });
         }
     }
