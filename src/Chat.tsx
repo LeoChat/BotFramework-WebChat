@@ -29,6 +29,8 @@ export interface ChatProps {
     showUploadButton?: boolean;
     speechOptions?: SpeechOptions;
     user: User;
+    userThumbnail?: boolean | string;
+    botThumbnail?: boolean | string;
 }
 
 import { History } from './History';
@@ -99,6 +101,15 @@ export class Chat extends React.Component<ChatProps, {}> {
             Speech.SpeechRecognizer.setSpeechRecognizer(props.speechOptions.speechRecognizer);
             Speech.SpeechSynthesizer.setSpeechSynthesizer(props.speechOptions.speechSynthesizer);
         }
+
+        if (typeof props.botThumbnail !== 'undefined') {
+            this.store.dispatch<ChatActions>({ type: 'Set_Bot_Thumbnail', botThumbnail : props.botThumbnail });
+        }
+
+        if (typeof props.userThumbnail !== 'undefined') {
+            this.store.dispatch<ChatActions>({ type: 'Set_User_Thumbnail', userThumbnail : props.userThumbnail });
+        }
+
     }
 
     private handleIncomingActivity(activity: Activity) {
