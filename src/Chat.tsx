@@ -19,6 +19,8 @@ export interface ChatProps {
     bot: User;
     botConnection?: IBotConnection;
     chatTitle?: boolean | string;
+    chatSubTitle?: boolean | string;
+    chatLogo?: boolean | string;
     directLine?: DirectLineOptions;
     disabled?: boolean;
     formatOptions?: FormatOptions;
@@ -87,6 +89,16 @@ export class Chat extends React.Component<ChatProps, {}> {
 
         if (typeof chatTitle !== 'undefined') {
             this.store.dispatch<ChatActions>({ type: 'Set_Chat_Title', chatTitle });
+        }
+
+        const { chatSubTitle, chatLogo } = props;
+
+        if (typeof chatSubTitle !== 'undefined') {
+            this.store.dispatch<ChatActions>({ type: 'Set_Chat_Sub_Title', chatSubTitle });
+        }
+
+        if (typeof chatLogo !== 'undefined') {
+            this.store.dispatch<ChatActions>({ type: 'Set_Chat_Logo', chatLogo });
         }
 
         this.store.dispatch<ChatActions>({ type: 'Toggle_Upload_Button', showUploadButton: props.showUploadButton !== false });
@@ -267,6 +279,20 @@ export class Chat extends React.Component<ChatProps, {}> {
                 chatTitle: nextProps.chatTitle
             });
         }
+
+        if (this.props.chatSubTitle !== nextProps.chatSubTitle) {
+            this.store.dispatch<ChatActions>({
+                type: 'Set_Chat_Sub_Title',
+                chatSubTitle: nextProps.chatSubTitle
+            });
+        }
+
+        if (this.props.chatLogo !== nextProps.chatLogo) {
+            this.store.dispatch<ChatActions>({
+                type: 'Set_Chat_Logo',
+                chatLogo: nextProps.chatLogo
+            });
+        }
     }
 
     // At startup we do three render passes:
@@ -288,9 +314,17 @@ export class Chat extends React.Component<ChatProps, {}> {
                 >
                     {
                         !!state.format.chatTitle &&
-                            <div className="wc-header">
-                                <span>{ typeof state.format.chatTitle === 'string' ? state.format.chatTitle : state.format.strings.title }</span>
+                        <div className="wc-header">
+                            {!!state.format.chatLogo &&
+                            <img className="wc-logo" src={typeof state.format.chatLogo === 'string' ? state.format.chatLogo : './logo.png'} />
+                            }
+                            <div className="wc-titles-container">
+                                <span className="wc-title">{ typeof state.format.chatTitle === 'string' ? state.format.chatTitle : state.format.strings.title }</span>
+                                {!!state.format.chatSubTitle &&
+                                <span className="wc-sub-title">{typeof state.format.chatSubTitle === 'string' ? state.format.chatSubTitle : 'subtitle'}</span>
+                                }
                             </div>
+                        </div>
                     }
                     <MessagePane disabled={ this.props.disabled }>
                         <History
