@@ -156,6 +156,7 @@ export interface FormatState {
     showUploadButton: boolean;
     strings: Strings;
     carouselMargin: number;
+    color: boolean | string;
 }
 
 export type FormatAction = {
@@ -170,6 +171,9 @@ export type FormatAction = {
 } | {
     type: 'Toggle_Upload_Button',
     showUploadButton: boolean
+} | {
+    type: 'Set_Color',
+    color: boolean | string
 };
 
 export const format: Reducer<FormatState> = (
@@ -178,7 +182,8 @@ export const format: Reducer<FormatState> = (
         locale: 'en-us',
         showUploadButton: true,
         strings: defaultStrings,
-        carouselMargin: undefined
+        carouselMargin: undefined,
+        color: false
     },
     action: FormatAction
 ) => {
@@ -203,6 +208,11 @@ export const format: Reducer<FormatState> = (
             return {
                 ...state,
                 showUploadButton: action.showUploadButton
+            };
+        case 'Set_Color':
+            return {
+                ...state,
+                color: typeof action.color === 'undefined' ? false : action.color
             };
         default:
             return state;

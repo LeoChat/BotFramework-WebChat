@@ -29,6 +29,7 @@ export interface ChatProps {
     showUploadButton?: boolean;
     speechOptions?: SpeechOptions;
     user: User;
+    color?: string;
 }
 
 import { History } from './History';
@@ -288,7 +289,7 @@ export class Chat extends React.Component<ChatProps, {}> {
                 >
                     {
                         !!state.format.chatTitle &&
-                            <div className="wc-header">
+                            <div className="wc-header wc-theme-bg" style={ state.format.color ? {backgroundColor: state.format.color} : {}}>
                                 <span>{ typeof state.format.chatTitle === 'string' ? state.format.chatTitle : state.format.strings.title }</span>
                             </div>
                     }
