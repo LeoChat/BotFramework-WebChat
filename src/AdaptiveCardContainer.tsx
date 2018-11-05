@@ -9,17 +9,18 @@ import { AjaxRequest, AjaxResponse } from 'rxjs/observable/dom/AjaxObservable';
 import * as adaptivecardsHostConfig from '../adaptivecards-hostconfig.json';
 import { classList, IDoCardAction } from './Chat';
 import * as konsole from './Konsole';
-import { AdaptiveCardsState, ChatState } from './Store';
+import {ChatState} from './Store';
 
 export interface Props {
     className?: string;
     disabled?: boolean;
     hostConfig: HostConfig;
+    card: string | null;
     jsonCard?: IAdaptiveCard;
     nativeCard?: AdaptiveCard;
     onCardAction: IDoCardAction;
     onClick?: (e: React.MouseEvent<HTMLElement>) => void;
-    onImageLoad?: () => any;
+    onImageLoad?: () => any
 }
 
 export interface State {
@@ -52,6 +53,7 @@ function cardWithoutHttpActions(card: IAdaptiveCard) {
     const nextActions: Array<IOpenUrlAction | IShowCardAction | ISubmitAction> = card.actions.reduce((nextActions, action) => {
         // Filter out HTTP action buttons
         switch (action.type) {
+
             case 'Action.Submit':
                 break;
 
@@ -128,6 +130,8 @@ class AdaptiveCardContainer extends React.Component<Props, State> {
                 } else {
                     this.props.onCardAction(typeof action.data === 'string' ? 'imBack' : 'postBack', action.data);
                 }
+
+                findDOMNode(this.divRef).setAttribute('style', 'display:none');
             }
         }
     }
@@ -268,7 +272,8 @@ class AdaptiveCardContainer extends React.Component<Props, State> {
 
 export default connect(
     (state: ChatState) => ({
-        hostConfig: state.adaptiveCards.hostConfig
+        hostConfig: state.adaptiveCards.hostConfig,
+        card: state.adaptiveCards.card
     }),
     {},
     (stateProps: any, dispatchProps: any, ownProps: any): Props => ({
