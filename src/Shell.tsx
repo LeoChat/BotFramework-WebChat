@@ -1,3 +1,4 @@
+import {ConnectionStatus} from 'botframework-directlinejs';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { classList } from './Chat';
@@ -19,6 +20,8 @@ interface Props {
     stopListening: () => void;
     startListening: () => void;
     icons: IconPack;
+
+    connectionStatus: ConnectionStatus
 }
 
 export interface ShellFunctions {
@@ -122,6 +125,10 @@ class ShellContainer extends React.Component<Props> implements ShellFunctions {
 
         const placeholder = this.props.listeningState === ListeningState.STARTED ? this.props.strings.listeningIndicator : this.props.strings.consolePlaceholder;
 
+        if (this.props.connectionStatus !== ConnectionStatus.Online) {
+            return (<div> </div>);
+        }
+
         return (
             <div className={ className }>
                 {
@@ -213,11 +220,12 @@ export const Shell = connect(
         inputText: state.shell.input,
         showUploadButton: state.format.showUploadButton,
         strings: state.format.strings,
+        icons: state.format.icons,
+        connectionStatus: state.connection.connectionStatus,
         // only used to create helper functions below
         locale: state.format.locale,
         user: state.connection.user,
-        listeningState: state.shell.listeningState,
-        icons: state.format.icons
+        listeningState: state.shell.listeningState
     }), {
         // passed down to ShellContainer
         onChangeText: (input: string) => ({ type: 'Update_Input', input, source: 'text' } as ChatActions),
@@ -233,6 +241,7 @@ export const Shell = connect(
         strings: stateProps.strings,
         listeningState: stateProps.listeningState,
         icons: stateProps.icons,
+        connectionStatus: stateProps.connectionStatus,
         // from dispatchProps
         onChangeText: dispatchProps.onChangeText,
         // helper functions
