@@ -300,7 +300,7 @@ export class WrappedActivity extends React.Component<WrappedActivityProps, {}> {
                 if (this.props.showTimestamp && this.props.activity.timestamp) {
                     sent = this.props.format.strings.timeSent.replace('%1', (new Date(this.props.activity.timestamp)).toLocaleTimeString());
                 }
-                timeLine = <span>{ this.props.activity.from.name || this.props.activity.from.id }{ sent }</span>;
+                timeLine = <span>{ this.props.fromMe ? this.props.activity.from.name || this.props.activity.from.id : '' }{ sent }</span>;
                 break;
         }
 
@@ -333,7 +333,9 @@ export class WrappedActivity extends React.Component<WrappedActivityProps, {}> {
                     role={ selectable ? 'button' : undefined }
                     tabIndex={ selectable ? 0 : undefined }
                 >
-                    <img src={ thumbnail && typeof thumbnail === 'string' ? thumbnail : '' } width={'46px'} height={'46px'} className={'wc-message-user-thumbnail wc-thumbnail-' + who} style={{ display: thumbnail ? 'inline' : 'none' }} />
+                    { thumbnail && typeof thumbnail === 'string' &&
+                        <img src={thumbnail} width={'46px'} height={'46px'} className={'wc-message-user-thumbnail wc-thumbnail-' + who} />
+                    }
                     <div className={ 'wc-message wc-message-from-' + who } ref={ div => this.messageDiv = div }>
                         <div className={ contentClassName }>
                             <svg className="wc-message-callout">
