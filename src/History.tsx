@@ -25,6 +25,8 @@ export interface HistoryProps {
 
     onCardAction: () => void;
     doCardAction: IDoCardAction;
+
+    showSender: boolean;
 }
 
 export class HistoryView extends React.Component<HistoryProps, {}> {
@@ -110,6 +112,7 @@ export class HistoryView extends React.Component<HistoryProps, {}> {
             onClickRetry={ null }
             selected={ false }
             showTimestamp={ false }
+            showSender={ false }
         >
             <div style={ { width: this.largeWidth } }>&nbsp;</div>
         </WrappedActivity>
@@ -152,6 +155,7 @@ export class HistoryView extends React.Component<HistoryProps, {}> {
                                 e.stopPropagation();
                                 this.props.onClickRetry(activity);
                             } }
+                            showSender={ this.props.showSender }
                         >
                             <ActivityView
                                 activity={ activity }
@@ -261,6 +265,7 @@ export interface WrappedActivityProps {
     onClickRetry: React.MouseEventHandler<HTMLAnchorElement>;
     selected: boolean;
     showTimestamp: boolean;
+    showSender: boolean;
 }
 
 export class WrappedActivity extends React.Component<WrappedActivityProps, {}> {
@@ -300,7 +305,7 @@ export class WrappedActivity extends React.Component<WrappedActivityProps, {}> {
                 if (this.props.showTimestamp && this.props.activity.timestamp) {
                     sent = this.props.format.strings.timeSent.replace('%1', (new Date(this.props.activity.timestamp)).toLocaleTimeString());
                 }
-                timeLine = <span>{ this.props.fromMe ? this.props.activity.from.name || this.props.activity.from.id : '' }{ sent }</span>;
+                timeLine = <span>{ this.props.showSender ? this.props.activity.from.name || this.props.activity.from.id : '' }{ sent }</span>;
                 break;
         }
 
