@@ -217,6 +217,7 @@ export const History = connect(
         setMeasurements: dispatchProps.setMeasurements,
         // from ownProps
         disabled: ownProps.disabled,
+        showSender: ownProps.showSender,
         // helper functions
         doCardAction: doCardAction(stateProps.botConnection, stateProps.user, stateProps.format.locale, dispatchProps.sendMessage),
         isFromMe: (activity: Activity) => activity.from.role === 'user' || activity.from.id === stateProps.user.id,
