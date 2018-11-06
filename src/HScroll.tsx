@@ -51,7 +51,7 @@ export class HScroll extends React.Component<HScrollProps, {}> {
     }
 
     componentDidMount() {
-        this.scrollDiv.style.marginBottom = -(this.scrollDiv.offsetHeight - this.scrollDiv.clientHeight) + 'px';
+        // this.scrollDiv.style.marginBottom = -(this.scrollDiv.offsetHeight - this.scrollDiv.clientHeight) + 'px';
 
         this.scrollSubscription = Observable.fromEvent<UIEvent>(this.scrollDiv, 'scroll').subscribe(_ => {
             this.updateScrollButtons();
