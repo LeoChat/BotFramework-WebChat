@@ -21,7 +21,7 @@ interface Props {
     startListening: () => void;
     icons: IconPack;
 
-    connectionStatus: ConnectionStatus
+    connectionStatus: ConnectionStatus;
 }
 
 export interface ShellFunctions {
