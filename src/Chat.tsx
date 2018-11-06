@@ -297,6 +297,7 @@ export class Chat extends React.Component<ChatProps, {}> {
                             disabled={ this.props.disabled }
                             onCardAction={ this._handleCardAction }
                             ref={ this._saveHistoryRef }
+                            showSender={ false }
                         />
                     </MessagePane>
                     {
