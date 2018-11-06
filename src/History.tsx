@@ -302,7 +302,7 @@ export class WrappedActivity extends React.Component<WrappedActivityProps, {}> {
                 break;
             default:
                 let sent: string;
-                if (this.props.showTimestamp) {
+                if (this.props.showTimestamp && this.props.activity.timestamp) {
                     sent = this.props.format.strings.timeSent.replace('%1', (new Date(this.props.activity.timestamp)).toLocaleTimeString());
                 }
                 timeLine = <span>{ this.props.showSender ? this.props.activity.from.name || this.props.activity.from.id : '' }{ sent }</span>;
@@ -322,6 +322,13 @@ export class WrappedActivity extends React.Component<WrappedActivityProps, {}> {
             'wc-message-content',
             this.props.selected && 'selected'
         );
+
+        let thumbnail;
+        if (this.props.format) {
+            thumbnail = who === 'bot' ? this.props.format.botThumbnail : this.props.format.userThumbnail;
+        }
+        thumbnail = typeof thumbnail === 'string' && thumbnail !== 'undefined' ? thumbnail : false;
+
         return (
                 <div
                     className={ wrapperClassName }
@@ -331,6 +338,9 @@ export class WrappedActivity extends React.Component<WrappedActivityProps, {}> {
                     role={ selectable ? 'button' : undefined }
                     tabIndex={ selectable ? 0 : undefined }
                 >
+                    { thumbnail && typeof thumbnail === 'string' &&
+                        <img src={thumbnail} width={'46px'} height={'46px'} className={'wc-message-user-thumbnail wc-thumbnail-' + who} />
+                    }
                     <div className={ 'wc-message wc-message-from-' + who } ref={ div => this.messageDiv = div }>
                         <div className={ contentClassName }>
                             <svg className="wc-message-callout">

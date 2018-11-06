@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { activityWithSuggestedActions } from './activityWithSuggestedActions';
 import { classList, doCardAction, IDoCardAction } from './Chat';
 import { HScroll } from './HScroll';
+import { IconPack } from './Icons';
 import * as konsole from './Konsole';
-import { ChatState } from './Store';
-import { ChatActions, sendMessage } from './Store';
+import {ChatActions, ChatState, sendMessage} from './Store';
 
 export interface MessagePaneProps {
     activityWithSuggestedActions: Message;
@@ -14,6 +14,7 @@ export interface MessagePaneProps {
     disabled: boolean;
     doCardAction: IDoCardAction;
     takeSuggestedAction: (message: Message) => any;
+    icons: IconPack;
 }
 
 const MessagePaneView = (props: MessagePaneProps) =>
@@ -49,8 +50,8 @@ class SuggestedActions extends React.Component<MessagePaneProps, {}> {
 
         return (
             <HScroll
-                prevSvgPathData="M 16.5 22 L 19 19.5 L 13.5 14 L 19 8.5 L 16.5 6 L 8.5 14 L 16.5 22 Z"
-                nextSvgPathData="M 12.5 22 L 10 19.5 L 15.5 14 L 10 8.5 L 12.5 6 L 20.5 14 L 12.5 22 Z"
+                prevSvgPathData={ this.props.icons.next }
+                nextSvgPathData={ this.props.icons.prev }
                 scrollUnit="page"
             >
                 <ul>{ this.props.activityWithSuggestedActions.suggestedActions.actions.map((action, index) =>
@@ -78,7 +79,8 @@ export const MessagePane = connect(
         // only used to create helper functions below
         botConnection: state.connection.botConnection,
         user: state.connection.user,
-        locale: state.format.locale
+        locale: state.format.locale,
+        icons: state.format.icons
     }), {
         takeSuggestedAction: (message: Message) => ({ type: 'Take_SuggestedAction', message } as ChatActions),
         // only used to create helper functions below
@@ -86,6 +88,7 @@ export const MessagePane = connect(
     }, (stateProps: any, dispatchProps: any, ownProps: any): MessagePaneProps => ({
         // from stateProps
         activityWithSuggestedActions: stateProps.activityWithSuggestedActions,
+        icons: stateProps.icons,
         // from dispatchProps
         takeSuggestedAction: dispatchProps.takeSuggestedAction,
         // from ownProps

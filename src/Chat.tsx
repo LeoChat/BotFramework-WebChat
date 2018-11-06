@@ -19,9 +19,12 @@ export interface ChatProps {
     bot: User;
     botConnection?: IBotConnection;
     chatTitle?: boolean | string;
+    chatSubTitle?: boolean | string;
+    chatLogo?: boolean | string;
     directLine?: DirectLineOptions;
     disabled?: boolean;
     formatOptions?: FormatOptions;
+    direction?: string;
     locale?: string;
     resize?: 'none' | 'window' | 'detect';
     selectedActivity?: BehaviorSubject<ActivityOrID>;
@@ -29,6 +32,10 @@ export interface ChatProps {
     showUploadButton?: boolean;
     speechOptions?: SpeechOptions;
     user: User;
+    userThumbnail?: boolean | string;
+    botThumbnail?: boolean | string;
+    color?: string;
+    iconPack?: string;
 }
 
 import { History } from './History';
@@ -63,10 +70,19 @@ export class Chat extends React.Component<ChatProps, {}> {
 
         konsole.log('BotChat.Chat props', props);
 
+        const locale = props.locale || (window.navigator as any).userLanguage || window.navigator.language || 'en';
+
         this.store.dispatch<ChatActions>({
             type: 'Set_Locale',
             locale: props.locale || (window.navigator as any).userLanguage || window.navigator.language || 'en'
         });
+
+        if (locale.startsWith('he')) {
+            this.store.dispatch<ChatActions>({
+                type: 'Set_Direction',
+                direction: 'rtl'
+            });
+        }
 
         if (props.adaptiveCardsHostConfig) {
             this.store.dispatch<ChatActions>({
@@ -89,6 +105,16 @@ export class Chat extends React.Component<ChatProps, {}> {
             this.store.dispatch<ChatActions>({ type: 'Set_Chat_Title', chatTitle });
         }
 
+        const { chatSubTitle, chatLogo } = props;
+
+        if (typeof chatSubTitle !== 'undefined') {
+            this.store.dispatch<ChatActions>({ type: 'Set_Chat_Sub_Title', chatSubTitle });
+        }
+
+        if (typeof chatLogo !== 'undefined') {
+            this.store.dispatch<ChatActions>({ type: 'Set_Chat_Logo', chatLogo });
+        }
+
         this.store.dispatch<ChatActions>({ type: 'Toggle_Upload_Button', showUploadButton: props.showUploadButton !== false });
 
         if (props.sendTyping) {
@@ -98,6 +124,22 @@ export class Chat extends React.Component<ChatProps, {}> {
         if (props.speechOptions) {
             Speech.SpeechRecognizer.setSpeechRecognizer(props.speechOptions.speechRecognizer);
             Speech.SpeechSynthesizer.setSpeechSynthesizer(props.speechOptions.speechSynthesizer);
+        }
+
+        if (typeof props.botThumbnail !== 'undefined') {
+            this.store.dispatch<ChatActions>({ type: 'Set_Bot_Thumbnail', botThumbnail : props.botThumbnail });
+        }
+
+        if (typeof props.userThumbnail !== 'undefined') {
+            this.store.dispatch<ChatActions>({ type: 'Set_User_Thumbnail', userThumbnail : props.userThumbnail });
+        }
+
+        if (typeof props.iconPack !== 'undefined') {
+            this.store.dispatch<ChatActions>({ type: 'Set_Alternate_Icons', iconPack : props.iconPack });
+        }
+
+        if (typeof props.color !== 'undefined') {
+            this.store.dispatch<ChatActions>({ type: 'Set_Color', color : props.color });
         }
     }
 
@@ -267,6 +309,48 @@ export class Chat extends React.Component<ChatProps, {}> {
                 chatTitle: nextProps.chatTitle
             });
         }
+
+        if (this.props.chatSubTitle !== nextProps.chatSubTitle) {
+            this.store.dispatch<ChatActions>({
+                type: 'Set_Chat_Sub_Title',
+                chatSubTitle: nextProps.chatSubTitle
+            });
+        }
+
+        if (this.props.chatLogo !== nextProps.chatLogo) {
+            this.store.dispatch<ChatActions>({
+                type: 'Set_Chat_Logo',
+                chatLogo: nextProps.chatLogo
+            });
+        }
+
+        if (this.props.color !== nextProps.color) {
+            this.store.dispatch<ChatActions>({
+                type: 'Set_Color',
+                color: nextProps.color
+            });
+        }
+
+        if (this.props.iconPack !== nextProps.iconPack) {
+            this.store.dispatch<ChatActions>({
+                type: 'Set_Alternate_Icons',
+                iconPack: nextProps.iconPack
+            });
+        }
+
+        if (this.props.botThumbnail !== nextProps.botThumbnail) {
+            this.store.dispatch<ChatActions>({
+                type: 'Set_Bot_Thumbnail',
+                botThumbnail: nextProps.botThumbnail
+            });
+        }
+
+        if (this.props.userThumbnail !== nextProps.userThumbnail) {
+            this.store.dispatch<ChatActions>({
+                type: 'Set_User_Thumbnail',
+                userThumbnail: nextProps.userThumbnail
+            });
+        }
     }
 
     // At startup we do three render passes:
@@ -285,12 +369,21 @@ export class Chat extends React.Component<ChatProps, {}> {
                     className="wc-chatview-panel"
                     onKeyDownCapture={ this._handleKeyDownCapture }
                     ref={ this._saveChatviewPanelRef }
+                    style={{ direction : typeof state.format.direction === 'string' ? state.format.direction : 'ltr'}}
                 >
                     {
                         !!state.format.chatTitle &&
-                            <div className="wc-header">
-                                <span>{ typeof state.format.chatTitle === 'string' ? state.format.chatTitle : state.format.strings.title }</span>
+                        <div className="wc-header wc-theme-bg" style={ state.format.color ? {backgroundColor: state.format.color} : {}}>
+                            {!!state.format.chatLogo &&
+                            <img className="wc-logo" src={typeof state.format.chatLogo === 'string' ? state.format.chatLogo : './logo.png'} />
+                            }
+                            <div className="wc-titles-container">
+                                <span className="wc-title">{ typeof state.format.chatTitle === 'string' ? state.format.chatTitle : state.format.strings.title }</span>
+                                {!!state.format.chatSubTitle &&
+                                <span className="wc-sub-title">{typeof state.format.chatSubTitle === 'string' ? state.format.chatSubTitle : 'subtitle'}</span>
+                                }
                             </div>
+                        </div>
                     }
                     <MessagePane disabled={ this.props.disabled }>
                         <History

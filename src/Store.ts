@@ -1,6 +1,7 @@
 import { HostConfig } from 'adaptivecards';
 import { Activity, ConnectionStatus, IBotConnection, Media, MediaType, Message, User } from 'botframework-directlinejs';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { defaultIcons, IconPack, icons } from './Icons';
 import * as konsole from './Konsole';
 import { Speech } from './SpeechModule';
 import { defaultStrings, strings, Strings } from './Strings';
@@ -152,33 +153,70 @@ export const shell: Reducer<ShellState> = (
 
 export interface FormatState {
     chatTitle: boolean | string;
+    direction: string;
+    chatSubTitle: boolean | string;
+    chatLogo: boolean | string;
     locale: string;
+    iconPack: string;
     showUploadButton: boolean;
     strings: Strings;
+    icons: IconPack;
     carouselMargin: number;
+    userThumbnail: boolean | string;
+    botThumbnail: boolean | string;
+    color: boolean | string;
 }
 
 export type FormatAction = {
     type: 'Set_Chat_Title',
     chatTitle: boolean | string
 } | {
+    type: 'Set_Direction',
+    direction: string
+} | {
+    type: 'Set_Chat_Sub_Title',
+    chatSubTitle: boolean | string
+} | {
+    type: 'Set_Chat_Logo',
+    chatLogo: boolean | string
+} | {
     type: 'Set_Locale',
     locale: string
+} | {
+    type: 'Set_Alternate_Icons',
+    iconPack: string
 } | {
     type: 'Set_Measurements',
     carouselMargin: number
 } | {
     type: 'Toggle_Upload_Button',
     showUploadButton: boolean
+} | {
+    type: 'Set_Bot_Thumbnail',
+    botThumbnail: boolean | string
+} | {
+    type: 'Set_User_Thumbnail',
+    userThumbnail: boolean | string
+} | {
+    type: 'Set_Color',
+    color: boolean | string
 };
 
 export const format: Reducer<FormatState> = (
     state: FormatState = {
         chatTitle: true,
+        direction: 'ltr',
+        chatSubTitle: false,
+        chatLogo: false,
         locale: 'en-us',
+        iconPack: 'default',
         showUploadButton: true,
         strings: defaultStrings,
-        carouselMargin: undefined
+        icons: defaultIcons,
+        carouselMargin: undefined,
+        userThumbnail: false,
+        botThumbnail: false,
+        color: false
     },
     action: FormatAction
 ) => {
@@ -188,11 +226,31 @@ export const format: Reducer<FormatState> = (
                 ...state,
                 chatTitle: typeof action.chatTitle === 'undefined' ? true : action.chatTitle
             };
+        case 'Set_Direction':
+            return {
+                ...state,
+                direction: ['ltr', 'rtl'].includes(action.direction) ? action.direction : 'ltr'
+            };
+        case 'Set_Chat_Sub_Title':
+            return {
+                ...state,
+                chatSubTitle: typeof action.chatSubTitle === 'undefined' ? false : action.chatSubTitle
+            };
+        case 'Set_Chat_Logo':
+            return {
+                ...state,
+                chatLogo: typeof action.chatLogo === 'undefined' ? false : action.chatLogo
+            };
         case 'Set_Locale':
             return {
                 ...state,
                 locale: action.locale,
                 strings: strings(action.locale)
+            };
+        case 'Set_Alternate_Icons':
+            return {
+                ...state,
+                icons: icons(action.iconPack)
             };
         case 'Set_Measurements':
             return {
@@ -203,6 +261,21 @@ export const format: Reducer<FormatState> = (
             return {
                 ...state,
                 showUploadButton: action.showUploadButton
+            };
+        case 'Set_Bot_Thumbnail':
+            return {
+                ...state,
+                botThumbnail: action.botThumbnail
+            };
+        case 'Set_User_Thumbnail':
+            return {
+                ...state,
+                userThumbnail: action.userThumbnail
+            };
+        case 'Set_Color':
+            return {
+                ...state,
+                color: typeof action.color === 'undefined' ? false : action.color
             };
         default:
             return state;
@@ -458,16 +531,24 @@ export const history: Reducer<HistoryState> = (
 
 export interface AdaptiveCardsState {
     hostConfig: HostConfig;
+    card: string | null;
 }
 
-export interface AdaptiveCardsAction {
-    type: 'Set_AdaptiveCardsHostConfig';
-    payload: any;
-}
+export type AdaptiveCardsAction = {
+    type: 'Set_AdaptiveCardsHostConfig',
+    payload: any
+} | {
+    type: 'Show_AdaptiveCard',
+    payload: string | null
+} | {
+    type: 'Hide_AdaptiveCard',
+    payload: string | null
+};
 
 export const adaptiveCards: Reducer<AdaptiveCardsState> = (
     state: AdaptiveCardsState = {
-        hostConfig: null
+        hostConfig: null,
+        card: null
     },
     action: AdaptiveCardsAction
 ) => {
@@ -477,7 +558,16 @@ export const adaptiveCards: Reducer<AdaptiveCardsState> = (
                 ...state,
                 hostConfig: action.payload && (action.payload instanceof HostConfig ? action.payload : new HostConfig(action.payload))
             };
-
+        case 'Show_AdaptiveCard':
+            return {
+                ...state,
+                card: action.payload
+            };
+        case 'Hide_AdaptiveCard':
+            return {
+                ...state,
+                card: (state.card === action.payload) ? null : state.card
+            };
         default:
             return state;
     }
