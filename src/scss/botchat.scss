@@ -4,6 +4,12 @@
 
 /* reset */
 
+    button:focus {
+        text-decoration: none;
+        outline:none;
+        outline:0;
+    }
+
     body .wc-app, .wc-app button, .wc-app input, .wc-app textarea {
         font-family: $fontFamily;
         font-size: $fontSize;
@@ -38,6 +44,7 @@
         box-shadow: 0 1px $c_shadow;
         box-sizing: content-box;
         color: $c01;
+        font-family: $fontFamily;
         font-weight: 500;
         height: $headerTotalHeight - $headerPaddingTop - $headerPaddingBottom;
         left: 0;
@@ -97,6 +104,7 @@
         .wc-hscroll > ul {
             height: $actionsHeight;
             padding: 2px 3px;
+            margin: 10px;
 
             > li {
                 display: inline-block;
@@ -112,6 +120,8 @@
                     text-overflow: ellipsis;
                     white-space: nowrap;
                     width: 100%;
+                    border: 1px solid #dcdcdc;
+                    box-shadow: 1px 1px 1px 0 rgb(233, 233, 233);
                 }
 
                 button:focus,
@@ -119,6 +129,7 @@
                     background-color: #fff;
                     border-color: $c_brand;
                     color: $c_brand;
+                    box-shadow: 1px 1px 1px 0 rgb(193, 193, 193);
                 }
 
                 button:active {
@@ -135,8 +146,10 @@
             overflow: hidden;
             padding: 0;
             position: absolute;
-            top: 0;
+            top: $headerTotalHeight/4;
             width: 28px;
+            border: 1px solid #dcdcdc;
+            box-shadow: 1px 1px 1px 0 rgb(233, 233, 233);
         }
 
         button.scroll:disabled {
@@ -172,7 +185,7 @@
             transform: translateY(-$actionsHeight);
         }
         .wc-suggested-actions {
-            height: $actionsHeight;
+            height: $headerTotalHeight + $actionsHeight/2;
         }
     }
 
@@ -190,6 +203,7 @@
 /* messages */
 
     .wc-message-wrapper {
+        font-family: $fontFamily;
         animation: animationFrames 2s;
         animation-iteration-count: 1;
         clear: both;
@@ -290,12 +304,15 @@
             min-height: 32px;
             width: 100%;
             padding: 0 16px;
+            border: 1px solid #dcdcdc;
+            box-shadow: 1px 1px 1px 0 rgb(233, 233, 233);
         }
 
         button:hover {
             background-color: transparent;
             border-color: $c_brand;
             color: $c_brand;
+            box-shadow: 1px 1px 1px 0 rgb(193, 193, 193);
         }
 
         button:active {
@@ -399,6 +416,11 @@
                 margin-bottom: 20px;
                 text-align: inherit;
             }
+        }
+
+        .submit-success {
+            display: block;
+            margin: 0 auto;
         }
     }
 
@@ -726,7 +748,7 @@
 /* text formats */
 
     .format-markdown>p {
-        margin-bottom: 0px;
+        margin: 0;
     }
 
     .format-markdown code {

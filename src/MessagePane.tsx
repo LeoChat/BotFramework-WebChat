@@ -50,8 +50,8 @@ class SuggestedActions extends React.Component<MessagePaneProps, {}> {
 
         return (
             <HScroll
-                prevSvgPathData={ this.props.icons.next }
-                nextSvgPathData={ this.props.icons.prev }
+                prevSvgPathData={ this.props.icons.prev }
+                nextSvgPathData={ this.props.icons.next }
                 scrollUnit="page"
             >
                 <ul>{ this.props.activityWithSuggestedActions.suggestedActions.actions.map((action, index) =>
