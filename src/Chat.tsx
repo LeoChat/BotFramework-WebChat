@@ -386,7 +386,7 @@ export class Chat extends React.Component<ChatProps, {}> {
                     ref={ this._saveChatviewPanelRef }
                     style={{ direction : typeof state.format.direction === 'string' ? state.format.direction : 'ltr'}}
                 >
-                    { !!konsole.isDebugMode &&
+                    { konsole.isDebugMode() &&
                         <div className="wc-debug">DEBUG MODE | Connection status: { ConnectionStatus[this.state.connectionStatus] }
                         </div>
                     }

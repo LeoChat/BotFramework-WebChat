@@ -439,6 +439,26 @@
         }
     }
 
+    .wc-adaptive-card-wrapper {
+
+        min-height: 97px;
+
+        .submit-success-wrapper {
+            position: absolute;
+            top:0;
+            right: $card_padding;
+            width: 100%;
+
+            .submit-success {
+
+                text-align: center;
+                img {
+
+                }
+            }
+        }
+    }
+
 /* alternate chat sizes */
 
     .wc-message {
