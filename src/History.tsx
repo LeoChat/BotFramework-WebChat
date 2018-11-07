@@ -25,6 +25,8 @@ export interface HistoryProps {
 
     onCardAction: () => void;
     doCardAction: IDoCardAction;
+
+    showSender: boolean;
 }
 
 export class HistoryView extends React.Component<HistoryProps, {}> {
@@ -110,6 +112,7 @@ export class HistoryView extends React.Component<HistoryProps, {}> {
             onClickRetry={ null }
             selected={ false }
             showTimestamp={ false }
+            showSender={ false }
         >
             <div style={ { width: this.largeWidth } }>&nbsp;</div>
         </WrappedActivity>
@@ -152,6 +155,7 @@ export class HistoryView extends React.Component<HistoryProps, {}> {
                                 e.stopPropagation();
                                 this.props.onClickRetry(activity);
                             } }
+                            showSender={ this.props.showSender }
                         >
                             <ActivityView
                                 activity={ activity }
@@ -217,6 +221,7 @@ export const History = connect(
         setMeasurements: dispatchProps.setMeasurements,
         // from ownProps
         disabled: ownProps.disabled,
+        showSender: ownProps.showSender,
         // helper functions
         doCardAction: doCardAction(stateProps.botConnection, stateProps.user, stateProps.format.locale, dispatchProps.sendMessage),
         isFromMe: (activity: Activity) => activity.from.role === 'user' || activity.from.id === stateProps.user.id,
@@ -261,6 +266,7 @@ export interface WrappedActivityProps {
     onClickRetry: React.MouseEventHandler<HTMLAnchorElement>;
     selected: boolean;
     showTimestamp: boolean;
+    showSender: boolean;
 }
 
 export class WrappedActivity extends React.Component<WrappedActivityProps, {}> {
@@ -300,7 +306,7 @@ export class WrappedActivity extends React.Component<WrappedActivityProps, {}> {
                 if (this.props.showTimestamp && this.props.activity.timestamp) {
                     sent = this.props.format.strings.timeSent.replace('%1', (new Date(this.props.activity.timestamp)).toLocaleTimeString());
                 }
-                timeLine = <span>{ this.props.activity.from.name || this.props.activity.from.id }{ sent }</span>;
+                timeLine = <span>{ this.props.showSender ? this.props.activity.from.name || this.props.activity.from.id : '' }{ sent }</span>;
                 break;
         }
 
@@ -333,7 +339,9 @@ export class WrappedActivity extends React.Component<WrappedActivityProps, {}> {
                     role={ selectable ? 'button' : undefined }
                     tabIndex={ selectable ? 0 : undefined }
                 >
-                    <img src={ thumbnail && typeof thumbnail === 'string' ? thumbnail : '' } width={'46px'} height={'46px'} className={'wc-message-user-thumbnail wc-thumbnail-' + who} style={{ display: thumbnail ? 'inline' : 'none' }} />
+                    { thumbnail && typeof thumbnail === 'string' &&
+                        <img src={thumbnail} width={'46px'} height={'46px'} className={'wc-message-user-thumbnail wc-thumbnail-' + who} />
+                    }
                     <div className={ 'wc-message wc-message-from-' + who } ref={ div => this.messageDiv = div }>
                         <div className={ contentClassName }>
                             <svg className="wc-message-callout">

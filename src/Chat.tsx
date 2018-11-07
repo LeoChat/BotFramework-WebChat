@@ -1,18 +1,28 @@
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
+import {findDOMNode} from 'react-dom';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Subscription} from 'rxjs/Subscription';
 
-import { Activity, CardActionTypes, DirectLine, DirectLineOptions, IBotConnection, User } from 'botframework-directlinejs';
-import { Provider } from 'react-redux';
-import { getTabIndex } from './getTabIndex';
+import {
+    Activity,
+    CardActionTypes,
+    ConnectionStatus,
+    DirectLine,
+    DirectLineOptions,
+    IBotConnection,
+    User
+} from 'botframework-directlinejs';
+import {Provider} from 'react-redux';
+import {getTabIndex} from './getTabIndex';
+import {History} from './History';
 import * as konsole from './Konsole';
-import { Speech } from './SpeechModule';
-import { SpeechOptions } from './SpeechOptions';
-import { ChatActions, createStore, sendMessage } from './Store';
-import { ActivityOrID, FormatOptions } from './Types';
+import {MessagePane} from './MessagePane';
+import {Shell, ShellFunctions} from './Shell';
+import {Speech} from './SpeechModule';
+import {SpeechOptions} from './SpeechOptions';
+import {ChatActions, createStore} from './Store';
+import {ActivityOrID, FormatOptions} from './Types';
 
 export interface ChatProps {
     adaptiveCardsHostConfig: any;
@@ -36,11 +46,8 @@ export interface ChatProps {
     botThumbnail?: boolean | string;
     color?: string;
     iconPack?: string;
+    connectionStatus?: ConnectionStatus;
 }
-
-import { History } from './History';
-import { MessagePane } from './MessagePane';
-import { Shell, ShellFunctions } from './Shell';
 
 export class Chat extends React.Component<ChatProps, {}> {
 
@@ -64,7 +71,10 @@ export class Chat extends React.Component<ChatProps, {}> {
     private _saveHistoryRef = this.saveHistoryRef.bind(this);
     private _saveShellRef = this.saveShellRef.bind(this);
     // tslint:enable:variable-name
-
+    state = {
+        connectionStatus: 0,
+        connected: false
+    };
     constructor(props: ChatProps) {
         super(props);
 
@@ -149,6 +159,10 @@ export class Chat extends React.Component<ChatProps, {}> {
             case 'message':
                 this.store.dispatch<ChatActions>({ type: activity.from.id === state.connection.user.id ? 'Receive_Sent_Message' : 'Receive_Message', activity });
                 break;
+
+            // case 'endOfConversation':
+            //     this.store.dispatch<ChatActions>({ type: 'End_Conversation', activity });
+            //     break;
 
             case 'typing':
                 if (activity.from.id !== state.connection.user.id) {
@@ -258,6 +272,7 @@ export class Chat extends React.Component<ChatProps, {}> {
                     }
                 }
                 this.store.dispatch<ChatActions>({ type: 'Connection_Change', connectionStatus });
+                this.setState( state => ({ connectionStatus, connected: (connectionStatus === ConnectionStatus.Online)}));
             }
         );
 
@@ -371,6 +386,10 @@ export class Chat extends React.Component<ChatProps, {}> {
                     ref={ this._saveChatviewPanelRef }
                     style={{ direction : typeof state.format.direction === 'string' ? state.format.direction : 'ltr'}}
                 >
+                    { !!konsole.isDebugMode &&
+                        <div className="wc-debug">DEBUG MODE | Connection status: { ConnectionStatus[this.state.connectionStatus] }
+                        </div>
+                    }
                     {
                         !!state.format.chatTitle &&
                         <div className="wc-header wc-theme-bg" style={ state.format.color ? {backgroundColor: state.format.color} : {}}>
@@ -390,6 +409,7 @@ export class Chat extends React.Component<ChatProps, {}> {
                             disabled={ this.props.disabled }
                             onCardAction={ this._handleCardAction }
                             ref={ this._saveHistoryRef }
+                            showSender={ false }
                         />
                     </MessagePane>
                     {

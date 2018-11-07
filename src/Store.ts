@@ -531,16 +531,24 @@ export const history: Reducer<HistoryState> = (
 
 export interface AdaptiveCardsState {
     hostConfig: HostConfig;
+    card: string | null;
 }
 
-export interface AdaptiveCardsAction {
-    type: 'Set_AdaptiveCardsHostConfig';
-    payload: any;
-}
+export type AdaptiveCardsAction = {
+    type: 'Set_AdaptiveCardsHostConfig',
+    payload: any
+} | {
+    type: 'Show_AdaptiveCard',
+    payload: string | null
+} | {
+    type: 'Hide_AdaptiveCard',
+    payload: string | null
+};
 
 export const adaptiveCards: Reducer<AdaptiveCardsState> = (
     state: AdaptiveCardsState = {
-        hostConfig: null
+        hostConfig: null,
+        card: null
     },
     action: AdaptiveCardsAction
 ) => {
@@ -550,7 +558,16 @@ export const adaptiveCards: Reducer<AdaptiveCardsState> = (
                 ...state,
                 hostConfig: action.payload && (action.payload instanceof HostConfig ? action.payload : new HostConfig(action.payload))
             };
-
+        case 'Show_AdaptiveCard':
+            return {
+                ...state,
+                card: action.payload
+            };
+        case 'Hide_AdaptiveCard':
+            return {
+                ...state,
+                card: (state.card === action.payload) ? null : state.card
+            };
         default:
             return state;
     }
