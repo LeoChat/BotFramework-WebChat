@@ -11,27 +11,41 @@
         outline:0;
     }
 
-    body .wc-app, .wc-app button, .wc-app input, .wc-app textarea {
+    .wc-app {
+
         font-family: $fontFamily;
         font-size: $fontSize;
-    }
 
-    .wc-app button {
-        background-color: $c_brand;
-        border: 1px solid $c05;
-        border-radius: 1px;
-        color: $c01;
-        cursor: pointer;
-        transition: color .2s ease, background-color .2s ease;
-    }
+        button, input, textarea {
+            font-family: $fontFamily;
+            font-size: $fontSize;
+        }
 
-    .wc-app h1, .wc-app h2, .wc-app h3, .wc-app h4, .wc-app p, .wc-app ul, .wc-app ol {
-        margin: 0;
-        padding: 0;
-    }
+        button {
+            background-color: $c_brand;
+            border: 1px solid $c05;
+            border-radius: 1px;
+            color: $c01;
+            cursor: pointer;
+            transition: color .2s ease, background-color .2s ease;
+        }
 
-    .wc-app audio, .wc-app video {
-        display: block;
+        h1, h2, h3, h4, p, ul, ol {
+            margin: 0;
+            padding: 0;
+        }
+
+        audio, video {
+            display: block;
+        }
+
+        .wc-debug {
+            z-index: 2;
+            position: absolute;
+            right: 0;
+            font-size: 22px;
+            color: $c12;
+        }
     }
 
 /* docking */
