@@ -25,6 +25,8 @@ export interface HistoryProps {
 
     onCardAction: () => void;
     doCardAction: IDoCardAction;
+
+    showSender: boolean;
 }
 
 export class HistoryView extends React.Component<HistoryProps, {}> {
