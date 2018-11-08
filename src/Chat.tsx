@@ -375,6 +375,7 @@ export class Chat extends React.Component<ChatProps, {}> {
 
     render() {
         const state = this.store.getState();
+        const botchatDebug = (window as any).botchatDebug;
         konsole.log('BotChat.Chat state', state);
 
         // only render real stuff after we know our dimensions
@@ -386,7 +387,7 @@ export class Chat extends React.Component<ChatProps, {}> {
                     ref={ this._saveChatviewPanelRef }
                     style={{ direction : typeof state.format.direction === 'string' ? state.format.direction : 'ltr'}}
                 >
-                    { konsole.isDebugMode() &&
+                    { botchatDebug &&
                         <div className="wc-debug">DEBUG MODE | Connection status: { ConnectionStatus[this.state.connectionStatus] }
                         </div>
                     }

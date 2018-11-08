@@ -3,7 +3,3 @@ export const log = (message?: any, ...optionalParams: any[]) => {
         console.log(message, ...optionalParams);
     }
 };
-
-export const isDebugMode = () => {
-    return (typeof(window) !== 'undefined' && (window as any).botchatDebug);
-};
