@@ -135,7 +135,7 @@ class AdaptiveCardContainer extends React.Component<Props, State> {
                 if (!this.state.sent) {
                     const ac = findDOMNode(this.divRef).parentElement;
                     ac.setAttribute('style', `height:${ac.clientHeight}px`);
-                    this.setState({sent: true});
+                    // this.setState({sent: true});
                 }
 
             }
