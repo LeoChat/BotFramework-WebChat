@@ -15,7 +15,8 @@ export {
   createCognitiveServicesBingSpeechPonyfillFactory,
   createCognitiveServicesSpeechServicesPonyfillFactory,
   renderMarkdown,
-  renderWebChat
+  renderWebChat,
+  ReactWebChat
 }
 
 window['WebChat'] = {

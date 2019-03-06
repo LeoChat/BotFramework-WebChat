@@ -52,6 +52,7 @@ export default function* () {
         && lastMessageActivity.from
         && lastMessageActivity.from.role === 'bot'
       ) {
+      if (lastMessageActivity && lastMessageActivity.from && lastMessageActivity.from.role === 'bot') {
         const { suggestedActions: { actions } = {} } = lastMessageActivity;
 
         yield put(setSuggestedActions(actions));

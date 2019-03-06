@@ -5,9 +5,7 @@ import connectToWebChat from '../connectToWebChat';
 import {Composer, Dots, FilmStrip, ScrollBar } from 'react-film';
 import Flipper from './Flipper';
 
-const BASIC_FILM_CSS = css({
-    borderTop: '1px solid #dcdcdc'
-});
+const BASIC_FILM_CSS = css({});
 
 const FLIPPERS_CONTAINER_CSS = css({
     width: '100%',
@@ -23,10 +21,10 @@ export default connectToWebChat(
               { children }
           </FilmStrip>
           <ScrollBar />
-          <div className={FLIPPERS_CONTAINER_CSS}>
-              <Flipper mode="left" />
-              <Flipper mode="right" />
-          </div>
+          {/*<div className={FLIPPERS_CONTAINER_CSS}>*/}
+              {/*<Flipper mode="left" />*/}
+              {/*<Flipper mode="right" />*/}
+          {/*</div>*/}
       </div>
       { showDots &&
           <Dots>

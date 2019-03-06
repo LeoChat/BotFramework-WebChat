@@ -19,6 +19,8 @@ export default function createAvatarStyle({
     overflow: 'hidden',
     position: 'relative',
     width: avatarSize,
+    border: '1px solid rgba(0,0,0,.2)',
+    transition: 'border .3s ease-in-out',
 
     '& > .image': {
       left: 0,

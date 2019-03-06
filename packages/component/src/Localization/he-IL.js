@@ -5,7 +5,7 @@ function xMinutesAgo(date) {
   const deltaInHours = Math.floor(deltaInMs / 3600000);
 
   if (deltaInMinutes < 1) {
-    return 'הרגע';
+    return 'עכשיו';
   } else if (deltaInMinutes === 1) {
     return 'לפני דקה';
   } else if (deltaInHours < 1) {
@@ -13,13 +13,17 @@ function xMinutesAgo(date) {
   } else if (deltaInHours === 1) {
     return `לפני שעה`;
   } else if (deltaInHours < 5) {
-    return ` לפני ${ deltaInHours }שעות `;
+    return ` לפני ${ deltaInHours } שעות `;
   } else if (deltaInHours <= 24) {
     return `היום`;
   } else if (deltaInHours <= 48) {
     return `אתמול`;
   } else {
-    return new Intl.DateTimeFormat(['he-IL', 'hebrew']).format(date);
+    return new Intl.DateTimeFormat('he-IL', {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric'
+    }).format(new Date(date));
   }
 }
 
@@ -38,7 +42,7 @@ export default {
   // Do not localize {retry}, it is a placeholder for "retry"
   'Send failed, {retry}': 'שליחה נכשלה, {retry}',
   'Send': 'שלח',
-  'Sending': 'בשליחה',
+  'Sending': 'שולח',
   'Speak': 'דבר',
   'Starting…': 'מתחיל…',
   'Tax': 'מס',
