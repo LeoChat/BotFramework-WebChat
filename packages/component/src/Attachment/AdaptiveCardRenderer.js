@@ -1,6 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
-
 import { localize } from '../Localization/Localize';
 import connectToWebChat from '../connectToWebChat';
 import ErrorBox from '../ErrorBox';
@@ -74,13 +72,17 @@ class AdaptiveCardRenderer extends React.PureComponent {
           });
         }
 
-        const { current } = this.contentRef;
-        const inputs = current.querySelectorAll('button, input, select, textarea');
-
-        [].forEach.call(inputs, input => {
-            input.disabled = true;
-            input.setAttribute('style', 'background: #dcdcdc;color: #979797')
-        });
+        // const currentCard = findDOMNode(this.contentRef);
+        const currentCard = this.contentRef;
+        const inputs = currentCard.querySelectorAll('button, input, select, textarea');
+        if (inputs.length > 0) {
+            for (const inputsKey in inputs) {
+                if (inputs.hasOwnProperty(inputsKey)) {
+                    inputs[inputsKey].setAttribute('disabled', 'disabled');
+                    inputs[inputsKey].setAttribute('style', 'background: #dcdcdc;');
+                }
+            }
+        }
       }
     } else {
       console.error(`Web Chat: received unknown action from Adaptive Cards`);
