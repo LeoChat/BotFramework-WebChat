@@ -94,7 +94,7 @@ export default class extends React.Component {
       directLine: createFaultyDirectLine({
         domain,
         fetch,
-        token: directLineToken,
+        token: directLineToken || null ,
         webSocket: webSocket === 'true' || !!+webSocket
       }),
       disabled: false,

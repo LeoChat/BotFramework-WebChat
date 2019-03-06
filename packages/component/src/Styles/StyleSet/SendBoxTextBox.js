@@ -1,7 +1,6 @@
 export default function createSendBoxTextBoxStyle({
   paddingRegular,
-  sendBoxTextBoxBorderColor
-  paddingRegular,
+  sendBoxTextBoxBorderColor,
   primaryFont,
   sendBoxTextColor
 }) {
