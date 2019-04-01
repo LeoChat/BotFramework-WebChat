@@ -1,13 +1,32 @@
 // TODO: [P4] Rename styleSetOptions to styleOptions
 const DEFAULT_ACCENT = '#0063B1';
 const DEFAULT_SUBTLE = '#767676'; // With contrast 4.5:1 to white
+const PADDING_REGULAR = 10;
 
 const DEFAULT_OPTIONS = {
+  // Color and paddings
   accent: DEFAULT_ACCENT,
-  avatarSize: 50,
-
   backgroundColor: 'White',
+  paddingRegular: PADDING_REGULAR,
+  paddingWide: 20,
+  subtle: DEFAULT_SUBTLE,
 
+  // Word break
+  messageActivityWordBreak: 'break-word', // 'normal' || 'break-all' || 'break-word' || 'keep-all'
+
+  // fonts
+  primaryFont: fontFamily(['Calibri', 'Helvetica Neue', 'Arial', 'sans-serif']),
+  monospaceFont: fontFamily(['Consolas', 'Courier New', 'monospace']),
+  fontSizeSmall: '80%',
+
+  // Avatar
+  avatarSize: 40,
+  botAvatarImage: '',
+  botAvatarInitials: '',
+  userAvatarImage: '',
+  userAvatarInitials: '',
+
+  // Bubble
   bubbleBackground: 'White',
   bubbleBorder: 'solid 1px #E6E6E6',
   bubbleBorderRadius: 2,
@@ -21,37 +40,41 @@ const DEFAULT_OPTIONS = {
   bubbleMinWidth: 250, // min screen width = 300px, Edge requires 372px (https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/13621468/)
   bubbleTextColor: 'Black',
 
+  // Root
+  rootHeight: '100%',
+  rootWidth: '100%',
+
+  // Send box
   hideSendBox: false,
   showUploadButton: false,
 
   microphoneButtonColorOnDictate: '#F33',
-
-  paddingRegular: 10,
-  paddingWide: 20,
-
-  sendBoxButtonColor: '#999',
+  sendBoxBackground: 'White',
+  sendBoxButtonColor: '#767676',
   sendBoxButtonColorOnDisabled: '#CCC',
   sendBoxButtonColorOnFocus: '#333',
   sendBoxButtonColorOnHover: '#333',
   sendBoxTextBoxBorderColor: '#77d6f5',
-  sendBoxHeight: 50,
+  sendBoxHeight: 40,
+  sendBoxTextColor: 'Black',
 
   // Visually show spoken text
   showSpokenText: false,
 
-  subtle: DEFAULT_SUBTLE,
-
+  // Suggested actions
   suggestedActionBackground: 'White',
-  suggestedActionBorder: `solid 1px ${ DEFAULT_ACCENT }`,
-  suggestedActionBorderRadius: `30`,
+  suggestedActionBorder: `solid 2px ${ DEFAULT_ACCENT }`,
+  suggestedActionBorderRadius: 0,
   suggestedActionTextColor: DEFAULT_ACCENT,
   suggestedActionDisabledBackground: 'White',
-  suggestedActionDisabledBorder: `solid 1px #E6E6E6`,
+  suggestedActionDisabledBorder: `solid 2px #E6E6E6`,
   suggestedActionDisabledTextColor: DEFAULT_SUBTLE,
-  suggestedActionHeight: 50,
+  suggestedActionHeight: 40,
 
+  // Timestamp
   timestampColor: DEFAULT_SUBTLE,
 
+  // Transcript overlay buttons (e.g. carousel and scroll to bottom)
   transcriptOverlayButtonBackground: 'rgba(0, 0, 0, .6)',
   transcriptOverlayButtonBackgroundOnFocus: 'rgba(0, 0, 0, .8)',
   transcriptOverlayButtonBackgroundOnHover: 'rgba(0, 0, 0, .8)',
@@ -59,7 +82,17 @@ const DEFAULT_OPTIONS = {
   transcriptOverlayButtonColorOnFocus: 'White',
   transcriptOverlayButtonColorOnHover: 'White',
 
-  videoHeight: 270 // based on bubbleMaxWidth, 480 / 16 * 9 = 270
+  // Video
+  videoHeight: 270, // based on bubbleMaxWidth, 480 / 16 * 9 = 270
+
+  // Connectivity UI
+  connectivityIconPadding: PADDING_REGULAR * 1.2,
+  connectivityMarginLeftRight: PADDING_REGULAR * 1.4,
+  connectivityMarginTopBottom: PADDING_REGULAR * 0.8,
+  connectivityTextSize: 12,
+  failedConnectivity: '#C50F1F',
+  slowConnectivity: '#EAA300',
+  slowConnectivityText: '#5E5E5E',
 };
 
 export default DEFAULT_OPTIONS

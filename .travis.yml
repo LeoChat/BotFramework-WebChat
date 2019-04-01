@@ -9,7 +9,7 @@ services:
 - docker
 
 before_install:
-- npm install
+- npm ci
 - sudo apt-get install jq
 - npx version-from-git --travis
 - git checkout -b temp-ci
@@ -20,14 +20,22 @@ install:
 - npm run build
 - npm run prepublishOnly
 - docker build -f Dockerfile-playground -t webchat.azurecr.io/playground .
+- npm run build:sample
 
 script:
 - docker-compose up --build -d
 - docker-compose exec webchat ls -la
-- npm test -- --coverageReporters=lcov --coverageReporters=text
-- docker-compose logs
+- npm test -- --coverageReporters=lcov --coverageReporters=text --maxWorkers=1
+
+# Enable Docker log if investigation is needed
+# - docker-compose logs
+
 - docker-compose down --rmi all
 - npm run coveralls
+
+# Upload image snapshots to build artifact curator
+- zip -r image-snapshots __tests__/__image_snapshots__/
+- curl -T image-snapshots.zip https://webchat-curator.azurewebsites.net/upload
 
 before_deploy:
 - git config --local user.name "Bot Framework"
@@ -35,7 +43,7 @@ before_deploy:
 
 deploy:
 - provider: script
-  script: bash scripts/build_pages
+  script: bash scripts/deploy_pages
   skip_cleanup: true
   on:
     branch: master

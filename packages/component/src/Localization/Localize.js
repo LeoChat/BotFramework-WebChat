@@ -58,11 +58,11 @@ function getStrings(language) {
   }
 }
 
-function localize(text, language, args) {
+function localize(text, language, ...args) {
   const string = (getStrings(language) || {})[text] || enUS[text];
 
   if (typeof string === 'function') {
-    return string(args);
+    return string(...args);
   } else {
     return string || text;
   }
@@ -70,7 +70,7 @@ function localize(text, language, args) {
 
 export default connectToWebChat(
   ({ language }) => ({ language })
-)(({ args, language, text }) => localize(text, language, args))
+)(({ args, language, text }) => localize(text, language, ...(args || [])))
 
 export { localize }
 
@@ -114,7 +114,7 @@ function normalizeLanguage(language) {
   } else if (language.startsWith('pl')) {
     return 'pl-PL';
   } else if (language.startsWith('pt')) {
-    if (language === 'pt-BR') {
+    if (language === 'pt-br') {
       return 'pt-BR';
     } else {
       return 'pt-PT';

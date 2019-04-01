@@ -1,6 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
-
 import { localize } from '../Localization/Localize';
 import connectToWebChat from '../connectToWebChat';
 import ErrorBox from '../ErrorBox';
@@ -61,12 +59,13 @@ class AdaptiveCardRenderer extends React.PureComponent {
       });
     } else if (actionTypeName === 'Action.Submit') {
       if (typeof action.data !== 'undefined') {
-        const { data: cardAction } = action || {};
+        const { data: actionData } = action;
 
-        if (cardAction && cardAction.__isBotFrameworkCardAction) {
-          const { type, value } = cardAction;
+        if (actionData && actionData.__isBotFrameworkCardAction) {
+          const { cardAction } = actionData;
+          const { displayText, type, value } = cardAction;
 
-          props.onCardAction({ type, value });
+          props.onCardAction({ displayText, type, value });
         } else {
           props.onCardAction({
             type: typeof action.data === 'string' ? 'imBack' : 'postBack',
@@ -74,13 +73,17 @@ class AdaptiveCardRenderer extends React.PureComponent {
           });
         }
 
-        const { current } = this.contentRef;
-        const inputs = current.querySelectorAll('button, input, select, textarea');
-
-        [].forEach.call(inputs, input => {
-            input.disabled = true;
-            input.setAttribute('style', 'background: #dcdcdc;color: #979797')
-        });
+        // const currentCard = findDOMNode(this.contentRef);
+        const currentCard = this.contentRef;
+        const inputs = currentCard.querySelectorAll('button, input, select, textarea');
+        if (inputs.length > 0) {
+            for (const inputsKey in inputs) {
+                if (inputs.hasOwnProperty(inputsKey)) {
+                    inputs[inputsKey].setAttribute('disabled', 'disabled');
+                    inputs[inputsKey].setAttribute('style', 'background: #dcdcdc;');
+                }
+            }
+        }
       }
     } else {
       console.error(`Web Chat: received unknown action from Adaptive Cards`);
@@ -99,7 +102,13 @@ class AdaptiveCardRenderer extends React.PureComponent {
       //       This could be limitations from Adaptive Cards package
       //       Because there could be timing difference between .parse and .render, we could be using wrong Markdown engine
 
-      adaptiveCard.constructor.processMarkdown = renderMarkdown || (text => text);
+      adaptiveCard.constructor.onProcessMarkdown = (text, result) => {
+        if (renderMarkdown) {
+          result.outputHtml = renderMarkdown(text);
+          result.didProcess = true;
+        }
+      };
+
       adaptiveCard.hostConfig = adaptiveCardHostConfig;
       adaptiveCard.onExecuteAction = this.handleExecuteAction;
 

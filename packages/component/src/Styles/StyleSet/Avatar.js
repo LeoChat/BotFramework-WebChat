@@ -1,32 +1,27 @@
-import {
-  primaryFont
-} from '../Fonts';
-
 export default function createAvatarStyle({
   accent,
-  avatarSize
+  avatarSize,
+  primaryFont
 }) {
   return {
-    ...primaryFont,
-
     alignItems: 'center',
-    backgroundColor: 'Transparent',
+    backgroundColor: accent,
     borderRadius: '50%',
     color: 'White',
     display: 'flex',
+    fontFamily: primaryFont,
     height: avatarSize,
     justifyContent: 'center',
     overflow: 'hidden',
+    position: 'relative',
     width: avatarSize,
     border: '1px solid rgba(0,0,0,.2)',
     transition: 'border .3s ease-in-out',
 
-      '&:hover': {
-          border: '1px solid #77d6f5',
-      },
-
-      '& img': {
-          height: avatarSize,
-      }
+    '& > .image': {
+      left: 0,
+      position: 'absolute',
+      top: 0
+    }
   };
 }

@@ -1,13 +1,11 @@
-import {
-  monospaceSmallFont,
+export default function createErrorBoxStyle({
+  monospaceFont,
   primaryFont
-} from '../Fonts';
-
-export default function createErrorBoxStyle() {
+}) {
   return {
-    ...primaryFont,
     display: 'flex',
     flexDirection: 'column',
+    fontFamily: primaryFont,
     margin: 0,
     minHeight: 20,
     maxHeight: 200,
@@ -15,13 +13,13 @@ export default function createErrorBoxStyle() {
     WebkitOverflowScrolling: 'touch',
 
     '& > :first-child': {
-      backgroundColor: 'Red',
+      backgroundColor: '#EF0000',
       color: 'White',
       padding: '5px 10px'
     },
 
     '& > :last-child': {
-      borderColor: 'Red',
+      borderColor: '#EF0000',
       borderStyle: 'dashed',
       borderBottomWidth: 2,
       borderLeftWidth: 2,
@@ -32,7 +30,7 @@ export default function createErrorBoxStyle() {
       padding: 10,
 
       '& > pre': {
-        ...monospaceSmallFont,
+        fontFamily: monospaceFont,
         fontSize: '60%',
         margin: 0
       }

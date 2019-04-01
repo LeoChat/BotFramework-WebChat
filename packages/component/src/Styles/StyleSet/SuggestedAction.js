@@ -1,8 +1,7 @@
-import { primaryFont } from  '../Fonts';
-
 export default function createSuggestedActionStyle({
   paddingRegular,
   paddingWide,
+  primaryFont,
   suggestedActionBackground,
   suggestedActionBorder,
   suggestedActionBorderRadius,
@@ -19,30 +18,23 @@ export default function createSuggestedActionStyle({
     paddingTop: paddingRegular,
 
     '& > button': {
-      ...primaryFont,
-
+      fontFamily: primaryFont,
       fontSize: 'inherit',
       height: suggestedActionHeight,
       paddingLeft: paddingWide,
       paddingRight: paddingWide,
       borderRadius: suggestedActionBorderRadius,
-      boxShadow: '1px 1px 2px 0 #999',
 
-      '&:active, &:focus': {
-          boxShadow: 'inset 1px 1px 2px 0 #999',
-      },
-
-    '&:disabled': {
+      '&:disabled': {
         background: suggestedActionDisabledBackground,
         border: suggestedActionDisabledBorder,
-        color: suggestedActionDisabledTextColor,
+        color: suggestedActionDisabledTextColor
       },
 
       '&:not(:disabled)': {
         background: suggestedActionBackground,
         border: suggestedActionBorder,
-        color: suggestedActionTextColor,
-        cursor: 'pointer'
+        color: suggestedActionTextColor
       }
     }
   };
