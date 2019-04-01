@@ -2,7 +2,8 @@ export * from './index-minimal';
 
 import addVersion from './addVersion';
 import coreRenderWebChat from './renderWebChat';
-import createCognitiveServicesWebSpeechPonyfillFactory from './createCognitiveServicesWebSpeechPonyfillFactory';
+import createCognitiveServicesBingSpeechPonyfillFactory from './createCognitiveServicesBingSpeechPonyfillFactory';
+import createCognitiveServicesSpeechServicesPonyfillFactory from './createCognitiveServicesSpeechServicesPonyfillFactory';
 import ReactWebChat from './FullReactWebChat';
 import renderMarkdown from './renderMarkdown';
 
@@ -11,7 +12,8 @@ const renderWebChat = coreRenderWebChat.bind(null, ReactWebChat);
 export default ReactWebChat
 
 export {
-  createCognitiveServicesWebSpeechPonyfillFactory,
+  createCognitiveServicesBingSpeechPonyfillFactory,
+  createCognitiveServicesSpeechServicesPonyfillFactory,
   renderMarkdown,
   renderWebChat,
   ReactWebChat
@@ -19,7 +21,8 @@ export {
 
 window['WebChat'] = {
   ...window['WebChat'],
-  createCognitiveServicesWebSpeechPonyfillFactory,
+  createCognitiveServicesBingSpeechPonyfillFactory,
+  createCognitiveServicesSpeechServicesPonyfillFactory,
   ReactWebChat,
   renderMarkdown,
   renderWebChat
