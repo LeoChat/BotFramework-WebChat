@@ -8,7 +8,8 @@ export default function createBubbleStyle({
   bubbleFromUserTextColor,
   bubbleMaxWidth,
   bubbleMinHeight,
-  bubbleTextColor
+  bubbleTextColor,
+  messageActivityWordBreak
 }) {
   return {
     maxWidth: bubbleMaxWidth,
@@ -19,6 +20,7 @@ export default function createBubbleStyle({
         border: '1px solid #77d6f5',
         boxShadow: 'inset 0 0 2px 0 rgba(0,0,0,.2)'
     },
+    wordBreak: messageActivityWordBreak,
 
     '&:not(.from-user)': {
       background: bubbleBackground,
