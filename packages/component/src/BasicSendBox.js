@@ -33,27 +33,27 @@ const BasicSendBox = ({
   className,
   dictationStarted,
   styleSet,
-  webSpeechPonyfill
+  webSpeechPonyfill = {}
 }) =>
-  <div
-    className={ classNames(
-      styleSet.sendBox + '',
-      ROOT_CSS + '',
-      (className || '') + ''
-    ) }
-    role="form"
-  >
+  <div className={ classNames(
+    styleSet.sendBox + '',
+    ROOT_CSS + '',
+    (className || '') + ''
+  ) }>
     <SuggestedActions />
     <div className="main">
-      { !styleSet.options.hideUploadButton &&
-        <UploadButton />
+      {styleSet.options.showUploadButton}
+      { styleSet.options.showUploadButton ?
+          <UploadButton/>
+        :
+          ''
       }
       { dictationStarted ?
           <DictationInterims className={ DICTATION_INTERIMS_CSS } />
         :
           <TextBox className={ TEXT_BOX_CSS } />
       }
-      { (webSpeechPonyfill || {}).SpeechRecognition ?
+      { webSpeechPonyfill.SpeechRecognition ?
           <MicrophoneButton className={ MICROPHONE_BUTTON_CSS } />
         :
           <SendButton />

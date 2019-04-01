@@ -33,7 +33,8 @@ const DEFAULT_OPTIONS = {
 
   // Send box
   hideSendBox: false,
-  hideUploadButton: false,
+  showUploadButton: false,
+
   microphoneButtonColorOnDictate: '#F33',
   sendBoxButtonColor: '#767676',
   sendBoxButtonColorOnDisabled: '#CCC',
