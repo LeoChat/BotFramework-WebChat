@@ -2,6 +2,7 @@ import {
   Composer as ScrollToBottomComposer,
   FunctionContext as ScrollToBottomFunctionContext
 } from 'react-scroll-to-bottom';
+
 import { connect } from 'react-redux';
 import { css } from 'glamor';
 import memoize from 'memoize-one';
@@ -14,16 +15,17 @@ import {
   disconnect,
   markActivity,
   postActivity,
+  sendEvent,
   sendFiles,
   sendMessage,
+  sendMessageBack,
   sendPostBack,
   setDictateInterims,
   setDictateState,
-  setDirection,
   setLanguage,
   setSendBox,
   setSendTimeout,
-  setSendTyping,
+  setSendTypingIndicator,
   startDictate,
   startSpeakingActivity,
   stopDictate,
@@ -31,11 +33,14 @@ import {
   submitSendBox
 } from 'botframework-webchat-core';
 
+import concatMiddleware from './Middleware/concatMiddleware';
 import Context from './Context';
+import createCoreCardActionMiddleware from './Middleware/CardAction/createCoreMiddleware';
 import createStyleSet from './Styles/createStyleSet';
 import defaultAdaptiveCardHostConfig from './Styles/adaptiveCardHostConfig';
 import Dictation from './Dictation';
 import mapMap from './Utils/mapMap';
+import observableToPromise from './Utils/observableToPromise';
 import shallowEquals from './Utils/shallowEquals';
 
 // Flywheel object
@@ -44,8 +49,10 @@ const EMPTY_ARRAY = [];
 const DISPATCHERS = {
   markActivity,
   postActivity,
+  sendEvent,
   sendFiles,
   sendMessage,
+  sendMessageBack,
   sendPostBack,
   setDictateInterims,
   setDictateState,
@@ -62,64 +69,27 @@ function styleSetToClassNames(styleSet) {
   return mapMap(styleSet, (style, key) => key === 'options' ? style : css(style));
 }
 
-function createCardActionLogic({ directLine, dispatch }) {
+function createCardActionLogic({ cardActionMiddleware, directLine, dispatch }) {
+  const runMiddleware = concatMiddleware(cardActionMiddleware, createCoreCardActionMiddleware())({ dispatch });
+
   return {
-    onCardAction: (({ type, value }) => {
-      switch (type) {
-        case 'imBack':
-          if (typeof value === 'string') {
-            // TODO: [P4] Instead of calling dispatch, we should move to dispatchers instead for completeness
-            dispatch(sendMessage(value, 'imBack'));
-          } else {
-            throw new Error('cannot send "imBack" with a non-string value');
-          }
+    onCardAction: cardAction => runMiddleware(({ cardAction: { type } }) => {
+      throw new Error(`Web Chat: received unknown card action "${ type }"`);
+    })({
+      cardAction,
+      getSignInUrl: cardAction.type === 'signin' ? () => {
+        const { value } = cardAction;
 
-          break;
+        if (directLine.getSessionId) {
+          // TODO: [P3] We should change this one to async/await.
+          //       This is the first place in this project to use async.
+          //       Thus, we need to add @babel/plugin-transform-runtime and @babel/runtime.
 
-        case 'postBack':
-          dispatch(sendPostBack(value));
-
-          break;
-
-        case 'call':
-        case 'downloadFile':
-        case 'openUrl':
-        case 'playAudio':
-        case 'playVideo':
-        case 'showImage':
-          // TODO: [P3] We should support ponyfill for window.open
-          //       This is as-of v3
-          window.open(value);
-          break;
-
-        case 'signin':
-          // TODO: [P3] We should prime the URL into the OAuthCard directly, instead of calling getSessionId on-demand
-          //       This is to eliminate the delay between window.open() and location.href call
-
-          const popup = window.open();
-
-          if (directLine.getSessionId)  {
-            const subscription = directLine.getSessionId().subscribe(sessionId => {
-              popup.location.href = `${ value }${ encodeURIComponent(`&code_challenge=${ sessionId }`) }`;
-
-              // HACK: Sometimes, the call complete asynchronously and we cannot unsubscribe
-              //       Need to wait some short time here to make sure the subscription variable has setup
-              setImmediate(() => subscription.unsubscribe());
-            }, error => {
-              // TODO: [P3] Let the user know something failed and we cannot proceed
-              //       This is as-of v3 now
-              console.error(error);
-            });
-          } else {
-            popup.location.href = value;
-          }
-
-          break;
-
-        default:
-          console.error(`Web Chat: received unknown card action "${ type }"`);
-          break;
-      }
+          return observableToPromise(directLine.getSessionId()).then(sessionId => `${ value }${ encodeURIComponent(`&code_challenge=${ sessionId }`) }`);
+        } else {
+          return value;
+        }
+      } : null
     })
   };
 }
@@ -134,9 +104,33 @@ function createFocusSendBoxLogic({ sendBoxRef }) {
   };
 }
 
-function createStyleSetLogic({ styleSet, styleOptions }) {
+function createStyleSetLogic({ styleOptions, styleSet }) {
   return {
     styleSet: styleSetToClassNames(styleSet || createStyleSet(styleOptions))
+  };
+}
+
+// TODO: [P3] Take this deprecation code out when releasing on or after 2019 December 11
+function patchPropsForAvatarInitials({ botAvatarInitials, userAvatarInitials, ...props }) {
+  // This code will take out "botAvatarInitials" and "userAvatarInitials" from props
+
+  let { styleOptions } = props;
+
+  if (botAvatarInitials) {
+    styleOptions = { ...styleOptions, botAvatarInitials };
+
+    console.warn('Web Chat: "botAvatarInitials" is deprecated. Please use "styleOptions.botAvatarInitials" instead. "botAvatarInitials" will be removed on or after December 11 2019 .');
+  }
+
+  if (userAvatarInitials) {
+    styleOptions = { ...styleOptions, userAvatarInitials };
+
+    console.warn('Web Chat: "botAvatarInitials" is deprecated. Please use "styleOptions.botAvatarInitials" instead. "botAvatarInitials" will be removed on or after December 11 2019 .');
+  }
+
+  return {
+    ...props,
+    styleOptions
   };
 }
 
@@ -152,6 +146,8 @@ function createLogic(props) {
   // 2. Filter out profanity
 
   // TODO: [P4] Revisit all members of context
+  props = patchPropsForAvatarInitials(props);
+
   return {
     ...props,
     ...createCardActionLogic(props),
@@ -183,18 +179,18 @@ class Composer extends React.Component {
 
   componentWillMount() {
     const { props } = this;
-    const { directLine, userID } = props;
+    const { directLine, userID, username } = props;
 
     this.setLanguageFromProps(props);
     this.setSendTimeoutFromProps(props);
-    this.setSendTypingFromProps(props);
+    this.setSendTypingIndicatorFromProps(props);
 
-    props.dispatch(createConnectAction({ directLine, userID }));
+    props.dispatch(createConnectAction({ directLine, userID, username }));
   }
 
   componentDidUpdate(prevProps) {
     const { props } = this;
-    const { directLine, locale, sendTimeout, sendTyping, userID } = props;
+    const { directLine, locale, sendTimeout, sendTyping, sendTypingIndicator, userID, username } = props;
 
     if (prevProps.locale !== locale) {
       this.setLanguageFromProps(props);
@@ -204,34 +200,43 @@ class Composer extends React.Component {
       this.setSendTimeoutFromProps(props);
     }
 
-    if (!prevProps.sendTyping !== !sendTyping) {
-      this.setSendTypingFromProps(props);
+    if (
+      !prevProps.sendTypingIndicator !== !sendTypingIndicator
+
+      // TODO: [P3] Take this deprecation code out when releasing on or after January 13 2020
+      || !prevProps.sendTyping !== !sendTyping
+    ) {
+      this.setSendTypingIndicatorFromProps(props);
     }
 
     if (
       prevProps.directLine !== directLine
       || prevProps.userID !== userID
+      || prevProps.username !== username
     ) {
       // TODO: [P3] disconnect() is an async call (pending -> fulfilled), we need to wait, or change it to reconnect()
       props.dispatch(disconnect());
-      props.dispatch(createConnectAction({ directLine, userID }));
+      props.dispatch(createConnectAction({ directLine, userID, username }));
     }
   }
 
   setLanguageFromProps(props) {
     const lang = props.locale || window.navigator.language || 'en-US';
     props.dispatch(setLanguage(lang));
-    if (['he', 'he-IL'].indexOf(lang) !== -1) {
-        props.dispatch(setDirection('rtl'));
-    }
   }
 
   setSendTimeoutFromProps(props) {
     props.dispatch(setSendTimeout(props.sendTimeout || 20000));
   }
 
-  setSendTypingFromProps(props) {
-    props.dispatch(setSendTyping(!!props.sendTyping));
+  setSendTypingIndicatorFromProps(props) {
+    if (typeof props.sendTyping === 'undefined') {
+      props.dispatch(setSendTypingIndicator(!!props.sendTypingIndicator));
+    } else {
+      // TODO: [P3] Take this deprecation code out when releasing on or after January 13 2020
+      console.warn('Web Chat: "sendTyping" has been renamed to "sendTypingIndicator". Please use "sendTypingIndicator" instead. This deprecation migration will be removed on or after January 13 2020.');
+      props.dispatch(setSendTypingIndicator(!!props.sendTyping));
+    }
   }
 
   render() {
@@ -240,7 +245,6 @@ class Composer extends React.Component {
         activityRenderer,
         adaptiveCardHostConfig,
         attachmentRenderer,
-        botAvatarInitials,
         children,
 
         // TODO: [P2] Add disable interactivity
@@ -252,8 +256,8 @@ class Composer extends React.Component {
         renderMarkdown,
         scrollToEnd,
         store,
-        userAvatarInitials,
         userID,
+        username,
         webSpeechPonyfillFactory,
         ...propsForLogic
       },
@@ -273,15 +277,12 @@ class Composer extends React.Component {
         adaptiveCardHostConfig: adaptiveCardHostConfig || defaultAdaptiveCardHostConfig(this.props.styleOptions),
         attachmentRenderer,
 
-        // TODO: [P2] Move avatar initials to style options
-        botAvatarInitials,
         groupTimestamp,
         disabled,
         grammars: grammars || EMPTY_ARRAY,
         renderMarkdown,
         scrollToEnd,
         store,
-        userAvatarInitials,
         webSpeechPonyfill: this.createWebSpeechPonyfill(webSpeechPonyfillFactory, referenceGrammarID)
       }
     );
@@ -300,7 +301,7 @@ class Composer extends React.Component {
 const ConnectedComposer = connect(
   ({ referenceGrammarID }) => ({ referenceGrammarID })
 )(props =>
-  <ScrollToBottomComposer threshold={ 40 }>
+  <ScrollToBottomComposer>
     <ScrollToBottomFunctionContext.Consumer>
       { ({ scrollToEnd }) =>
         <Composer
@@ -342,17 +343,18 @@ ConnectedComposerWithStore.propTypes = {
   activityRenderer: PropTypes.func,
   adaptiveCardHostConfig: PropTypes.any,
   attachmentRenderer: PropTypes.func,
-  botAvatarInitials: PropTypes.string,
+  cardActionMiddleware: PropTypes.func,
   groupTimestamp: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   disabled: PropTypes.bool,
   grammars: PropTypes.arrayOf(PropTypes.string),
+  openUrlPonyfillFactory: PropTypes.func,
   referenceGrammarID: PropTypes.string,
   renderMarkdown: PropTypes.func,
   scrollToBottom: PropTypes.func,
   sendTimeout: PropTypes.number,
-  sendTyping: PropTypes.bool,
+  sendTypingIndicator: PropTypes.bool,
   store: PropTypes.any,
-  userAvatarInitials: PropTypes.string,
   userID: PropTypes.string,
+  username: PropTypes.string,
   webSpeechPonyfillFactory: PropTypes.func
 };

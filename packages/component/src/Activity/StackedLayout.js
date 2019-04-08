@@ -4,13 +4,13 @@ import React from 'react';
 
 import { Constants } from 'botframework-webchat-core';
 
+import { localize } from '../Localization/Localize';
 import Avatar from './Avatar';
 import Bubble from './Bubble';
-import SendStatus from './SendStatus';
-import Timestamp from './Timestamp';
-
 import connectToWebChat from '../connectToWebChat';
+import SendStatus from './SendStatus';
 import textFormatToContentType from '../Utils/textFormatToContentType';
+import Timestamp from './Timestamp';
 
 const { ActivityClientState: { SENDING, SEND_FAILED } } = Constants;
 
@@ -55,35 +55,57 @@ const ROOT_CSS = css({
 
 const connectStackedLayout = (...selectors) => connectToWebChat(
   ({
-    botAvatarInitials,
     language,
-    userAvatarInitials,
-    direction
-  }) => ({
-    botAvatarInitials,
+    styleSet: {
+      options: {
+        botAvatarInitials,
+        userAvatarInitials
+      }
+    }
+  }, { activity }) => ({
+    avatarInitials: activity.from && activity.from.role === 'user' ? userAvatarInitials : botAvatarInitials,
     language,
-    userAvatarInitials,
-    direction
+
+    // TODO: [P4] We want to deprecate botAvatarInitials/userAvatarInitials because they are not as helpful as avatarInitials
+    botAvatarInitials,
+    userAvatarInitials
   }),
   ...selectors
 );
 
 export default connectStackedLayout(
-  ({ styleSet }) => ({ styleSet })
+  ({
+    avatarInitials,
+    language,
+    direction,
+    styleSet
+  }) => ({
+    avatarInitials,
+    language,
+    direction,
+    styleSet
+  })
 )(
   ({
     activity,
-    botAvatarInitials,
+    avatarInitials,
     children,
-    showTimestamp,
+    language,
     styleSet,
-    userAvatarInitials,
-    direction
+    timestampClassName,
+    direction,
+    showTimestamp
   }) => {
     const fromUser = activity.from.role === 'user';
-    const initials = fromUser ? userAvatarInitials : botAvatarInitials;
     const { state } = activity.channelData || {};
     const showSendStatus = state === SENDING || state === SEND_FAILED;
+    const ariaLabel = localize(fromUser ? 'User said something' : 'Bot said something', language, avatarInitials, activity.text, activity.timestamp);
+    const activityDisplayText =
+      (
+        activity.channelData
+        && activity.channelData.messageBack
+        && activity.channelData.messageBack.displayText
+      ) || activity.text;
 
     return (
       <div
@@ -94,9 +116,11 @@ export default connectStackedLayout(
           direction
         ) }
       >
-        { !!initials &&
-          <Avatar className="avatar" fromUser={ fromUser }>{ initials }</Avatar>
-        }
+        <Avatar
+          aria-hidden={ true }
+          className="avatar"
+          fromUser={ fromUser }
+        />
         <div className="content">
           {
             activity.type === 'typing' ?
@@ -109,9 +133,10 @@ export default connectStackedLayout(
                 }
                 <div className="filler" />
               </div>
-            : !!activity.text &&
+            : !!activityDisplayText &&
               <div className="row message">
                 <Bubble
+                  aria-label={ ariaLabel }
                   className="bubble"
                   fromUser={ fromUser }
                 >
@@ -120,7 +145,7 @@ export default connectStackedLayout(
                       activity,
                       attachment: {
                         contentType: textFormatToContentType(activity.textFormat),
-                        content: activity.text
+                        content: activityDisplayText
                       }
                     })
                   }
@@ -141,17 +166,17 @@ export default connectStackedLayout(
               </div>
             )
           }
-          {
-            (showSendStatus || showTimestamp) &&
-              <div className="row">
-                { showSendStatus ?
-                    <SendStatus activity={ activity } className="timestamp" />
-                  :
-                    <Timestamp activity={ activity } className="timestamp" />
-                }
-                <div className="filler" />
-              </div>
-          }
+          <div
+            aria-hidden={ true }
+            className="row"
+          >
+            { showSendStatus ?
+                <SendStatus activity={ activity } className="timestamp" />
+              :
+                <Timestamp activity={ activity } className={ classNames('timestamp', timestampClassName) } />
+            }
+            <div className="filler" />
+          </div>
         </div>
         <div className="filler" />
       </div>

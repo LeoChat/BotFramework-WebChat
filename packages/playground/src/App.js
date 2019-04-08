@@ -4,8 +4,8 @@ import memoize from 'memoize-one';
 
 import ReactWebChat, {
   createBrowserWebSpeechPonyfillFactory,
-  createCognitiveServicesWebSpeechPonyfillFactory,
-  createStyleSet,
+  createCognitiveServicesBingSpeechPonyfillFactory,
+  createCognitiveServicesSpeechServicesPonyfillFactory,
   renderMarkdown
 } from 'botframework-webchat';
 
@@ -33,7 +33,6 @@ const ROOT_CSS = css({
     '& > button': {
       backgroundColor: 'rgba(128, 128, 128, .2)',
       border: 0,
-      cursor: 'pointer',
       outline: 0,
       marginBottom: 10,
       padding: '5px 10px',
@@ -49,33 +48,7 @@ const ROOT_CSS = css({
 const WEB_CHAT_CSS = css({
   height: '100%',
   margin: '0 auto',
-  maxWidth: 768,
-
-  // scroll bar
-
-  /* width */
-  '&::-webkit-scrollbar': {
-    width: 8
-  },
-
-  /* Track */
-  '&::-webkit-scrollbar-track': {
-      borderRadius: 10,
-      backgroundColor: 'rgba(180, 187, 205, 0.2)'
-  },
-
-  /* Handle */
-  '&::-webkit-scrollbar-thumb': {
-      backgroundColor: 'rgba(180, 187, 205, 0.8)',
-      border: '1px solid rgba(120, 120, 120, .1)',
-      borderRadius: 10
-  },
-
-  /* Handle on hover */
-  '&::-webkit-scrollbar-thumb:hover': {
-      backgroundColor: 'rgba(180, 187, 205, 1)'
-  }
-
+  maxWidth: 768
 });
 
 export default class extends React.Component {
@@ -84,13 +57,14 @@ export default class extends React.Component {
 
     this.handleBotAvatarInitialsChange = this.handleBotAvatarInitialsChange.bind(this);
     this.handleDisabledChange = this.handleDisabledChange.bind(this);
+    this.handleDisconnectClick = this.handleDisconnectClick.bind(this);
     this.handleGroupTimestampChange = this.handleGroupTimestampChange.bind(this);
     this.handleHideSendBoxChange = this.handleHideSendBoxChange.bind(this);
     this.handleLanguageChange = this.handleLanguageChange.bind(this);
     this.handleReliabilityChange = this.handleReliabilityChange.bind(this);
     this.handleResetClick = this.handleResetClick.bind(this);
     this.handleSendTimeoutChange = this.handleSendTimeoutChange.bind(this);
-    this.handleSendTypingChange = this.handleSendTypingChange.bind(this);
+    this.handleSendTypingIndicatorChange = this.handleSendTypingIndicatorChange.bind(this);
     this.handleUseEmulatorCoreClick = this.handleUseEmulatorCoreClick.bind(this);
     this.handleUseMockBot = this.handleUseMockBot.bind(this);
     this.handleUserAvatarInitialsChange = this.handleUserAvatarInitialsChange.bind(this);
@@ -98,33 +72,29 @@ export default class extends React.Component {
     this.mainRef = React.createRef();
     this.activityMiddleware = createDevModeActivityMiddleware();
     this.attachmentMiddleware = createDevModeAttachmentMiddleware();
-    this.createMemoizedStyleSet = memoize(hideSendBox => createStyleSet({ hideSendBox }));
+    this.createMemoizedStyleOptions = memoize(
+      (hideSendBox, botAvatarInitials, userAvatarInitials) => ({
+        botAvatarInitials,
+        hideSendBox,
+        userAvatarInitials
+      })
+    );
 
     const params = new URLSearchParams(window.location.search);
     const directLineToken = params.get('t');
     const domain = params.get('domain');
-    const speech = params.get('speech');
     const userID = params.get('u');
     const webSocket = params.get('websocket');
 
-    // if (speech === 'cs') {
-    //   this.webSpeechPonyfillFactory = createCognitiveServicesWebSpeechPonyfillFactory({
-    //     fetchToken: () => fetch('https://webchat-mockbot.azurewebsites.net/speech/token', { method: 'POST' }).then(res => res.json()).then(({ token }) => token),
-    //   });
-    // } else {
-    //   this.webSpeechPonyfillFactory = createBrowserWebSpeechPonyfillFactory();
-    // }
-
-    const lang =  window.sessionStorage.getItem('PLAYGROUND_LANGUAGE') || window.navigator.language;
-    this.setLanguage(lang);
+    document.querySelector('html').setAttribute('lang', window.sessionStorage.getItem('PLAYGROUND_LANGUAGE') || window.navigator.language);
 
     this.state = {
       botAvatarInitials: 'BF',
       directLine: createFaultyDirectLine({
         domain,
         fetch,
-        token: directLineToken,
-        webSocket: webSocket === 'true' || +webSocket
+        token: directLineToken || null ,
+        webSocket: webSocket === 'true' || !!+webSocket
       }),
       disabled: false,
       faulty: false,
@@ -133,9 +103,11 @@ export default class extends React.Component {
       language: window.sessionStorage.getItem('PLAYGROUND_LANGUAGE') || '',
       direction: 'ltr',
       sendTimeout: window.sessionStorage.getItem('PLAYGROUND_SEND_TIMEOUT') || '',
-      sendTyping: true,
-      userAvatarInitials: '',
-      userID
+      sendTypingIndicator: true,
+      userAvatarInitials: 'WC',
+      userID,
+      username: 'Web Chat user',
+      webSpeechPonyfillFactory: null
     };
   }
 
@@ -146,11 +118,39 @@ export default class extends React.Component {
 
     sendBox && sendBox.focus();
 
-    this.handleBotAvatarInitialsChange('https://cdn.meetleo.co/images/GenieImage.png');
+    const speech = new URLSearchParams(window.location.search).get('speech');
+
+    if (speech === 'bingspeech') {
+      const fetchAuthorizationToken = memoize(() => {
+        return fetch('https://webchat-mockbot.azurewebsites.net/bingspeech/token', { method: 'POST' }).then(res => res.json()).then(({ token }) => token);
+      }, (x, y) => Math.abs(x - y) < 60000);
+
+      createCognitiveServicesBingSpeechPonyfillFactory({
+        authorizationToken: () => fetchAuthorizationToken(Date.now())
+      }).then(webSpeechPonyfillFactory => this.setState(() => ({ webSpeechPonyfillFactory })));
+    } else if (speech === 'speechservices') {
+      const fetchAuthorizationToken = memoize(() => {
+        return fetch('https://webchat-mockbot.azurewebsites.net/speechservices/token', { method: 'POST' }).then(res => res.json()).then(({ token }) => token);
+      }, (x, y) => {
+        return Math.abs(x - y) < 60000;
+      });
+
+      createCognitiveServicesSpeechServicesPonyfillFactory({
+        authorizationToken: () => fetchAuthorizationToken(Date.now()),
+        region: 'westus'
+      }).then(webSpeechPonyfillFactory => this.setState(() => ({ webSpeechPonyfillFactory })));
+    } else {
+      this.setState(() => ({ webSpeechPonyfillFactory: createBrowserWebSpeechPonyfillFactory() }));
+    }
+
   }
 
-  handleBotAvatarInitialsChange(value) {
+  handleBotAvatarInitialsChange({ target: { value } }) {
     this.setState(() => ({ botAvatarInitials: value }));
+  }
+
+  handleDisconnectClick() {
+    this.props.store.dispatch({ type: 'DIRECT_LINE/DISCONNECT' });
   }
 
   handleGroupTimestampChange({ target: { value } }) {
@@ -171,7 +171,11 @@ export default class extends React.Component {
 
   handleLanguageChange({ target: { value } }) {
     const lang = value || window.navigator.language;
-    this.setState(() => ({ language: value, direction: this.getDirection(lang) }), () => {
+
+    this.setState(() => ({
+      direction: this.getDirection(lang),
+      language: value
+    }), () => {
       this.setLanguage(lang);
       window.sessionStorage.setItem('PLAYGROUND_LANGUAGE', value);
     });
@@ -196,8 +200,8 @@ export default class extends React.Component {
     );
   }
 
-  handleSendTypingChange({ target: { checked } }) {
-    this.setState(() => ({ sendTyping: !!checked }));
+  handleSendTypingIndicatorChange({ target: { checked } }) {
+    this.setState(() => ({ sendTypingIndicator: !!checked }));
   }
 
   handleUseEmulatorCoreClick() {
@@ -205,7 +209,7 @@ export default class extends React.Component {
     window.location.href = '?domain=http://localhost:5000/v3/directline&websocket=0&u=default-user';
   }
 
-  handleUserAvatarInitialsChange(value) {
+  handleUserAvatarInitialsChange({ target: { value } }) {
     this.setState(() => ({ userAvatarInitials: value }));
   }
 
@@ -221,7 +225,7 @@ export default class extends React.Component {
 
       window.sessionStorage.removeItem('REDUX_STORE');
       window.location.href = '/?' + new URLSearchParams({
-        speech: 'cs',
+        speech: 'speechservices',
         websocket: 'true',
         t: token
       }).toString();
@@ -233,18 +237,35 @@ export default class extends React.Component {
 
   setLanguage(lang) {
       const html = document.querySelector('html');
+
       html.setAttribute('lang', lang);
       html.setAttribute('dir', this.getDirection(lang));
   }
 
   getDirection(lang) {
-      return (['he', 'he-IL'].indexOf(lang) !== -1) ? 'rtl' : 'ltr';
+      return /^he(-IL)?$/i.test(lang) ? 'rtl' : 'ltr';
   }
 
   render() {
-    const { props: { store }, state } = this;
-    const styleSet = this.createMemoizedStyleSet(this.state.hideSendBox);
-    const { groupTimestamp } = state;
+    const {
+      props: { store },
+      state: {
+        botAvatarInitials,
+        directLine,
+        disabled,
+        faulty,
+        groupTimestamp,
+        hideSendBox,
+        language,
+        sendTimeout,
+        sendTypingIndicator,
+        userAvatarInitials,
+        userID,
+        username,
+        webSpeechPonyfillFactory
+      }
+    } = this;
+    const styleOptions = this.createMemoizedStyleOptions(hideSendBox, botAvatarInitials, userAvatarInitials);
 
     return (
       <div
@@ -254,20 +275,19 @@ export default class extends React.Component {
         <ReactWebChat
           activityMiddleware={ this.activityMiddleware }
           attachmentMiddleware={ this.attachmentMiddleware }
-          botAvatarInitials={ state.botAvatarInitials }
           className={ WEB_CHAT_CSS }
           groupTimestamp={ groupTimestamp === 'default' ? undefined : groupTimestamp === 'false' ? false : +groupTimestamp }
-          directLine={ state.directLine }
-          disabled={ state.disabled }
-          locale={ state.language }
+          directLine={ directLine }
+          disabled={ disabled }
+          locale={ language }
           renderMarkdown={ renderMarkdown }
-          sendTimeout={ +state.sendTimeout || undefined }
-          sendTyping={ state.sendTyping }
+          sendTimeout={ +sendTimeout || undefined }
+          sendTypingIndicator={ sendTypingIndicator }
           store={ store }
-          styleSet={ styleSet }
-          userAvatarInitials={ state.userAvatarInitials }
-          userID={ state.userID }
-          webSpeechPonyfillFactory={ this.webSpeechPonyfillFactory }
+          styleOptions={ styleOptions }
+          userID={ userID }
+          username={ username }
+          webSpeechPonyfillFactory={ webSpeechPonyfillFactory }
         />
         <div className="button-bar">
           <button
@@ -294,10 +314,16 @@ export default class extends React.Component {
           >
             Start conversation with local MockBot
           </button>
+          <button
+            onClick={ this.handleDisconnectClick }
+            type="button"
+          >
+            Disconnect
+          </button>
           <div>
             <label>
               <input
-                checked={ !state.faulty }
+                checked={ !faulty }
                 onChange={ this.handleReliabilityChange }
                 type="checkbox"
               />
@@ -309,7 +335,7 @@ export default class extends React.Component {
               Language
               <select
                 onChange={ this.handleLanguageChange }
-                value={ state.language }
+                value={ language }
               >
                 <option value="">Default ({ window.navigator.language })</option>
                 <option value="zh-HK">Chinese (Hong Kong)</option>
@@ -325,6 +351,7 @@ export default class extends React.Component {
                 <option value="el-GR">Greek (Greece)</option>
                 <option value="fi-FI">Finnish (Finland)</option>
                 <option value="fr-FR">French (France)</option>
+                <option value="he-IL">Hebrew עברית (Israel)</option>
                 <option value="hu-HU">Hungarian (Hungary)</option>
                 <option value="it-IT">Italian (Italy)</option>
                 <option value="ja-JP">Japanese</option>
@@ -338,7 +365,6 @@ export default class extends React.Component {
                 <option value="es-ES">Spanish (Spain)</option>
                 <option value="sv-SE">Swedish (Sweden)</option>
                 <option value="tr-TR">Turkish (Turkey)</option>
-                <option value="he-IL">Hebrew עברית (Israel)</option>
               </select>
             </label>
           </div>
@@ -347,7 +373,7 @@ export default class extends React.Component {
               Send timeout
               <select
                 onChange={ this.handleSendTimeoutChange }
-                value={ state.sendTimeout }
+                value={ sendTimeout }
               >
                 <option value="">Default (20 seconds)</option>
                 <option value="1000">1 second</option>
@@ -363,8 +389,8 @@ export default class extends React.Component {
           <div>
             <label>
               <input
-                checked={ state.sendTyping }
-                onChange={ this.handleSendTypingChange }
+                checked={ sendTypingIndicator }
+                onChange={ this.handleSendTypingIndicatorChange }
                 type="checkbox"
               />
               Send typing
@@ -373,7 +399,7 @@ export default class extends React.Component {
           <div>
             <label>
               <input
-                checked={ state.disabled }
+                checked={ disabled }
                 onChange={ this.handleDisabledChange }
                 type="checkbox"
               />
@@ -383,7 +409,7 @@ export default class extends React.Component {
           <div>
             <label>
               <input
-                checked={ state.hideSendBox }
+                checked={ hideSendBox }
                 onChange={ this.handleHideSendBoxChange }
                 type="checkbox"
               />
@@ -395,11 +421,14 @@ export default class extends React.Component {
               Group timestamp
               <select
                 onChange={ this.handleGroupTimestampChange }
-                value={ state.groupTimestamp || '' }
+                value={ groupTimestamp || '' }
               >
                 <option value="default">Default</option>
-                <option value="false">Don't group</option>
+                <option value="false">Don't show timestamp</option>
+                <option value="0">Don't group</option>
                 <option value="1000">1 second</option>
+                <option value="2000">2 seconds</option>
+                <option value="5000">5 seconds</option>
                 <option value="10000">10 seconds</option>
                 <option value="60000">One minute</option>
                 <option value="300000">5 minutes</option>
@@ -414,13 +443,13 @@ export default class extends React.Component {
                 onChange={ this.handleBotAvatarInitialsChange }
                 style={{ width: '4em' }}
                 type="input"
-                value={ state.botAvatarInitials }
+                value={ botAvatarInitials }
               />
               <input
                 onChange={ this.handleUserAvatarInitialsChange }
                 style={{ width: '4em' }}
                 type="input"
-                value={ state.userAvatarInitials }
+                value={ userAvatarInitials }
               />
             </label>
           </div>

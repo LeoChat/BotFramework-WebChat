@@ -28,7 +28,6 @@ const ROOT_CSS = css({
   '& > button': {
     backgroundColor: 'transparent',
     border: 0,
-    cursor: 'pointer',
     margin: 0,
     outline: 0,
     padding: 0,
@@ -36,7 +35,7 @@ const ROOT_CSS = css({
     top: 0,
 
     '&:hover > svg': {
-      fill: '#999'
+      fill: '#767676'
     }
   }
 });
@@ -86,7 +85,7 @@ class SpeakActivity extends React.Component {
 }
 
 const ConnectedDevModeDecorator = connectToWebChat(
-  ({ markActivity, webSpeechPonyfill = {} }) => ({ markActivity, webSpeechPonyfill })
+  ({ markActivity, webSpeechPonyfill }) => ({ markActivity, webSpeechPonyfill })
 )(
   ({
     card,
@@ -94,7 +93,7 @@ const ConnectedDevModeDecorator = connectToWebChat(
     markActivity,
     webSpeechPonyfill
   }) =>
-    webSpeechPonyfill.speechSynthesis ?
+    (webSpeechPonyfill || {}).speechSynthesis ?
       <SpeakActivity activity={ card.activity } markActivity={ markActivity }>
         { children }
       </SpeakActivity>
@@ -104,8 +103,10 @@ const ConnectedDevModeDecorator = connectToWebChat(
 
 export default function () {
   return () => next => card => {
-    return (children =>
-      <ConnectedDevModeDecorator card={ card }>{ next(card)(children) }</ConnectedDevModeDecorator>
-    );
+    return (children => {
+      const content = next(card)(children);
+
+      return !!content && <ConnectedDevModeDecorator card={ card }>{ content }</ConnectedDevModeDecorator>;
+    });
   };
 }
