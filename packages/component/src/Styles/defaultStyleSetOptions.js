@@ -59,7 +59,7 @@ const DEFAULT_OPTIONS = {
   sendBoxButtonColorOnFocus: '#333',
   sendBoxButtonColorOnHover: '#333',
   sendBoxTextBoxBorderColor: '#77d6f5',
-  sendBoxHeight: 40,
+  sendBoxHeight: 50,
   sendBoxTextColor: 'Black',
 
   // Visually show spoken text

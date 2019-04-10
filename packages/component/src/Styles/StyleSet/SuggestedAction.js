@@ -24,11 +24,13 @@ export default function createSuggestedActionStyle({
       paddingLeft: paddingWide,
       paddingRight: paddingWide,
       borderRadius: suggestedActionBorderRadius,
+      cursor: 'pointer',
 
       '&:disabled': {
         background: suggestedActionDisabledBackground,
         border: suggestedActionDisabledBorder,
-        color: suggestedActionDisabledTextColor
+        color: suggestedActionDisabledTextColor,
+        cursor: 'initial',
       },
 
       '&:not(:disabled)': {
