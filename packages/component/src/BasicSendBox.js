@@ -58,7 +58,7 @@ const BasicSendBox = ({
         :
           <TextBox className={ TEXT_BOX_CSS } />
       }
-      { webSpeechPonyfill.SpeechRecognition ?
+      { webSpeechPonyfill && webSpeechPonyfill.SpeechRecognition ?
           <MicrophoneButton className={ MICROPHONE_BUTTON_CSS } />
         :
           <SendButton />

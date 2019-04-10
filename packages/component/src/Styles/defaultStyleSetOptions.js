@@ -1,3 +1,7 @@
+function fontFamily(fonts) {
+  return fonts.map(font => `'${ font }'`).join(', ');
+}
+
 // TODO: [P4] Rename styleSetOptions to styleOptions
 const DEFAULT_ACCENT = '#0063B1';
 const DEFAULT_SUBTLE = '#767676'; // With contrast 4.5:1 to white
