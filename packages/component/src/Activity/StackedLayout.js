@@ -170,9 +170,10 @@ export default connectStackedLayout(
             aria-hidden={ true }
             className="row"
           >
-            { showSendStatus ?
+            { showSendStatus &&
                 <SendStatus activity={ activity } className="timestamp" />
-              :
+            }
+            { !showSendStatus && activity.timestamp &&
                 <Timestamp activity={ activity } className={ classNames('timestamp', timestampClassName) } />
             }
             <div className="filler" />
