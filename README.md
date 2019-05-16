@@ -1,16 +1,40 @@
-<p align="center">
-  <a href="https://azure.microsoft.com/en-us/services/bot-service/">
-    <img src="https://raw.githubusercontent.com/Microsoft/BotFramework-WebChat/master/doc/abs-logo.png" alt="Azure Bot Services logo" width="240" />
-  </a>
-</p>
+# ![Bot Framework Web Chat](./media/BotFrameworkWebChat_header.png)
 
-<p align="center">A highly-customizable web-based client for Azure Bot Services.</p>
+### [Click here to find out what's new for //build2019!](https://github.com/Microsoft/botframework/blob/master/whats-new.md#whats-new)
 
+# Bot Framework Web Chat
 <p align="center">
   <a href="https://badge.fury.io/js/botframework-webchat"><img alt="npm version" src="https://badge.fury.io/js/botframework-webchat.svg" /></a>
-  <a href="https://travis-ci.org/Microsoft/BotFramework-WebChat"><img alt="Build Status" src="https://travis-ci.org/Microsoft/BotFramework-WebChat.svg?branch=master" /></a>
+  <img alt="Build Status" src="https://fuselabs.visualstudio.com/BotFramework-WebChat/_apis/build/status/BotFramework-WebChat-daily?branchName=master" />
   <a href="https://coveralls.io/github/Microsoft/BotFramework-WebChat?branch=master"><img src="https://coveralls.io/repos/github/Microsoft/BotFramework-WebChat/badge.svg?branch=master" alt="Coverage Status" /></a>
 </p>
+
+This repository contains code for the Bot Framework Web Chat component.  The Bot Framework Web Chat component is a highly-customizable web-based client for the Bot Framework V4 SDK. The Bot Framework SDK v4 enable developers to model conversation and build sophisticated bot applications.
+
+This repo is part of the [Microsoft Bot Framework](https://github.com/microsoft/botframework) - a comprehensive framework for building enterprise-grade conversational AI experiences.
+
+## Migrating from Web Chat v3 to v4
+
+There are three possible paths that migration might take when migrating from v3 to v4. First, please compare your beginning scenario:
+
+### My current website integrates Web Chat using an `<iframe>` element obtained from Azure Bot Services. I want to upgrade to v4.
+
+Starting from May 2019, we are rolling out v4 to websites that integrate Web Chat using `<iframe>` element. Please refer to [the embed documentation](https://github.com/Microsoft/BotFramework-WebChat/tree/master/packages/embed) for information on integrating Web Chat using `<iframe>`.
+
+### My website is integrated with Web Chat v3 and uses customization options provided by Web Chat, no customization at all, or very little of my own customization that was not available with Web Chat.
+
+Please follow the implementation of sample [`01.c.getting-started-migration`](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/01.c.getting-started-migration) to convert your webpage from v3 to v4 of Web Chat.
+
+### My website is integrated with a fork of Web Chat v3. I have implemented a lot of customization in my version of Web Chat, and I am concerned v4 is not compatible with my needs.
+
+One of our team's favorite things about v4 of Web Chat is the ability to add customization **without the need to fork Web Chat**. Although this creates additional overhead for v3 users who forked Web Chat previously, we will do our best to support customers making the bump. Please use the following suggestions:
+
+- Take a look at the implementation of sample [`01.c.getting-started-migration`](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/01.c.getting-started-migration). This is a great starting place to get Web Chat up and running.
+- Next, please go through the [samples list](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples) to compare your customization requirements to what Web Chat has already provided support for. These samples are made up of commonly asked-for features for Web Chat.
+- If one or more of your features is not available in the samples, please look through our [open and closed issues](https://github.com/Microsoft/BotFramework-WebChat/issues?utf8=%E2%9C%93&q=is%3Aissue+), [Samples label](https://github.com/Microsoft/BotFramework-WebChat/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3ASample), and the [Migration Support label](https://github.com/Microsoft/BotFramework-WebChat/issues?q=is%3Aissue+migrate+label%3A%22Migration+Support%22) to search for sample requests and/or customization support for a feature you are looking for. Adding your comment to open issues will help the team prioritize requests that are in high demand, and we encourage participation in our community.
+- If you did not find your feature in the list of open requests, please feel free to [file your own request](https://github.com/Microsoft/BotFramework-WebChat/issues/new). Just like the item above, other customers adding comments to your open issue will help us prioritize which features are most commonly needed across Web Chat users.
+- Finally, if you need your feature as soon as possible, we welcome [pull requests](https://github.com/Microsoft/BotFramework-WebChat/compare) to Web Chat. If you have the coding experience to implement the feature yourself, we would very much appreciate the additional support! Creating the feature yourself will mean that it is available for your use on Web Chat more quickly, and that other customers looking for the same or similar feature may utilize your contribution.
+- Make sure to check out the rest of this `README` to learn more about v4.
 
 # How to use
 
@@ -40,17 +64,12 @@ Here is how how you can add Web Chat control to your website:
   </body>
 </html>
 ```
-> `userID`, `username`, `locale`, `botAvatarInitials`, and `userAvatarInitials` are all optional parameters to pass into the `renderWebChat` method.
-
-> If `userID` is not specified, it will default to a random user ID. Multiple users sharing the same user ID is not recommended; their user state will be shared.
-
-![Screenshot of Web Chat](https://raw.githubusercontent.com/Microsoft/BotFramework-WebChat/master/doc/weatherquery.png.jpg)
+> `userID`, `username`, `locale`, `botAvatarInitials`, and `userAvatarInitials` are all optional parameters to pass into the `renderWebChat` method. To learn more about Web Chat props, look at the [Web Chat API Reference](#web-chat-api-reference) section of this `README`.
+![Screenshot of Web Chat](https://raw.githubusercontent.com/Microsoft/BotFramework-WebChat/master/media/weatherquery.png.jpg)
 
 ## Integrate with JavaScript
 
-Web Chat is designed to integrate with your existing web site using JavaScript or React. Integrating with JavaScript will give you moderate styling and customizability.
-
-### Full bundle
+Web Chat is designed to integrate with your existing website using JavaScript or React. Integrating with JavaScript will give you moderate styling and customizability.
 
 You can use the full, typical webchat package that contains the most typically used features.
 
@@ -71,33 +90,6 @@ You can use the full, typical webchat package that contains the most typically u
 ```
 
 See the working sample of the [full Web Chat bundle](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/01.a.getting-started-full-bundle).
-
-### Minimal bundle
-
-Instead of using the full, typical package of Web Chat, you can choose a lighter-weight sample with fewer features. This bundle does **not** contain:
-- Adaptive Cards
-- Cognitive Services
-- Markdown-It
-
-Since Adaptive Cards is not included in this bundle, rich cards that depend on Adaptive Cards will not render, e.g. hero cards, receipt cards, etc. A list of attachments that are not supported without Adaptive Cards can be found on the [`createAdaptiveCardMiddleware.js` file](https://github.com/Microsoft/BotFramework-WebChat/tree/master/packages/component/src/Middleware/Attachment/createAdaptiveCardMiddleware.js).
-
-See a working sample of the [minimal Web Chat bundle](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/02.a.getting-started-minimal-bundle).
-
-```html
-<!DOCTYPE html>
-<html>
-  <body>
-    <div id="webchat" role="main"></div>
-    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat-minimal.js"></script>
-    <script>
-      window.WebChat.renderWebChat({
-        directLine: window.WebChat.createDirectLine({ token: 'YOUR_DIRECT_LINE_TOKEN' }),
-        userID: 'YOUR_USER_ID'
-      }, document.getElementById('webchat'));
-    </script>
-  </body>
-</html>
-```
 
 ## Integrate with React
 
@@ -148,66 +140,6 @@ Web Chat is designed to be customizable without forking the source code. The tab
 
 See more about [customizing Web Chat](https://github.com/Microsoft/BotFramework-WebChat/blob/master/SAMPLES.md) to learn more on customization.
 
-# Building the project
-
-> If you need to build this project for customization purposes, we strongly advise you to refer to our [samples](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples). If you cannot find any samples that fulfill your customization needs and you don't know how to do that, please [send your dream to us](https://github.com/Microsoft/BotFramework-WebChat/issues/).
->
-> Forking Web Chat to make your own customizations means you will lose access to our latest updates. Maintaining forks also introduces chores that are substantially more complicated than a version bump.
-
-To build Web Chat, you will need to make sure both your Node.js and NPM is latest version (either LTS or current).
-
-```sh
-npm install
-npm run bootstrap
-npm run build
-```
-
-## Build tasks
-
-There are 3 types of build tasks in the build process.
-
-- `npm run build`: Build for development (instrumented code for code coverage)
-   - Will bundle as `webchat-instrumented*.js`
-- `npm run watch`: Build for development with watch mode loop
-- `npm run prepublishOnly`: Build for production
-   - Will bundle as `webchat*.js`
-
-## Testing Web Chat for development purpose
-
-We built a playground app for testing Web Chat so we can test certain Web Chat specific features.
-
-```sh
-cd packages/playground
-npm start
-```
-
-Then browse to http://localhost:3000/, and click on one of the connection options on the upper right corner.
-
-- Official MockBot: we hosted a live demo bot for testing Web Chat features
-- Emulator Core: it will connect to http://localhost:5000/v3/directline for [emulated Direct Line service](https://github.com/Microsoft/BotFramework-Emulator/tree/master/packages/emulator/cli/)
-
-You are also advised to test the CDN bundles by copying the test harness from our samples.
-
-## Building CDN bundle in development mode
-
-Currently, the standard build script does not build the CDN bundle (`webchat*.js`).
-
-```sh
-cd packages/bundle
-npm run webpack-dev
-```
-
-> By default, this script will run in watch mode.
-
-## Building CDN bundle in production mode
-
-If you want to build a production CDN bundle with minification, you can follow these steps.
-
-```sh
-cd packages/bundle
-npm run prepublishOnly
-```
-
 # Samples list
 
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sample&nbsp;Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| Description                                                                                                                                                                                  | Link                                                                                                                 |
@@ -227,7 +159,7 @@ npm run prepublishOnly
 | [`05.d.hide-upload-button-styling`](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/05.d.hide-upload-button-styling)                                                 | Demonstrates how to hide file upload button via styling.                                                                                                                                                                            | [Hide Upload Button Demo](https://microsoft.github.io/BotFramework-WebChat/05.d.hide-upload-button-styling)          |
 | [`06.a.cognitive-services-bing-speech-js`](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/06.a.cognitive-services-bing-speech-js)                                   | Introduces speech-to-text and text-to-speech ability using the (deprecated) Cognitive Services Bing Speech API and JavaScript.                                                                                                      | [Bing Speech with JS Demo](https://microsoft.github.io/BotFramework-WebChat/06.a.cognitive-services-bing-speech-js)  |
 | [`06.b.cognitive-services-bing-speech-react`](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/06.b.cognitive-services-bing-speech-react)                             | Introduces speech-to-text and text-to-speech ability using the (deprecated) Cognitive Services Bing Speech API and React.                                                                                                           | [Bing Speech with React Demo](https://microsoft.github.io/BotFramework-WebChat/06.b.cognitive-services-bing-speech-react)|
-| [`06.c.cognitive-services-speech-services-js`](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/06.c.cognitive-services-speech-services-js)                           | Introduces speech-to-text and text-to-speech ability using Cognitive Services Speech Services API.                                                                                                                                  | [Speech Services with JS Demo](https://microsoft.github.io/BotFramework-WebChat/6.c.cognitive-services-speech-services-js)|
+| [`06.c.cognitive-services-speech-services-js`](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/06.c.cognitive-services-speech-services-js)                           | Introduces speech-to-text and text-to-speech ability using Cognitive Services Speech Services API.                                                                                                                                  | [Speech Services with JS Demo](https://microsoft.github.io/BotFramework-WebChat/06.c.cognitive-services-speech-services-js)|
 | [`06.d.speech-web-browser`](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/06.d.speech-web-browser)                                                                 | Demonstrates how to implement text-to-speech using Web Chat's browser-based Web Speech API. (link to W3C standard in the sample)                                                                                                    | [Web Speech API Demo](https://microsoft.github.io/BotFramework-WebChat/06.d.speech-web-browser)                      |
 | [`06.e.cognitive-services-speech-services-with-lexical-result`](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/06.e.cognitive-services-speech-services-with-lexical-result) | Demonstrates how to use lexical result from Cognitive Services Speech Services API.                                                                                                                                         | [Lexical Result Demo](https://microsoft.github.io/BotFramework-WebChat/06.e.cognitive-services-speech-services-with-lexical-result)|
 | [`06.f.hybrid-speech`](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/06.f.hybrid-speech)                                                                           | Demonstrates how to use both browser-based Web Speech API for speech-to-text, and Cognitive Services Speech Services API for text-to-speech.                                                                                        | [Hybrid Speech Demo](https://microsoft.github.io/BotFramework-WebChat/06.f.hybrid-speech)                            |
@@ -249,10 +181,43 @@ npm run prepublishOnly
 | [`17.chat-send-history`](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/17.chat-send-history)                                                                       | Advanced tutorial: Demonstrates the ability to save user input and allow the user to step back through previous sent messages.                                                                                                      | [Chat Send History Demo](https://microsoft.github.io/BotFramework-WebChat/17.chat-send-history)                      |
 | [`18.customization-open-url`](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/18.customization-open-url)                                                             | Advanced tutorial: Demonstrates how to customize the open URL behavior.                                                                                                                                                             | [Customize Open URL Demo](https://microsoft.github.io/BotFramework-WebChat/18.customization-open-url)                |
 
-# Contributions
 
-Like us? [Star us](https://github.com/Microsoft/BotFramework-WebChat/stargazers).
+# Web Chat API Reference
 
-Want to make it better? [File an issue](https://github.com/Microsoft/BotFramework-WebChat/issues).
+There are several properties that you might pass into your Web Chat React Component (`<ReactWebChat>`) or the `renderWebChat()` method. Feel free to examine the source code starting with [`packages/component/src/Composer.js`](https://github.com/Microsoft/BotFramework-WebChat/blob/master/packages/component/src/Composer.js#L378). Below is a short description of the available props.
 
-Don't like something you see? [Submit a pull request](https://github.com/Microsoft/BotFramework-WebChat/pulls).
+| Property                   | Description                                                                                                                                                                                                                                                                                                                               |
+|----------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `activityMiddleware`       | A chain of middleware, modeled after [Redux middleware](https://medium.com/@jacobp100/you-arent-using-redux-middleware-enough-94ffe991e6), that allows the developer to add new DOM components on the currently existing DOM of Activities. The middleware signature is the following: `options => next => card => children => next(card)(children)`. |
+| `activityRenderer`         | The "flattened" version of `activityMiddleware`, similar to the [store enhancer](https://github.com/reduxjs/redux/blob/master/docs/Glossary.md#store-enhancer) concept in Redux.                                                                                                                                                |
+| `adaptiveCardHostConfig`   | Pass in a custom Adaptive Cards host config.                                                                                                                                                                                                                                                                                              |
+| `attachmentMiddleware`     | A chain of middleware that allows the developer to add their own custom HTML Elements on attachments. The signature is the following: `options => next => card => next(card)`.                                                                                                                                                                                 |
+| `attachmentRenderer`       | The "flattened" version of `attachmentMiddleware`.                                                                                                            |
+| `cardActionMiddleware`     | A chain of middleware that allows the developer to modify card actions, like Adaptive Cards or suggested actions. The middleware signature is the following: `cardActionMiddleware: () => next => ({ cardAction, getSignInUrl }) => next(cardAction)`                                                                                   |
+| `createStore`              | A chain of middleware that allows the developer to modify the store actions. The middleware signature is the following: `createStore: ({}, ({ dispatch }) => next => action => next(cardAction)`                                                                                   |
+| `directLine`               | Specify the DirectLine object with DirectLine token.                                                                                                                                                                                                                                                                                      |
+| `disabled`                 | Disable the UI (i.e. for presentation mode) of Web Chat.                                                                                                                                                                                                                                                                                  |
+| `grammars`                 | Specify a grammar list for Speech  (Bing Speech or Cognitive Services Speech Services).                                                                                                                                                                                                                                                   |
+| `groupTimeStamp`           | Change default settings for timestamp groupings.                                                                                                                                                                                                                                                                                          |
+| `locale`                   | Indicate the default language of Web Chat. Four letter codes (such as `en-US`) are strongly recommended.                                                                                                                                                                                                                                  |
+| `renderMarkdown`           | Change the default Markdown renderer object.                                                                                                                                                                                                                                                                                              |
+| `sendTypingIndicator`      | Display a typing signal from the user to the bot to indicate that the user is not idling.                                                                                                                                                                                                                                                 |
+| `store`                    | Specify a custom store, e.g. for adding programmatic activity to the bot.                                                                                                                                                                                                                                                                 |
+| `styleOptions`             | Object that stores customization values for your styling of Web Chat. For the complete list of (frequently updated) default style options, please see the [defaultStyleSetOptions.js](https://github.com/Microsoft/BotFramework-WebChat/blob/master/packages/component/src/Styles/defaultStyleSetOptions.js) file.                      |
+| `styleSet`                 | The non-recommended way of overriding styles.                                                                                                                                                                                                                                                                                             |
+| `userID`                   | Specify a userID. There are two ways to specify the `userID`: in props, or in the token when generating the token call (`createDirectLine()`). If both methods are used to specify the userID, the token userID property will be used, and a `console.warn` will appear during runtime. If the `userID` is provided via props but is prefixed with `'dl'`, e.g. `'dl_1234'`, the value will be thrown and a new `ID` generated. If `userID` is not specified, it will default to a random user ID. Multiple users sharing the same user ID is not recommended; their user state will be shared.                                                                                                                                                |
+| `username`                 | Specify a username.                                                                                                                                                                                                                                                                                                                       |
+| `webSpeechPonyFillFactory` | Specify the Web Speech object for text-to-speech and speech-to-text.                                                                                                                                                                                                                                                                      |
+
+## Contributing
+
+See our [Contributing page](https://github.com/Microsoft/BotFramework-WebChat/tree/master/.github/CONTRIBUTING.md) for details on how to build the project and our repository guidelines for Pull Requests.
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
+contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+## Reporting Security Issues
+Security issues and bugs should be reported privately, via email, to the Microsoft Security Response Center (MSRC) at [secure@microsoft.com](mailto:secure@microsoft.com). You should receive a response within 24 hours. If for some reason you do not, please follow up via email to ensure we received your original message. Further information, including the [MSRC PGP](https://technet.microsoft.com/en-us/security/dn606155) key, can be found in the [Security TechCenter](https://technet.microsoft.com/en-us/security/default).
+
+Copyright (c) Microsoft Corporation. All rights reserved.

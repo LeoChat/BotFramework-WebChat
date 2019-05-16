@@ -1,3 +1,5 @@
+/* eslint no-magic-numbers: "off" */
+
 function fontFamily(fonts) {
   return fonts.map(font => `'${ font }'`).join(', ');
 }
@@ -10,6 +12,7 @@ const DEFAULT_OPTIONS = {
   // Color and paddings
   accent: DEFAULT_ACCENT,
   backgroundColor: 'White',
+  cardEmphasisBackgroundColor: '#F0F0F0',
   paddingRegular: PADDING_REGULAR,
   paddingWide: 20,
   subtle: DEFAULT_SUBTLE,
@@ -17,10 +20,10 @@ const DEFAULT_OPTIONS = {
   // Word break
   messageActivityWordBreak: 'break-word', // 'normal' || 'break-all' || 'break-word' || 'keep-all'
 
-  // fonts
-  primaryFont: fontFamily(['Calibri', 'Helvetica Neue', 'Arial', 'sans-serif']),
-  monospaceFont: fontFamily(['Consolas', 'Courier New', 'monospace']),
+  // Fonts
   fontSizeSmall: '80%',
+  monospaceFont: fontFamily(['Consolas', 'Courier New', 'monospace']),
+  primaryFont: fontFamily(['Calibri', 'Helvetica Neue', 'Arial', 'sans-serif']),
 
   // Avatar
   avatarSize: 40,
@@ -58,7 +61,13 @@ const DEFAULT_OPTIONS = {
   sendBoxButtonColorOnHover: '#333',
   sendBoxTextBoxBorderColor: '#77d6f5',
   sendBoxHeight: 40,
+  sendBoxMaxHeight: 200,
   sendBoxTextColor: 'Black',
+  sendBoxBorderBottom: '',
+  sendBoxBorderLeft: '',
+  sendBoxBorderRight: '',
+  sendBoxBorderTop: 'solid 1px #E6E6E6',
+  sendBoxTextWrap: false,
 
   // Visually show spoken text
   showSpokenText: false,
@@ -67,6 +76,7 @@ const DEFAULT_OPTIONS = {
   suggestedActionBackground: 'White',
   suggestedActionBorder: `solid 2px ${ DEFAULT_ACCENT }`,
   suggestedActionBorderRadius: 0,
+  suggestedActionImageHeight: 20,
   suggestedActionTextColor: DEFAULT_ACCENT,
   suggestedActionDisabledBackground: 'White',
   suggestedActionDisabledBorder: `solid 2px #E6E6E6`,
@@ -76,7 +86,7 @@ const DEFAULT_OPTIONS = {
   // Timestamp
   timestampColor: DEFAULT_SUBTLE,
 
-  // Transcript overlay buttons (e.g. carousel and scroll to bottom)
+  // Transcript overlay buttons (e.g. carousel and suggested action flippers, scroll to bottom, etc.)
   transcriptOverlayButtonBackground: 'rgba(0, 0, 0, .6)',
   transcriptOverlayButtonBackgroundOnFocus: 'rgba(0, 0, 0, .8)',
   transcriptOverlayButtonBackgroundOnHover: 'rgba(0, 0, 0, .8)',
@@ -94,7 +104,16 @@ const DEFAULT_OPTIONS = {
   connectivityTextSize: 12,
   failedConnectivity: '#C50F1F',
   slowConnectivity: '#EAA300',
-  slowConnectivityText: '#5E5E5E',
+  notificationText: '#5E5E5E',
+
+  typingAnimationBackgroundImage: null,
+  typingAnimationHeight: 20,
+  typingAnimationWidth: 64,
+
+  spinnerAnimationBackgroundImage: null,
+  spinnerAnimationHeight: 16,
+  spinnerAnimationWidth: 16,
+  spinnerAnimationPaddingRight: 12
 };
 
 export default DEFAULT_OPTIONS

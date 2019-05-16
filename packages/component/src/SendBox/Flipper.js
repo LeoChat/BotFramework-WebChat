@@ -68,19 +68,21 @@ const connectFlipper = (...selectors) => connectToWebChat(
 
 export default connectFlipper(
   ({ styleSet }) => ({ styleSet })
-)(({ mode, direction }) =>
+)(({ direction, mode }) =>
   <Context.Consumer>
-      { context =>
-        <button
-          className={[FLIPPER_CSS, mode, direction].join(' ')}
-          data-direction={mode}
-          onClick={ mode === 'left' ? context.scrollOneLeft : context.scrollOneRight }>
-            { mode === 'left' ?
-              <ArrowLeft /> :
-              <ArrowRight />
-            }
-        </button>
-      }
+    { context =>
+      <button
+        className={ [FLIPPER_CSS, direction, mode].join(' ') }
+        data-direction={ mode }
+        onClick={ mode === 'left' ? context.scrollOneLeft : context.scrollOneRight }
+        type='button'
+      >
+        { mode === 'left' ?
+          <ArrowLeft /> :
+          <ArrowRight />
+        }
+      </button>
+    }
   </Context.Consumer>
 );
 
