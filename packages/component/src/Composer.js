@@ -38,7 +38,6 @@ import concatMiddleware from './Middleware/concatMiddleware';
 import Context from './Context';
 import createCoreCardActionMiddleware from './Middleware/CardAction/createCoreMiddleware';
 import createStyleSet from './Styles/createStyleSet';
-import defaultAdaptiveCardHostConfig from './Styles/adaptiveCardHostConfig';
 import Dictation from './Dictation';
 import mapMap from './Utils/mapMap';
 import observableToPromise from './Utils/observableToPromise';
@@ -246,7 +245,6 @@ class Composer extends React.Component {
     const {
       props: {
         activityRenderer,
-        adaptiveCardHostConfig,
         attachmentRenderer,
         children,
 
@@ -277,10 +275,7 @@ class Composer extends React.Component {
       //       If we let it thru, the code below become simplified and the user can plug in whatever they want for context, via Composer.props
       {
         activityRenderer,
-        // TODO: [P3] We should move adaptiveCardHostConfig to bundle
-        adaptiveCardHostConfig: adaptiveCardHostConfig || defaultAdaptiveCardHostConfig(propsForLogic.styleOptions),
         attachmentRenderer,
-
         groupTimestamp,
         disabled,
         grammars: grammars || EMPTY_ARRAY,

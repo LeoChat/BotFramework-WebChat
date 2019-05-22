@@ -226,7 +226,6 @@ AdaptiveCardRenderer.defaultProps = {
 
 export default connectToWebChat(
   ({
-    adaptiveCardHostConfig,
     disabled,
     language,
     onCardAction,
@@ -234,7 +233,6 @@ export default connectToWebChat(
     styleSet,
     tapAction
   }) => ({
-    adaptiveCardHostConfig,
     disabled,
     language,
     onCardAction,
