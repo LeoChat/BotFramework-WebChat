@@ -1,3 +1,5 @@
+/* eslint no-magic-numbers: ["error", { "ignore": [1, 5, 24, 48, 60000, 3600000] }] */
+
 function xMinutesAgo(dateStr) {
   const date = new Date(dateStr);
   const dateTime = date.getTime();
@@ -23,21 +25,24 @@ function xMinutesAgo(dateStr) {
     return '昨日';
   } else if (window.Intl) {
     return new Intl.DateTimeFormat('ja-JP').format(date);
-  } else {
-    return date.toLocaleString('ja-JP', {
-      day: '2-digit',
-      hour: '2-digit',
-      hour12: false,
-      minute: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
   }
+
+  return date.toLocaleString('ja-JP', {
+    day: '2-digit',
+    hour: '2-digit',
+    hour12: false,
+    minute: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
 }
 
 export default {
   FAILED_CONNECTION_NOTIFICATION: '接続できませんでした。',
+  INITIAL_CONNECTION_NOTIFICATION: '接続中...',
+  INTERRUPTED_CONNECTION_NOTIFICATION: 'ネットワーク中断しました。 再接続中...',
   // Do not localize {Retry}; it is a placeholder for "Retry". English translation should be, "Send failed. Retry."
+  RENDER_ERROR_NOTIFICATION: 'レンダリングエラーが発生しました。コンソールを確認するか、ボットの開発者に連絡してください。',
   SEND_FAILED_KEY: '送信できませんでした。{Retry}。',
   SLOW_CONNECTION_NOTIFICATION: '接続するのにはいつもより長くかかります。',
   'Chat': 'チャット',

@@ -5,12 +5,12 @@ export default function ({
   connectivityTextSize,
   primaryFont,
   slowConnectivity,
-  slowConnectivityText,
-
+  notificationText,
 }) {
   return {
     alignItems: 'center',
-    color: slowConnectivityText,
+    color: notificationText,
+    // TODO: [P2] We should not set "display" in styleSet, this will allow the user to break the layout for no good reasons.
     display: 'flex',
     fontFamily: primaryFont,
     fontSize: connectivityTextSize,

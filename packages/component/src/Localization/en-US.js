@@ -1,10 +1,4 @@
-function botSaidSomething(avatarInitials, text, timestamp) {
-  return `Bot ${ avatarInitials } said, ${ text }, ${ xMinutesAgo(timestamp) }`;
-}
-
-function userSaidSomething(avatarInitials, text, timestamp) {
-  return `User ${ avatarInitials } said, ${ text }, ${ xMinutesAgo(timestamp) }`;
-}
+/* eslint no-magic-numbers: ["error", { "ignore": [1, 5, 24, 48, 60000, 3600000] }] */
 
 function xMinutesAgo(dateStr) {
   const date = new Date(dateStr);
@@ -35,21 +29,32 @@ function xMinutesAgo(dateStr) {
     return `Yesterday`;
   } else if (window.Intl) {
     return new Intl.DateTimeFormat('en-US').format(date);
-  } else {
-    return date.toLocaleString('en-US', {
-      day: '2-digit',
-      hour: '2-digit',
-      hour12: false,
-      minute: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
   }
+
+  return date.toLocaleString('en-US', {
+    day: '2-digit',
+    hour: '2-digit',
+    hour12: false,
+    minute: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+}
+
+function botSaidSomething(avatarInitials, text, timestamp) {
+  return `Bot ${ avatarInitials } said, ${ text }, ${ xMinutesAgo(timestamp) }`;
+}
+
+function userSaidSomething(avatarInitials, text, timestamp) {
+  return `User ${ avatarInitials } said, ${ text }, ${ xMinutesAgo(timestamp) }`;
 }
 
 export default {
   FAILED_CONNECTION_NOTIFICATION: 'Unable to connect.',
+  INITIAL_CONNECTION_NOTIFICATION: 'Connecting…',
+  INTERRUPTED_CONNECTION_NOTIFICATION: 'Network interruption occurred. Reconnecting…',
   // Do not localize {Retry}; it is a placeholder for "Retry". English translation should be, "Send failed. Retry."
+  RENDER_ERROR_NOTIFICATION: 'Render error. Please check the console or contact the bot developer.',
   SEND_FAILED_KEY: 'Send failed. {Retry}.',
   SLOW_CONNECTION_NOTIFICATION: 'Taking longer than usual to connect.',
   'Bot said something': botSaidSomething,

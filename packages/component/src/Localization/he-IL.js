@@ -1,6 +1,15 @@
-function xMinutesAgo(date) {
+/* eslint no-magic-numbers: ["error", { "ignore": [1, 5, 24, 48, 60000, 3600000] }] */
+
+function xMinutesAgo(dateStr) {
+  const date = new Date(dateStr);
+  const dateTime = date.getTime();
+
+  if (isNaN(dateTime)) {
+    return dateStr;
+  }
+
   const now = Date.now();
-  const deltaInMs = now - new Date(date).getTime();
+  const deltaInMs = now - dateTime;
   const deltaInMinutes = Math.floor(deltaInMs / 60000);
   const deltaInHours = Math.floor(deltaInMs / 3600000);
 
@@ -18,13 +27,17 @@ function xMinutesAgo(date) {
     return `היום`;
   } else if (deltaInHours <= 48) {
     return `אתמול`;
-  } else {
-    return new Intl.DateTimeFormat('he-IL', {
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric'
-    }).format(new Date(date));
+  } else if (window.Intl) {
+    return new Intl.DateTimeFormat('he-IL').format(date);
   }
+  return date.toLocaleString('he-IL', {
+    day: '2-digit',
+    hour: '2-digit',
+    hour12: false,
+    minute: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
 }
 
 export default {
