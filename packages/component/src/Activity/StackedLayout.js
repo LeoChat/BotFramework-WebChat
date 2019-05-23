@@ -204,7 +204,7 @@ StackedLayout.propTypes = {
       })
     }),
     from: PropTypes.shape({
-      role: PropTypes.string.isRequired
+      role: PropTypes.string
     }).isRequired,
     text: PropTypes.string,
     textFormat: PropTypes.string,
