@@ -45,7 +45,7 @@ SendButton.defaultProps = {
 
 SendButton.propTypes = {
   click: PropTypes.func.isRequired,
-  direction: PropTypes.bool,
+  direction: PropTypes.string,
   disabled: PropTypes.bool,
   language: PropTypes.string.isRequired
 };

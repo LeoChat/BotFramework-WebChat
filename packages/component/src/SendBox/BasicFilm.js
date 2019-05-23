@@ -22,8 +22,8 @@ export default connectToWebChat(
       </FilmStrip>
       <ScrollBar />
       <div className={ FLIPPERS_CONTAINER_CSS }>
-        <Flipper mode="left" />
-        <Flipper mode="right" />
+        {/*<Flipper mode="left" />*/}
+        {/*<Flipper mode="right" />*/}
       </div>
     </div>
     { showDots &&

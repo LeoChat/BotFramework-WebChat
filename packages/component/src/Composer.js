@@ -157,9 +157,6 @@ function createLogic(props) {
 
 function dispatchSetLanguageFromProps({ dispatch, locale }) {
     dispatch(setLanguage(locale));
-    if (['he', 'he-IL'].indexOf(locale) !== -1) {
-        dispatch(setDirection('rtl'));
-    }
 }
 
 function dispatchSetSendTimeoutFromProps({ dispatch, sendTimeout }) {

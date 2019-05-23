@@ -67,5 +67,5 @@ AdaptiveCardAttachment.propTypes = {
   attachment: PropTypes.shape({
     content: PropTypes.any.isRequired
   }).isRequired,
-  renderMarkdown: PropTypes.any.isRequired
+  // renderMarkdown: PropTypes.any.isRequired
 };
