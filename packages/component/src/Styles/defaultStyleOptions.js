@@ -113,7 +113,8 @@ const DEFAULT_OPTIONS = {
   spinnerAnimationBackgroundImage: null,
   spinnerAnimationHeight: 16,
   spinnerAnimationWidth: 16,
-  spinnerAnimationPaddingRight: 12
+  spinnerAnimationPaddingRight: 12,
+  spinnerAnimationPaddingLeft: 'auto'
 };
 
 export default DEFAULT_OPTIONS

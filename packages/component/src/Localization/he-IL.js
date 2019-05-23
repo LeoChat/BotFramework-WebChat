@@ -41,6 +41,13 @@ function xMinutesAgo(dateStr) {
 }
 
 export default {
+  FAILED_CONNECTION_NOTIFICATION: 'החיבור נכשל.',
+  INITIAL_CONNECTION_NOTIFICATION: 'מתחבר…',
+  INTERRUPTED_CONNECTION_NOTIFICATION: 'ניתוקים ברשת. מנסה להתחבר מחדש…',
+  // Do not localize {Retry}; it is a placeholder for "Retry". English translation should be, "Send failed. Retry."
+  RENDER_ERROR_NOTIFICATION: 'שגירה בהצגת הרכיב. בבקשה בדוק את הדפדפן שלך או צור קשר עם צוות הפיתוח.',
+  SEND_FAILED_KEY: 'שליחה נכשלה. {Retry}.',
+  SLOW_CONNECTION_NOTIFICATION: 'זמן ההתחברות ארוך מהרגיל.',
   'X minutes ago': xMinutesAgo,
   // '[File of type '%1']",
   // '[Unknown Card '%1']',
