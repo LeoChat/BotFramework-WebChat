@@ -35,7 +35,7 @@ const connectSuggestedAction = (...selectors) => connectToWebChat(
   }) => ({
     click: () => {
       onCardAction({ displayText, text, type, value });
-      focusSendBox();
+      // focusSendBox();
     },
     disabled,
     language
