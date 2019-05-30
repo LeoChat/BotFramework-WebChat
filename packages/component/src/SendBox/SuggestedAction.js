@@ -24,7 +24,6 @@ const SUGGESTED_ACTION_BUTTON_CSS = css({
 const connectSuggestedAction = (...selectors) => connectToWebChat(
   ({
     disabled,
-    focusSendBox,
     language,
     onCardAction
   }, {
