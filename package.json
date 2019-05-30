@@ -83,5 +83,8 @@
     "lerna": "^3.14.0",
     "selenium-webdriver": "^4.0.0-alpha.1",
     "serve-handler": "^5.0.5"
+  },
+  "dependencies": {
+    "adaptivecards": "^1.0.0"
   }
 }
