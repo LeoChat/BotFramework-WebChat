@@ -9,7 +9,11 @@ const BASIC_FILM_CSS = css({});
 
 const FLIPPERS_CONTAINER_CSS = css({
     width: '100%',
-    position: 'relative'
+    position: 'relative',
+
+    '& svg path': {
+        fill: '#333'
+    }
 });
 
 export default connectToWebChat(
@@ -22,8 +26,8 @@ export default connectToWebChat(
       </FilmStrip>
       <ScrollBar />
       <div className={ FLIPPERS_CONTAINER_CSS }>
-        {/*<Flipper mode="left" />*/}
-        {/*<Flipper mode="right" />*/}
+        <Flipper mode="left" />
+        <Flipper mode="right" />
       </div>
     </div>
     { showDots &&

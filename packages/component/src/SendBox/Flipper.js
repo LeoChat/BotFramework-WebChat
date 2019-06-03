@@ -24,13 +24,13 @@ const FLIPPER_CSS = css({
     '&:focus, &:hover': {
         textDecoration: 'none',
         outline: 0,
-        backgroundColor: '#fff',
+        backgroundColor: 'transparent',
         borderColor: '#dcdcdc',
         color: '#fff'
     },
 
     '&:active': {
-        backgroundColor: '#fff',
+        backgroundColor: 'transparent',
         boxShadow: 'inset 1px 1px 2px 0 #999',
         color: '#fff'
     },
