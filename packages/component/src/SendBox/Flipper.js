@@ -10,20 +10,25 @@ const FLIPPER_CSS = css({
     position: 'absolute',
     backgroundColor: 'transparent',
     color: '#dcdcdc',
-    borderRadius: 20,
-    marginTop: -55,
-    border: '1px solid #dcdcdc',
-    boxShadow: '1px 1px 2px 0 #999',
+    borderRadius: 10,
+    marginTop: -54,
+    border: '0px solid #dcdcdc',
+    // boxShadow: '1px 1px 2px 0 #999',
     overflow: 'hidden',
-    padding: 3,
-    height: 35,
+    padding: 6,
+    height: 45,
     fontSize: 17,
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
 
+    '& svg path': {
+        fill: '#454545'
+    },
+
     '&:focus, &:hover': {
         textDecoration: 'none',
         outline: 0,
+        border: 0,
         backgroundColor: 'transparent',
         borderColor: '#dcdcdc',
         color: '#fff'
@@ -31,7 +36,7 @@ const FLIPPER_CSS = css({
 
     '&:active': {
         backgroundColor: 'transparent',
-        boxShadow: 'inset 1px 1px 2px 0 #999',
+        // boxShadow: 'inset 1px 1px 2px 0 #999',
         color: '#fff'
     },
 

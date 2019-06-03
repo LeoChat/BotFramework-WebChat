@@ -9,11 +9,7 @@ const BASIC_FILM_CSS = css({});
 
 const FLIPPERS_CONTAINER_CSS = css({
     width: '100%',
-    position: 'relative',
-
-    '& svg path': {
-        fill: '#333'
-    }
+    position: 'relative'
 });
 
 export default connectToWebChat(
