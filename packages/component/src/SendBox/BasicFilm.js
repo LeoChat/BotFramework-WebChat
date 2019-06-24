@@ -7,8 +7,8 @@ import Flipper from './Flipper';
 
 const BASIC_FILM_CSS = css({});
 const FILM_STRIP_CSS = css({
-    marginLeft: 15,
-    marginRight: 15
+    marginLeft: 20,
+    marginRight: 20
 });
 
 const FLIPPERS_CONTAINER_CSS = css({
