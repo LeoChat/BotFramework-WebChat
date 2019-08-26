@@ -30,6 +30,7 @@ const ROOT_CSS = css({
   },
 
   '& > .content': {
+    padding: '0px 5px',
     flexGrow: 1,
     overflow: 'hidden',
 
