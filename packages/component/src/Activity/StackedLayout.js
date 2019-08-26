@@ -1,20 +1,26 @@
 /* eslint react/no-array-index-key: "off" */
+/* eslint-disable no-sync */
 
 import { Constants } from 'botframework-webchat-core';
 import { css } from 'glamor';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import remark from 'remark';
+import stripMarkdown from 'strip-markdown';
 
 import { localize } from '../Localization/Localize';
 import Avatar from './Avatar';
 import Bubble from './Bubble';
 import connectToWebChat from '../connectToWebChat';
+import ScreenReaderText from '../ScreenReaderText';
 import SendStatus from './SendStatus';
 import textFormatToContentType from '../Utils/textFormatToContentType';
 import Timestamp from './Timestamp';
 
-const { ActivityClientState: { SENDING, SEND_FAILED } } = Constants;
+const {
+  ActivityClientState: { SENDING, SEND_FAILED }
+} = Constants;
 
 const ROOT_CSS = css({
   display: 'flex',
@@ -55,132 +61,101 @@ const ROOT_CSS = css({
   }
 });
 
-const connectStackedLayout = (...selectors) => connectToWebChat(
-  ({
-    language,
-    styleSet: {
-      options: {
-        botAvatarInitials,
-        userAvatarInitials
-      }
-    }
-  }, {
-    activity: {
-      from: {
-        role
-      } = {}
-    } = {}
-  }) => ({
-    avatarInitials: role === 'user' ? userAvatarInitials : botAvatarInitials,
-    language,
+const connectStackedLayout = (...selectors) =>
+  connectToWebChat(
+    (
+      {
+        language,
+        styleSet: {
+          options: { botAvatarInitials, userAvatarInitials }
+        }
+      },
+      { activity: { from: { role } = {} } = {} }
+    ) => ({
+      avatarInitials: role === 'user' ? userAvatarInitials : botAvatarInitials,
+      language,
 
-    // TODO: [P4] We want to deprecate botAvatarInitials/userAvatarInitials because they are not as helpful as avatarInitials
-    botAvatarInitials,
-    userAvatarInitials
-  }),
-  ...selectors
-);
+      // TODO: [P4] We want to deprecate botAvatarInitials/userAvatarInitials because they are not as helpful as avatarInitials
+      botAvatarInitials,
+      userAvatarInitials
+    }),
+    ...selectors
+  );
 
-const StackedLayout = ({
-  activity,
-  avatarInitials,
-  children,
-  direction,
-  language,
-  styleSet,
-  timestampClassName
-}) => {
+const StackedLayout = ({ activity, avatarInitials, children, direction, language, styleSet, timestampClassName }) => {
   const {
     attachments = [],
-    channelData: {
-      messageBack: {
-        displayText: messageBackDisplayText
-      } = {},
-      state
-    } = {},
-    from: {
-      role
-    } = {},
+    channelData: { messageBack: { displayText: messageBackDisplayText } = {}, state } = {},
+    from: { role } = {},
     text,
-    textFormat,
-    timestamp,
-    type
+    textFormat
   } = activity;
 
+  const activityDisplayText = messageBackDisplayText || text;
   const fromUser = role === 'user';
   const showSendStatus = state === SENDING || state === SEND_FAILED;
-  const ariaLabel = localize(fromUser ? 'User said something' : 'Bot said something', language, avatarInitials, text, timestamp);
-  const activityDisplayText = messageBackDisplayText || text;
+  const plainText = remark()
+    .use(stripMarkdown)
+    .processSync(text);
+  const ariaLabel = localize(
+    fromUser ? 'User said something' : 'Bot said something',
+    language,
+    avatarInitials,
+    plainText
+  );
+  const indented = fromUser ? styleSet.options.bubbleFromUserNubSize : styleSet.options.bubbleNubSize;
 
   return (
     <div
-      className={ classNames(
-        ROOT_CSS + '',
-        styleSet.stackedLayout + '',
-        { 'from-user': fromUser },
-        direction
-      ) }
+      className={classNames(ROOT_CSS + '', styleSet.stackedLayout + '', {
+        'from-user': fromUser,
+        direction,
+        webchat__stacked_extra_left_indent:
+          fromUser && !styleSet.options.botAvatarInitials && styleSet.options.bubbleNubSize,
+        webchat__stacked_extra_right_indent:
+          !fromUser && !styleSet.options.userAvatarInitials && styleSet.options.bubbleFromUserNubSize,
+        webchat__stacked_indented_content: avatarInitials && !indented
+      })}
     >
-      <Avatar
-        aria-hidden={ true }
-        className="avatar"
-        fromUser={ fromUser }
-      />
+      {!avatarInitials && !!(fromUser ? styleSet.options.bubbleFromUserNubSize : styleSet.options.bubbleNubSize) && (
+        <div className="avatar" />
+      )}
+      <Avatar aria-hidden={true} className="avatar" fromUser={fromUser} />
       <div className="content">
-        {
-          type === 'typing' ?
-            <div className="webchat__row typing">
-              {
-                children({
-                  activity,
-                  attachment: { contentType: 'typing' }
-                })
-              }
-              <div className="filler" />
-            </div>
-          : !!activityDisplayText &&
-            <div className="webchat__row message">
-              <Bubble
-                aria-label={ ariaLabel }
-                className="bubble"
-                fromUser={ fromUser }
-              >
-                {
-                  children({
-                    activity,
-                    attachment: {
-                      content: activityDisplayText,
-                      contentType: textFormatToContentType(textFormat)
-                    }
-                  })
+        {!!activityDisplayText && (
+          <div className="webchat__row message">
+            <ScreenReaderText text={ariaLabel} />
+            <Bubble aria-hidden={true} className="bubble" fromUser={fromUser} nub={true}>
+              {children({
+                activity,
+                attachment: {
+                  content: activityDisplayText,
+                  contentType: textFormatToContentType(textFormat)
                 }
-              </Bubble>
-              <div className="filler" />
-            </div>
-        }
-        {
-          attachments.map((attachment, index) =>
-            <div className="webchat__row attachment" key={ index }>
-              <Bubble
-                className="attachment bubble"
-                fromUser={ fromUser }
-                key={ index }
-              >
-                { children({ attachment }) }
-              </Bubble>
-            </div>
-          )
-        }
-        <div
-          aria-hidden={ true }
-          className="webchat__row"
-        >
-          {
-            showSendStatus ?
-              <SendStatus activity={ activity } className="timestamp" />
-            :
-              <Timestamp activity={ activity } className={ classNames('timestamp', timestampClassName) } />
-          }
+              })}
+            </Bubble>
+            <div className="filler" />
+          </div>
+        )}
+        {/* Because of differences in browser implementations, aria-label=" " is used to make the screen reader not repeat the same text multiple times in Chrome v75 */}
+        {attachments.map((attachment, index) => (
+          <div
+            aria-label=" "
+            className={classNames('webchat__row attachment', { webchat__stacked_item_indented: indented })}
+            key={index}
+          >
+            <ScreenReaderText text={fromUser ? localize('UserSent', language) : localize('BotSent', language)} />
+            <Bubble className="attachment bubble" fromUser={fromUser} key={index} nub={false}>
+              {children({ attachment })}
+            </Bubble>
+          </div>
+        ))}
+        <div className={classNames('webchat__row', { webchat__stacked_item_indented: indented })}>
+          {showSendStatus ? (
+            <SendStatus activity={activity} className="timestamp" />
+          ) : (
+            <Timestamp activity={activity} className={classNames('timestamp', timestampClassName)} />
+          )}
           <div className="filler" />
         </div>
       </div>
@@ -204,7 +179,7 @@ StackedLayout.propTypes = {
       })
     }),
     from: PropTypes.shape({
-      role: PropTypes.string
+      role: PropTypes.string.isRequired
     }).isRequired,
     text: PropTypes.string,
     textFormat: PropTypes.string,
@@ -221,18 +196,11 @@ StackedLayout.propTypes = {
   timestampClassName: PropTypes.string
 };
 
-export default connectStackedLayout(
-  ({
-    avatarInitials,
-    direction,
-    language,
-    styleSet
-  }) => ({
-    avatarInitials,
-    direction,
-    language,
-    styleSet
-  })
-)(StackedLayout)
+export default connectStackedLayout(({ avatarInitials, direction, language, styleSet }) => ({
+  avatarInitials,
+  direction,
+  language,
+  styleSet
+}))(StackedLayout);
 
-export { connectStackedLayout }
+export { connectStackedLayout };

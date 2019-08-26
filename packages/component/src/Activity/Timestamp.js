@@ -2,24 +2,25 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import AbsoluteTime from '../Utils/AbsoluteTime';
 import connectToWebChat from '../connectToWebChat';
-import TimeAgo from '../Utils/TimeAgo';
+import RelativeTime from '../Utils/RelativeTime';
 
-const Timestamp = ({
-  activity: { timestamp },
-  className,
-  styleSet
-}) =>
-  <span
-    className={ classNames(
-      styleSet.timestamp + '',
-      className + ''
-    ) }
-  >
-    { !!timestamp &&
-      <TimeAgo value={ timestamp } />
-    }
-  </span>;
+const Timestamp = ({ activity: { timestamp }, className, styleSet }) => {
+  if (!timestamp) {
+    return false;
+  }
+
+  return (
+    <span className={classNames(styleSet.timestamp + '', (className || '') + '')}>
+      {styleSet.options.timestampFormat === 'relative' ? (
+        <RelativeTime value={timestamp} />
+      ) : (
+        <AbsoluteTime value={timestamp} />
+      )}
+    </span>
+  );
+};
 
 Timestamp.defaultProps = {
   className: ''
@@ -27,7 +28,7 @@ Timestamp.defaultProps = {
 
 Timestamp.propTypes = {
   activity: PropTypes.shape({
-    timestamp: PropTypes.string
+    timestamp: PropTypes.string.isRequired
   }).isRequired,
   className: PropTypes.string,
   styleSet: PropTypes.shape({
@@ -35,6 +36,4 @@ Timestamp.propTypes = {
   }).isRequired
 };
 
-export default connectToWebChat(
-  ({ styleSet }) => ({ styleSet })
-)(Timestamp)
+export default connectToWebChat(({ styleSet }) => ({ styleSet }))(Timestamp);

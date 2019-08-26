@@ -54,11 +54,6 @@ export default ({
     imageSize: 'medium',
     maxImageHeight: 100
   },
-  choiceSet: {
-    value: {
-      wrap: true
-    }
-  },
   factSet: {
     title: {
       color: 'default',
@@ -77,4 +72,4 @@ export default ({
     },
     spacing: 8
   }
-})
+});

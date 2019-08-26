@@ -13,27 +13,19 @@ test('should focus send box when message is being sent', async () => {
     createStyleSet: styleOptions => {
       const styleSet = window.WebChat.createStyleSet(styleOptions);
 
-      return Object.assign(
-        {},
-        styleSet,
-        {
-          sendBox: Object.assign(
-            {},
-            styleSet.sendBox,
-            {
-              '& > .main > form > input:focus': {
-                backgroundColor: 'Yellow'
-              }
-            }
-          )
-        }
-      );
+      return Object.assign({}, styleSet, {
+        sendBox: Object.assign({}, styleSet.sendBox, {
+          '& > .main > form > input:focus': {
+            backgroundColor: 'Yellow'
+          }
+        })
+      });
     }
   });
 
   await driver.wait(uiConnected(), timeouts.directLine);
   await pageObjects.sendMessageViaSendBox('Hello, World!', { waitForSend: true });
-  await driver.wait(minNumActivitiesShown(1), 2000);
+  await driver.wait(minNumActivitiesShown(1), timeouts.directLine);
 
   const base64PNG = await driver.takeScreenshot();
 

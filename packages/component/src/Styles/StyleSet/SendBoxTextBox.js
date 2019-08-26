@@ -2,6 +2,8 @@ export default function createSendBoxTextBoxStyle({
   paddingRegular,
   sendBoxTextBoxBorderColor,
   primaryFont,
+  sendBoxBackground,
+  sendBoxPlaceholderColor,
   sendBoxTextColor
 }) {
   return {
@@ -24,9 +26,13 @@ export default function createSendBoxTextBoxStyle({
       transition: 'box-shadow 0.3s ease-in-out'
     },
 
+    '&::placeholder': {
+      color: sendBoxPlaceholderColor
+    },
+
     '& > input:focus': {
-        border: '1px solid ' + sendBoxTextBoxBorderColor,
-        boxShadow: 'inset 0 0 3px 1px rgba(198, 198, 198, 0.5)'
+      border: '1px solid ' + sendBoxTextBoxBorderColor,
+      boxShadow: 'inset 0 0 3px 1px rgba(198, 198, 198, 0.5)'
     }
   };
 }

@@ -5,7 +5,7 @@ import { imageSnapshotOptions, timeouts } from './constants.json';
 import allImagesLoaded from './setup/conditions/allImagesLoaded';
 import allOutgoingActivitiesSent from './setup/conditions/allOutgoingActivitiesSent';
 import minNumActivitiesShown from './setup/conditions/minNumActivitiesShown';
-import suggestedActionsShowed from './setup/conditions/suggestedActionsShowed';
+import suggestedActionsShown from './setup/conditions/suggestedActionsShown';
 import uiConnected from './setup/conditions/uiConnected';
 
 // selenium-webdriver API doc:
@@ -13,15 +13,15 @@ import uiConnected from './setup/conditions/uiConnected';
 
 jest.setTimeout(timeouts.test);
 
-describe('suggested-actions command', async () => {
-  test('should show correctly formatted buttons when suggested actions are displayed', async() => {
+describe('suggested-actions command', () => {
+  test('should show correctly formatted buttons when suggested actions are displayed', async () => {
     const { driver, pageObjects } = await setupWebDriver();
 
     await driver.wait(uiConnected(), timeouts.directLine);
     await pageObjects.sendMessageViaSendBox('suggested-actions', { waitForSend: true });
 
-    await driver.wait(suggestedActionsShowed(), timeouts.directLine);
-    await driver.wait( allImagesLoaded(), 2000 );
+    await driver.wait(suggestedActionsShown(), timeouts.directLine);
+    await driver.wait(allImagesLoaded(), 2000);
 
     const base64PNG = await driver.takeScreenshot();
 
@@ -34,7 +34,7 @@ describe('suggested-actions command', async () => {
     await driver.wait(uiConnected(), timeouts.directLine);
     await pageObjects.sendMessageViaSendBox('suggested-actions', { waitForSend: true });
 
-    await driver.wait(suggestedActionsShowed(), timeouts.directLine);
+    await driver.wait(suggestedActionsShown(), timeouts.directLine);
 
     const buttons = await driver.findElements(By.css('button'));
 
@@ -55,7 +55,7 @@ describe('suggested-actions command', async () => {
     await driver.wait(uiConnected(), timeouts.directLine);
     await pageObjects.sendMessageViaSendBox('suggested-actions', { waitForSend: true });
 
-    await driver.wait(suggestedActionsShowed(), timeouts.directLine);
+    await driver.wait(suggestedActionsShown(), timeouts.directLine);
 
     const buttons = await driver.findElements(By.css('button'));
 
@@ -76,7 +76,7 @@ describe('suggested-actions command', async () => {
     await driver.wait(uiConnected(), timeouts.directLine);
     await pageObjects.sendMessageViaSendBox('suggested-actions', { waitForSend: true });
 
-    await driver.wait(suggestedActionsShowed(), timeouts.directLine);
+    await driver.wait(suggestedActionsShown(), timeouts.directLine);
 
     const buttons = await driver.findElements(By.css('button'));
 
@@ -97,7 +97,7 @@ describe('suggested-actions command', async () => {
     await driver.wait(uiConnected(), timeouts.directLine);
     await pageObjects.sendMessageViaSendBox('suggested-actions', { waitForSend: true });
 
-    await driver.wait(suggestedActionsShowed(), timeouts.directLine);
+    await driver.wait(suggestedActionsShown(), timeouts.directLine);
 
     const buttons = await driver.findElements(By.css('button'));
 
@@ -118,7 +118,7 @@ describe('suggested-actions command', async () => {
     await driver.wait(uiConnected(), timeouts.directLine);
     await pageObjects.sendMessageViaSendBox('suggested-actions', { waitForSend: true });
 
-    await driver.wait(suggestedActionsShowed(), timeouts.directLine);
+    await driver.wait(suggestedActionsShown(), timeouts.directLine);
 
     const buttons = await driver.findElements(By.css('button'));
 
@@ -152,8 +152,8 @@ describe('suggested-actions command', async () => {
     await driver.wait(uiConnected(), timeouts.directLine);
     await pageObjects.sendMessageViaSendBox('emptycard', { waitForSend: true });
 
-    await driver.wait(minNumActivitiesShown(1), timeouts.directLine);
-    await driver.wait( allImagesLoaded(), 2000 );
+    await driver.wait(suggestedActionsShown(), timeouts.directLine);
+    await driver.wait(allImagesLoaded(), 2000);
 
     const base64PNG = await driver.takeScreenshot();
 
@@ -161,15 +161,14 @@ describe('suggested-actions command', async () => {
   });
 
   test('should show suggested actions with larger images', async () => {
-
     const styleOptions = { suggestedActionHeight: 80, suggestedActionImageHeight: 60 };
     const { driver, pageObjects } = await setupWebDriver({ props: { styleOptions } });
 
     await driver.wait(uiConnected(), timeouts.directLine);
     await pageObjects.sendMessageViaSendBox('emptycard', { waitForSend: true });
 
-    await driver.wait(minNumActivitiesShown(1), timeouts.directLine);
-    await driver.wait( allImagesLoaded(), 2000 );
+    await driver.wait(suggestedActionsShown(), timeouts.directLine);
+    await driver.wait(allImagesLoaded(), 2000);
 
     const base64PNG = await driver.takeScreenshot();
 

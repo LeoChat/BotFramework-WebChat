@@ -1,8 +1,10 @@
 export default function createSendBoxTextAreaStyle({
   paddingRegular,
   primaryFont,
+  sendBoxBackground,
   sendBoxMaxHeight,
-  sendBoxTextColor,
+  sendBoxPlaceholderColor,
+  sendBoxTextColor
 }) {
   return {
     alignItems: 'center',
@@ -18,7 +20,7 @@ export default function createSendBoxTextAreaStyle({
       fontSize: 'inherit',
       height: '100%',
       maxHeight: sendBoxMaxHeight,
-      position:'relative',
+      position: 'relative',
       width: 'inherit',
 
       '& > div': {
@@ -33,6 +35,7 @@ export default function createSendBoxTextAreaStyle({
       },
 
       '& > textarea': {
+        backgroundColor: sendBoxBackground,
         border: 0,
         color: 'inherit',
         fontFamily: 'inherit',
@@ -45,8 +48,12 @@ export default function createSendBoxTextAreaStyle({
         resize: 'none',
         top: 0,
         width: '100%',
-        wordBreak: 'break-word'
+        wordBreak: 'break-word',
+
+        '&::placeholder': {
+          color: sendBoxPlaceholderColor
+        }
       }
     }
-  }
+  };
 }

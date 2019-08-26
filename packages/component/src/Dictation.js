@@ -1,108 +1,79 @@
 import { Composer as DictateComposer } from 'react-dictate-button';
 import { Constants } from 'botframework-webchat-core';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import connectToWebChat from './connectToWebChat';
 
 const {
-  DictateState: {
-    DICTATING,
-    IDLE,
-    STARTING
-  }
+  DictateState: { DICTATING, IDLE, STARTING }
 } = Constants;
 
-class Dictation extends React.Component {
-  constructor(props) {
-    super(props);
+const Dictation = ({
+  dictateState,
+  disabled,
+  language,
+  numSpeakingActivities,
+  onError,
+  postActivity,
+  sendTypingIndicator,
+  setDictateInterims,
+  setDictateState,
+  setSendBox,
+  startSpeakingActivity,
+  stopDictate,
+  submitSendBox,
+  webSpeechPonyfill: { SpeechGrammarList, SpeechRecognition } = {}
+}) => {
+  const handleDictate = useCallback(
+    ({ result: { transcript } = {} }) => {
+      if (dictateState === DICTATING || dictateState === STARTING) {
+        setDictateInterims([]);
+        setDictateState(IDLE);
+        stopDictate();
 
-    this.handleDictate = this.handleDictate.bind(this);
-    this.handleDictating = this.handleDictating.bind(this);
-    this.handleError = this.handleError.bind(this);
-  }
+        if (transcript) {
+          setSendBox(transcript);
+          submitSendBox('speech');
+          startSpeakingActivity();
+        }
+      }
+    },
+    [dictateState, setDictateInterims, setDictateState, stopDictate, setSendBox, submitSendBox, startSpeakingActivity]
+  );
 
-  handleDictate({ result: { transcript } = {} }) {
-    const {
-      setDictateInterims,
-      setDictateState,
-      setSendBox,
-      startSpeakingActivity,
-      stopDictate,
-      submitSendBox
-    } = this.props;
+  const handleDictating = useCallback(
+    ({ results = [] }) => {
+      if (dictateState === DICTATING || dictateState === STARTING) {
+        const interims = results.map(({ transcript }) => transcript);
 
-    setDictateInterims([]);
-    setDictateState(IDLE);
-    stopDictate();
+        setDictateInterims(interims);
+        setDictateState(DICTATING);
+        sendTypingIndicator && postActivity({ type: 'typing' });
+      }
+    },
+    [dictateState, postActivity, sendTypingIndicator, setDictateInterims, setDictateState]
+  );
 
-    if (transcript) {
-      setSendBox(transcript);
-      submitSendBox('speech');
-      startSpeakingActivity();
-    }
-  }
-
-  handleDictating({ results = [] }) {
-    const {
-      setDictateInterims,
-      setDictateState,
-      setSendBox
-    } = this.props;
-
-    const interims = results.map(({ transcript }) => transcript);
-
-    setDictateInterims(interims);
-    setDictateState(DICTATING);
-
-    // This is for two purposes:
-    // 1. Set send box will also trigger send typing
-    // 2. If the user cancelled out, the interim result will be in the send box so the user can update it before send
-    setSendBox(interims.join(' '));
-  }
-
-  handleError(event) {
-    const {
-      onError,
-      setDictateState,
-      stopDictate
-    } = this.props;
-
-    setDictateState(IDLE);
-    stopDictate();
+  const handleError = useCallback(() => {
+    dictateState !== IDLE && setDictateState(IDLE);
+    (dictateState === DICTATING || dictateState === STARTING) && stopDictate();
 
     onError && onError(event);
-  }
+  }, [dictateState, onError, setDictateState, stopDictate]);
 
-  render() {
-    const {
-      props: {
-        dictateState,
-        disabled,
-        language,
-        webSpeechPonyfill: {
-          SpeechGrammarList,
-          SpeechRecognition
-        } = {}
-      },
-      handleDictate,
-      handleDictating,
-      handleError
-    } = this;
-
-    return (
-      <DictateComposer
-        lang={ language }
-        onDictate={ handleDictate }
-        onError={ handleError }
-        onProgress={ handleDictating }
-        speechGrammarList={ SpeechGrammarList }
-        speechRecognition={ SpeechRecognition }
-        started={ !disabled && (dictateState === STARTING || dictateState === DICTATING) }
-      />
-    );
-  }
-}
+  return (
+    <DictateComposer
+      lang={language}
+      onDictate={handleDictate}
+      onError={handleError}
+      onProgress={handleDictating}
+      speechGrammarList={SpeechGrammarList}
+      speechRecognition={SpeechRecognition}
+      started={!disabled && (dictateState === STARTING || dictateState === DICTATING) && !numSpeakingActivities}
+    />
+  );
+};
 
 Dictation.defaultProps = {
   disabled: false,
@@ -114,7 +85,10 @@ Dictation.propTypes = {
   dictateState: PropTypes.number.isRequired,
   disabled: PropTypes.bool,
   language: PropTypes.string.isRequired,
+  numSpeakingActivities: PropTypes.number.isRequired,
   onError: PropTypes.func,
+  postActivity: PropTypes.func.isRequired,
+  sendTypingIndicator: PropTypes.bool.isRequired,
   setDictateInterims: PropTypes.func.isRequired,
   setDictateState: PropTypes.func.isRequired,
   setSendBox: PropTypes.func.isRequired,
@@ -129,9 +103,12 @@ Dictation.propTypes = {
 
 export default connectToWebChat(
   ({
+    activities,
     dictateState,
     disabled,
     language,
+    postActivity,
+    sendTypingIndicator,
     setDictateInterims,
     setDictateState,
     setSendBox,
@@ -143,6 +120,9 @@ export default connectToWebChat(
     dictateState,
     disabled,
     language,
+    numSpeakingActivities: activities.filter(({ channelData: { speak } = {} }) => speak).length,
+    postActivity,
+    sendTypingIndicator,
     setDictateInterims,
     setDictateState,
     setSendBox,
@@ -151,4 +131,4 @@ export default connectToWebChat(
     submitSendBox,
     webSpeechPonyfill
   })
-)(Dictation)
+)(Dictation);

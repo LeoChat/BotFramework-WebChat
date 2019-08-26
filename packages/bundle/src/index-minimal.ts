@@ -1,10 +1,7 @@
 /* eslint dot-notation: ["error", { "allowPattern": "^WebChat$" }] */
 // window['WebChat'] is required for TypeScript
 
-import {
-  Constants,
-  createStore
-} from 'botframework-webchat-core';
+import { Constants, createStore, version } from 'botframework-webchat-core';
 
 import ReactWebChat, {
   Components,
@@ -16,11 +13,19 @@ import ReactWebChat, {
 import addVersion from './addVersion';
 import coreRenderWebChat from './renderWebChat';
 import createBrowserWebSpeechPonyfillFactory from './createBrowserWebSpeechPonyfillFactory';
-import createDirectLine from './createDirectLine';
+import defaultCreateDirectLine from './createDirectLine';
 
-const renderWebChat = coreRenderWebChat.bind(null, ReactWebChat)
+const renderWebChat = coreRenderWebChat.bind(null, ReactWebChat);
 
-export default ReactWebChat
+export const createDirectLine = options => {
+  options.botAgent &&
+    console.warn(
+      'Web Chat: Developers are not currently allowed to set botAgent in the createDirectLine function. See https://github.com/microsoft/BotFramework-WebChat/issues/2119 for more details.'
+    );
+  return defaultCreateDirectLine({ ...options, botAgent: `WebChat/${version} (Minimal)` });
+};
+
+export default ReactWebChat;
 
 export {
   Components,
@@ -28,12 +33,11 @@ export {
   connectToWebChat,
   Constants,
   createBrowserWebSpeechPonyfillFactory,
-  createDirectLine,
   createStore,
   createStyleSet,
   renderWebChat,
-  ReactWebChat
-}
+  version
+};
 
 window['WebChat'] = {
   ...window['WebChat'],

@@ -70,68 +70,56 @@ const BasicTranscript = ({
     const element = activityRenderer({
       activity,
       timestampClassName: 'transcript-timestamp'
-    })(
-      ({ attachment }) => attachmentRenderer({ activity, attachment })
-    );
+    })(({ attachment }) => attachmentRenderer({ activity, attachment }));
 
-    element && activityElements.push({
-      activity,
-      element
-    });
+    element &&
+      activityElements.push({
+        activity,
+        element
+      });
 
     return activityElements;
   }, []);
 
   return (
-    <div
-      className={ classNames(
-        ROOT_CSS + '',
-        className + ''
-      ) }
-      role="log"
-    >
-      <ScrollToBottomPanel className={ PANEL_CSS + '' }>
-        <div className={ FILLER_CSS } />
-        <SayComposer
-          speechSynthesis={ speechSynthesis }
-          speechSynthesisUtterance={ SpeechSynthesisUtterance }
-        >
+    <div className={classNames(ROOT_CSS + '', className + '')} role="log">
+      <ScrollToBottomPanel className={PANEL_CSS + ''}>
+        <div className={FILLER_CSS} />
+        <SayComposer speechSynthesis={speechSynthesis} speechSynthesisUtterance={SpeechSynthesisUtterance}>
           <ul
+            aria-atomic="false"
             aria-live="polite"
-            className={ classNames(
-              LIST_CSS + '',
-              styleSet.activities + ''
-            ) }
+            aria-relevant="additions text"
+            className={classNames(LIST_CSS + '', styleSet.activities + '')}
             role="list"
           >
-            {
-              activityElements.map(({ activity, element }, index) =>
-                <li
-                  className={ classNames(
-                    styleSet.activity + '',
-                    {
-                      // Hide timestamp if same timestamp group with the next activity
-                      'hide-timestamp': sameTimestampGroup(activity, (activityElements[index + 1] || {}).activity, groupTimestamp)
-                    }
-                  ) }
-                  key={ activity.channelData && activity.channelData.clientActivityID || activity.id || index }
-                  role="listitem"
-                >
-                  { element }
-                  {
-                    // TODO: [P2] We should use core/definitions/speakingActivity for this predicate instead
-                    activity.channelData && activity.channelData.speak && <SpeakActivity activity={ activity } />
-                  }
-                </li>
-              )
-            }
+            {activityElements.map(({ activity, element }, index) => (
+              <li
+                /* Because of differences in browser implementations, aria-label=" " is used to make the screen reader not repeat the same text multiple times in Chrome v75 */
+                aria-label=" "
+                className={classNames(styleSet.activity + '', {
+                  // Hide timestamp if same timestamp group with the next activity
+                  'hide-timestamp': sameTimestampGroup(
+                    activity,
+                    (activityElements[index + 1] || {}).activity,
+                    groupTimestamp
+                  )
+                })}
+                key={(activity.channelData && activity.channelData.clientActivityID) || activity.id || index}
+                role="listitem"
+              >
+                {element}
+                {// TODO: [P2] We should use core/definitions/speakingActivity for this predicate instead
+                activity.channelData && activity.channelData.speak && <SpeakActivity activity={activity} />}
+              </li>
+            ))}
           </ul>
         </SayComposer>
       </ScrollToBottomPanel>
-      <ScrollToEndButton />
+      {!styleSet.options.hideScrollToEndButton && <ScrollToEndButton />}
     </div>
   );
-}
+};
 
 BasicTranscript.defaultProps = {
   className: '',
@@ -144,13 +132,13 @@ BasicTranscript.propTypes = {
   activityRenderer: PropTypes.func.isRequired,
   attachmentRenderer: PropTypes.func.isRequired,
   className: PropTypes.string,
-  groupTimestamp: PropTypes.oneOfType([
-    PropTypes.bool.isRequired,
-    PropTypes.number.isRequired
-  ]),
+  groupTimestamp: PropTypes.oneOfType([PropTypes.bool.isRequired, PropTypes.number.isRequired]),
   styleSet: PropTypes.shape({
     activities: PropTypes.any.isRequired,
-    activity: PropTypes.any.isRequired
+    activity: PropTypes.any.isRequired,
+    options: PropTypes.shape({
+      hideScrollToEndButton: PropTypes.bool.isRequired
+    }).isRequired
   }).isRequired,
   webSpeechPonyfill: PropTypes.shape({
     speechSynthesis: PropTypes.any.isRequired,
@@ -159,14 +147,7 @@ BasicTranscript.propTypes = {
 };
 
 export default connectToWebChat(
-  ({
-    activities,
-    activityRenderer,
-    attachmentRenderer,
-    groupTimestamp,
-    styleSet,
-    webSpeechPonyfill
-  }) => ({
+  ({ activities, activityRenderer, attachmentRenderer, groupTimestamp, styleSet, webSpeechPonyfill }) => ({
     activities,
     activityRenderer,
     attachmentRenderer,
@@ -174,4 +155,4 @@ export default connectToWebChat(
     styleSet,
     webSpeechPonyfill
   })
-)(BasicTranscript)
+)(BasicTranscript);

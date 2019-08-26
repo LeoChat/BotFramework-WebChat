@@ -4,13 +4,13 @@ This sample shows how to set up a Web Chat client that will forward all incoming
 
 # Test out the hosted sample
 
-- [Try out MockBot](https://microsoft.github.io/BotFramework-WebChat/15.b.incoming-activity-event)
+-  [Try out MockBot](https://microsoft.github.io/BotFramework-WebChat/15.b.incoming-activity-event)
 
 # Things to try out
 
-- Open development console in your browser
-- Type "help" in the send box
-- In the console log, you will see bunches of incoming activities sent from the bot
+-  Open development console in your browser
+-  Type "help" in the send box
+-  In the console log, you will see bunches of incoming activities sent from the bot
 
 # Code
 
@@ -65,7 +65,7 @@ Here is the finished `index.html`:
   <head>
     <title>Web Chat: Incoming activity to JavaScript event</title>
 
-    <script src="https://cdn.botframework.com/botframework-webchat/master/webchat.js"></script>
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
     <style>
       html, body { height: 100% }
       body { margin: 0 }
@@ -116,10 +116,11 @@ Here is the finished `index.html`:
 </html>
 
 ```
+
 # Further reading
 
-[`15.a.backchannel-piggyback-on-outgoing-activities`](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/15.a.backchannel-piggyback-on-outgoing-activities) is a sample that will add custom data to every outgoing activity.
+[`15.a.backchannel-piggyback-on-outgoing-activities`](https://github.com/microsoft/BotFramework-WebChat/tree/master/samples/15.a.backchannel-piggyback-on-outgoing-activities) is a sample that will add custom data to every outgoing activity.
 
 ## Full list of Web Chat hosted samples
 
-View the list of [available Web Chat samples](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples)
+View the list of [available Web Chat samples](https://github.com/microsoft/BotFramework-WebChat/tree/master/samples)

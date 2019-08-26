@@ -9,42 +9,26 @@ import CommonCard from './CommonCard';
 const { VideoContent } = Components;
 
 const VideoCardAttachment = ({
+  adaptiveCardHostConfig,
   adaptiveCards,
   attachment,
-  attachment: {
-    content: {
-      media,
-      autostart,
-      autoloop,
-      image: {
-        url: imageURL
-      } = {},
-    } = {}
-  } = {},
+  attachment: { content: { media, autostart, autoloop, image: { url: imageURL } = {} } = {} } = {},
   styleSet
-}) =>
-  <div className={ styleSet.audioCardAttachment }>
+}) => (
+  <div className={styleSet.audioCardAttachment}>
     <ul className="media-list">
-      {
-        media.map(({ url }, index) =>
-          <li key={ index }>
-            <VideoContent
-              autoPlay={ autostart }
-              loop={ autoloop }
-              poster={ imageURL }
-              src={ url }
-            />
-          </li>
-        )
-      }
+      {media.map(({ url }, index) => (
+        <li key={index}>
+          <VideoContent autoPlay={autostart} loop={autoloop} poster={imageURL} src={url} />
+        </li>
+      ))}
     </ul>
-    <CommonCard
-      adaptiveCards={ adaptiveCards }
-      attachment={ attachment }
-    />
-  </div>;
+    <CommonCard adaptiveCardHostConfig={adaptiveCardHostConfig} adaptiveCards={adaptiveCards} attachment={attachment} />
+  </div>
+);
 
 VideoCardAttachment.propTypes = {
+  adaptiveCardHostConfig: PropTypes.any.isRequired,
   adaptiveCards: PropTypes.any.isRequired,
   attachment: PropTypes.shape({
     content: PropTypes.shape({
@@ -61,10 +45,9 @@ VideoCardAttachment.propTypes = {
     })
   }).isRequired,
   styleSet: PropTypes.shape({
-    audioCardAttachment: PropTypes.any.isRequired
+    audioCardAttachment: PropTypes.any.isRequired,
+    options: PropTypes.any.isRequired
   }).isRequired
 };
 
-export default connectToWebChat(
-  ({ styleSet }) => ({ styleSet })
-)(VideoCardAttachment)
+export default connectToWebChat(({ styleSet }) => ({ styleSet }))(VideoCardAttachment);

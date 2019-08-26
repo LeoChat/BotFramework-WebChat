@@ -1,5 +1,6 @@
-/* global VERSION:readonly */
+/* global process:readonly */
 
+import clearSuggestedActions from './actions/clearSuggestedActions';
 import connect from './actions/connect';
 import createStore from './createStore';
 import disconnect from './actions/disconnect';
@@ -27,9 +28,10 @@ import * as ActivityClientState from './constants/ActivityClientState';
 import * as DictateState from './constants/DictateState';
 
 const Constants = { ActivityClientState, DictateState };
-const version = VERSION;
+const version = process.env.NPM_PACKAGE_VERSION;
 
 export {
+  clearSuggestedActions,
   connect,
   Constants,
   createStore,
@@ -53,7 +55,6 @@ export {
   stopSpeakingActivity,
   submitSendBox,
   version,
-
   // TODO: [P3] Take this deprecation code out when releasing on or after January 13 2020
   setSendTyping
-}
+};

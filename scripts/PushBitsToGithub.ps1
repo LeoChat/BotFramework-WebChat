@@ -6,14 +6,16 @@ param
 ( 
     [string]$newFilesPath,          #"$(System.ArtifactsDirectory)/pages"
     [string]$branchName,            #gh-pages
-    [string]$repoRootPath           #"$(Build.SourcesFolder)"
+    [string]$repoRootPath,          #"$(Build.SourcesDirectory)"
+    [string]$repoUserName,          #"NameOfUser"
+    [string]$repoUserEmail          #"user@domain.com"
 )
 
 Set-Location -Path $repoRootPath
 
 # Set default identity
-git config --global user.email "v-bruhal@micrsoft.com"
-git config --global user.name "BruceHaley"
+git config --global user.email $repoUserEmail
+git config --global user.name $repoUserName
 
 # Preserve line endings (presumably LF)
 git config --global core.autocrlf input
@@ -51,6 +53,6 @@ git push origin $branchName
 
 #if ($LASTEXITCODE -eq 0) {
 #    Write-Host 'Writing Push Location section to the build summary page'
-#    Add-Content -Path "./PushLocation.md" -Value "Bits pushed to GitHub here: [https://github.com/Microsoft/botbuilder-webchat/tree/$branchName/$repoRootPath](https://github.com/Microsoft/botbuilder-webchat/tree/$branchName/$repoRootPath)"
+#    Add-Content -Path "./PushLocation.md" -Value "Bits pushed to GitHub here: [https://github.com/microsoft/botbuilder-webchat/tree/$branchName/$repoRootPath](https://github.com/microsoft/botbuilder-webchat/tree/$branchName/$repoRootPath)"
 # Broken:   Write-Host "##vso[task.addattachment type=Distributedtask.Core.Summary;name=Push_Location;] ./PushLocation.md"
 #}

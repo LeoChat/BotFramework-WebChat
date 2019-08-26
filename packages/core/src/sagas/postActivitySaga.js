@@ -1,22 +1,14 @@
-import {
-  all,
-  call,
-  cancelled,
-  put,
-  race,
-  select,
-  take,
-  takeEvery
-} from 'redux-saga/effects';
+import { all, call, cancelled, put, race, select, take, takeEvery } from 'redux-saga/effects';
 
 import observeOnce from './effects/observeOnce';
 import whileConnected from './effects/whileConnected';
 
+import clockSkewAdjustmentSelector from '../selectors/clockSkewAdjustment';
+import combineSelectors from '../selectors/combineSelectors';
 import languageSelector from '../selectors/language';
 import sendTimeoutSelector from '../selectors/sendTimeout';
 
 import deleteKey from '../utils/deleteKey';
-import getTimestamp from '../utils/getTimestamp';
 import sleep from '../utils/sleep';
 import uniqueID from '../utils/uniqueID';
 
@@ -29,19 +21,29 @@ import {
 
 import { INCOMING_ACTIVITY } from '../actions/incomingActivity';
 
+function getTimestamp(clockSkewAdjustment = 0) {
+  return new Date(Date.now() + clockSkewAdjustment).toISOString();
+}
+
 function* postActivity(directLine, userID, username, numActivitiesPosted, { meta: { method }, payload: { activity } }) {
-  const locale = yield select(languageSelector);
+  const { clockSkewAdjustment, locale } = yield select(
+    combineSelectors({ clockSkewAdjustment: clockSkewAdjustmentSelector, locale: languageSelector })
+  );
   const { attachments, channelData: { clientActivityID = uniqueID() } = {} } = activity;
 
   activity = {
     ...deleteKey(activity, 'id'),
-    attachments: attachments && attachments.map(({ contentType, contentUrl, name }) => ({
-      contentType,
-      contentUrl,
-      name
-    })),
+    attachments:
+      attachments &&
+      attachments.map(({ contentType, contentUrl, name }) => ({
+        contentType,
+        contentUrl,
+        name
+      })),
     channelData: {
       clientActivityID,
+      // This is unskewed local timestamp for estimating clock skew.
+      clientTimestamp: getTimestamp(),
       ...deleteKey(activity.channelData, 'state')
     },
     channelId: 'webchat',
@@ -51,18 +53,23 @@ function* postActivity(directLine, userID, username, numActivitiesPosted, { meta
       role: 'user'
     },
     locale,
-    timestamp: getTimestamp()
+    // This timestamp will be replaced by Direct Line Channel in echoback.
+    // We are temporarily adding this timestamp for sorting.
+    timestamp: getTimestamp(clockSkewAdjustment)
   };
 
   if (!numActivitiesPosted) {
-    activity.entities = [...activity.entities || [], {
-      // TODO: [P4] Currently in v3, we send the capabilities although the client might not actually have them
-      //       We need to understand why we need to send these, and only send capabilities the client have
-      requiresBotState: true,
-      supportsListening: true,
-      supportsTts: true,
-      type: 'ClientCapabilities'
-    }];
+    activity.entities = [
+      ...(activity.entities || []),
+      {
+        // TODO: [P4] Currently in v3, we send the capabilities although the client might not actually have them
+        //       We need to understand why we need to send these, and only send capabilities the client have
+        requiresBotState: true,
+        supportsListening: true,
+        supportsTts: true,
+        type: 'ClientCapabilities'
+      }
+    ];
   }
 
   const meta = { clientActivityID, method };
@@ -73,9 +80,11 @@ function* postActivity(directLine, userID, username, numActivitiesPosted, { meta
     // Quirks: We might receive INCOMING_ACTIVITY before the postActivity call completed
     //         So, we setup expectation first, then postActivity afterward
 
-    const echoBackCall = call(function* () {
+    const echoBackCall = call(function*() {
       for (;;) {
-        const { payload: { activity } } = yield take(INCOMING_ACTIVITY);
+        const {
+          payload: { activity }
+        } = yield take(INCOMING_ACTIVITY);
         const { channelData = {}, id } = activity;
 
         if (channelData.clientActivityID === clientActivityID && id) {
@@ -91,7 +100,9 @@ function* postActivity(directLine, userID, username, numActivitiesPosted, { meta
 
     const sendTimeout = yield select(sendTimeoutSelector);
 
-    const { send: { echoBack } } = yield race({
+    const {
+      send: { echoBack }
+    } = yield race({
       send: all({
         echoBack: echoBackCall,
         postActivity: observeOnce(directLine.postActivity(activity))
@@ -109,11 +120,11 @@ function* postActivity(directLine, userID, username, numActivitiesPosted, { meta
   }
 }
 
-export default function* () {
-  yield whileConnected(function* ({ directLine, userID, username }) {
+export default function* postActivitySaga() {
+  yield whileConnected(function* postActivityWhileConnected({ directLine, userID, username }) {
     let numActivitiesPosted = 0;
 
-    yield takeEvery(POST_ACTIVITY, function* (action) {
+    yield takeEvery(POST_ACTIVITY, function* postActivityWrapper(action) {
       yield* postActivity(directLine, userID, username, numActivitiesPosted++, action);
     });
   });

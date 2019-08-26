@@ -6,11 +6,7 @@ import { DELETE_ACTIVITY } from '../actions/deleteActivity';
 import { INCOMING_ACTIVITY } from '../actions/incomingActivity';
 import { MARK_ACTIVITY } from '../actions/markActivity';
 
-import {
-  POST_ACTIVITY_FULFILLED,
-  POST_ACTIVITY_PENDING,
-  POST_ACTIVITY_REJECTED
-} from '../actions/postActivity';
+import { POST_ACTIVITY_FULFILLED, POST_ACTIVITY_PENDING, POST_ACTIVITY_REJECTED } from '../actions/postActivity';
 
 import { SEND_FAILED, SENDING, SENT } from '../constants/ActivityClientState';
 
@@ -25,33 +21,22 @@ function findByClientActivityID(clientActivityID) {
 }
 
 function upsertActivityWithSort(activities, nextActivity) {
-  const {
-    channelData: { clientActivityID: nextClientActivityID } = {},
-    from: { id: nextFromID, role: nextFromRole } = {},
-    type: nextType
-  } = nextActivity;
-
-  if (nextType === 'typing' && nextFromRole === 'user') {
-    return activities;
-  }
+  const { channelData: { clientActivityID: nextClientActivityID } = {} } = nextActivity;
 
   const nextTimestamp = Date.parse(nextActivity.timestamp);
-  const nextActivities = activities.filter(({ channelData: { clientActivityID } = {}, from, type }) =>
-    // We will remove all "typing" and "sending messages" activities
-    // "clientActivityID" is unique and used to track if the message has been sent and echoed back from the server
-    !(
-      type === 'typing' && from.id === nextFromID
-      || nextClientActivityID && clientActivityID === nextClientActivityID
-    )
+  const nextActivities = activities.filter(
+    ({ channelData: { clientActivityID } = {} }) =>
+      // We will remove all "sending messages" activities
+      // "clientActivityID" is unique and used to track if the message has been sent and echoed back from the server
+      !(nextClientActivityID && clientActivityID === nextClientActivityID)
   );
 
-  // Then, find the right (sorted) place to insert the new activity at, based on timestamp, and must be before "typing"
+  // Then, find the right (sorted) place to insert the new activity at, based on timestamp
   // Since clockskew might happen, we will ignore timestamp on messages that are sending
-  // If we are inserting "typing", we will always append it
 
-  // TODO: [P4] Move "typing" into Constants.ActivityType
-  const indexToInsert = nextActivity.type === 'typing' ? -1 : nextActivities.findIndex(({ channelData: { state } = {}, timestamp, type }) =>
-    Date.parse(timestamp) > nextTimestamp && state !== SENDING && state !== SEND_FAILED || type === 'typing'
+  const indexToInsert = nextActivities.findIndex(
+    ({ channelData: { state } = {}, timestamp }) =>
+      Date.parse(timestamp) > nextTimestamp && state !== SENDING && state !== SEND_FAILED
   );
 
   // If no right place are found, append it
@@ -60,14 +45,18 @@ function upsertActivityWithSort(activities, nextActivity) {
   return nextActivities;
 }
 
-export default function (state = DEFAULT_STATE, { meta, payload, type }) {
+export default function activities(state = DEFAULT_STATE, { meta, payload, type }) {
   switch (type) {
     case DELETE_ACTIVITY:
       state = updateIn(state, [({ id }) => id === payload.activityID]);
       break;
 
     case MARK_ACTIVITY:
-      state = updateIn(state, [({ id }) => id === payload.activityID, 'channelData', payload.name], () => payload.value);
+      state = updateIn(
+        state,
+        [({ id }) => id === payload.activityID, 'channelData', payload.name],
+        () => payload.value
+      );
       break;
 
     case POST_ACTIVITY_PENDING:
@@ -75,7 +64,11 @@ export default function (state = DEFAULT_STATE, { meta, payload, type }) {
       break;
 
     case POST_ACTIVITY_REJECTED:
-      state = updateIn(state, [findByClientActivityID(meta.clientActivityID), 'channelData', 'state'], () => SEND_FAILED);
+      state = updateIn(
+        state,
+        [findByClientActivityID(meta.clientActivityID), 'channelData', 'state'],
+        () => SEND_FAILED
+      );
       break;
 
     case POST_ACTIVITY_FULFILLED:
@@ -87,20 +80,16 @@ export default function (state = DEFAULT_STATE, { meta, payload, type }) {
       break;
 
     case INCOMING_ACTIVITY:
-      if (state.length > 1 && state.length < 3) {
-        state.forEach((a, i) => {
-          if (!a.from || a.from.id === '')
-            state.splice(i,1)
-        })
-      }
       // UpdateActivity is not supported right now because we ignore duplicated activity ID
-      if (!~state.findIndex(({ id }) => id === payload.activity.id)) {
+      // TODO: [P4] Move "typing" into Constants.ActivityType
+      if (payload.activity.type !== 'typing' && !~state.findIndex(({ id }) => id === payload.activity.id)) {
         state = upsertActivityWithSort(state, payload.activity);
       }
 
       break;
 
-    default: break;
+    default:
+      break;
   }
 
   return state;

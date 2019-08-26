@@ -1,41 +1,39 @@
 import createPonyfill from 'web-speech-cognitive-services/lib/SpeechServices';
 
-function injectReferenceGrammarID({ SpeechGrammarList, SpeechRecognition }, referenceGrammarID) {
-  return class extends SpeechRecognition {
-    start() {
-      this.grammars = new SpeechGrammarList();
-      this.grammars.referenceGrammar = referenceGrammarID || '';
-
-      return super.start();
-    }
-  };
-}
-
-export default async function ({
+export default function createCognitiveServicesSpeechServicesPonyfillFactory({
   authorizationToken,
+  enableTelemetry,
   region,
+  speechRecognitionEndpointId,
+  speechSynthesisDeploymentId,
+  speechSynthesisOutputFormat,
   subscriptionKey,
   textNormalization
 }) {
-  console.warn('Web Chat: Cognitive Services Speech Services support is currently in preview. If you encounter any problems, please file us an issue at https://github.com/Microsoft/BotFramework-WebChat/issues/.');
+  console.warn(
+    'Web Chat: Cognitive Services Speech Services support is currently in preview. If you encounter any problems, please file us an issue at https://github.com/microsoft/BotFramework-WebChat/issues/.'
+  );
 
-  const ponyfill = await createPonyfill({
-    authorizationToken,
-    region,
-    subscriptionKey,
-    textNormalization
-  });
+  return ({ referenceGrammarID }) => {
+    const ponyfill = createPonyfill({
+      authorizationToken,
+      enableTelemetry,
+      referenceGrammars: [`luis/${referenceGrammarID}-PRODUCTION`],
+      region,
+      speechRecognitionEndpointId,
+      speechSynthesisDeploymentId,
+      speechSynthesisOutputFormat,
+      subscriptionKey,
+      textNormalization
+    });
 
-  const {
-    SpeechGrammarList,
-    speechSynthesis,
-    SpeechSynthesisUtterance
-  } = ponyfill;
+    const { SpeechGrammarList, SpeechRecognition, speechSynthesis, SpeechSynthesisUtterance } = ponyfill;
 
-  return ({ referenceGrammarID }) => ({
-    SpeechGrammarList,
-    SpeechRecognition: injectReferenceGrammarID(ponyfill, referenceGrammarID),
-    speechSynthesis,
-    SpeechSynthesisUtterance
-  });
+    return {
+      SpeechGrammarList,
+      SpeechRecognition,
+      speechSynthesis,
+      SpeechSynthesisUtterance
+    };
+  };
 }
