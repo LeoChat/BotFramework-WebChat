@@ -4,7 +4,7 @@ import { imageSnapshotOptions, timeouts } from './constants.json';
 
 import allOutgoingActivitiesSent from './setup/conditions/allOutgoingActivitiesSent';
 import minNumActivitiesShown from './setup/conditions/minNumActivitiesShown.js';
-import suggestedActionsShowed from './setup/conditions/suggestedActionsShowed';
+import suggestedActionsShown from './setup/conditions/suggestedActionsShown';
 import uiConnected from './setup/conditions/uiConnected';
 
 // selenium-webdriver API doc:
@@ -18,7 +18,7 @@ test('card action "openUrl"', async () => {
           dispatch({
             type: 'WEB_CHAT/SEND_MESSAGE',
             payload: {
-              text: `Navigating to ${ cardAction.value }`
+              text: `Navigating to ${cardAction.value}`
             }
           });
         } else {
@@ -31,7 +31,7 @@ test('card action "openUrl"', async () => {
   await driver.wait(uiConnected(), timeouts.directLine);
   await pageObjects.sendMessageViaSendBox('card-actions', { waitForSend: true });
 
-  await driver.wait(suggestedActionsShowed(), timeouts.directLine);
+  await driver.wait(suggestedActionsShown(), timeouts.directLine);
 
   const openUrlButton = await driver.findElement(By.css('[role="form"] ul > li:first-child button'));
 
@@ -53,7 +53,7 @@ test('card action "signin"', async () => {
             dispatch({
               type: 'WEB_CHAT/SEND_MESSAGE',
               payload: {
-                text: `Signing into ${ new URL(url).host }`
+                text: `Signing into ${new URL(url).host}`
               }
             });
           });

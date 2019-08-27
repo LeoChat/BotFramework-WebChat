@@ -1,3 +1,10 @@
+import 'core-js/modules/es.array.includes';
+import 'core-js/modules/es.array.iterator';
+import 'core-js/modules/es.promise';
+import 'core-js/modules/es.symbol';
+import 'url-search-params-polyfill';
+import 'whatwg-fetch';
+
 import { embedConfigurationURL, embedTelemetryURL } from './urlBuilder';
 import { error, log, warn } from './logger';
 import { normalize as normalizeLocale } from './locale';
@@ -20,7 +27,7 @@ function execRedirectRules(bot, redirects, version) {
     } else if (featureMatch) {
       found = bot.features.includes(featureMatch[1]);
     } else {
-      warn(`Version "${ version }" has an invalid rule "${ rule }", skipping.`);
+      warn(`Version "${version}" has an invalid rule "${rule}", skipping.`);
 
       continue;
     }
@@ -46,11 +53,8 @@ export function findService(servicingPlan, bot, requestedVersion = 'default') {
 
     traversedVersions.push(requestedVersion);
 
-    if (
-      !service
-      || (publicOnly && service.private)
-    ) {
-      warn(`There is no version "${ requestedVersion }" or it is marked as private; falling back to "default".`);
+    if (!service || (publicOnly && service.private)) {
+      warn(`There is no version "${requestedVersion}" or it is marked as private; falling back to "default".`);
 
       requestedVersion = 'default';
       publicOnly = true;
@@ -61,7 +65,7 @@ export function findService(servicingPlan, bot, requestedVersion = 'default') {
     const { redirects } = service || {};
 
     if (redirects) {
-      logs.push(`Executing redirection rules of version "${ requestedVersion }".`);
+      logs.push(`Executing redirection rules of version "${requestedVersion}".`);
 
       const actualVersion = execRedirectRules(bot, redirects, requestedVersion) || {};
 
@@ -69,7 +73,7 @@ export function findService(servicingPlan, bot, requestedVersion = 'default') {
         requestedVersion = actualVersion;
         publicOnly = false;
       } else {
-        warn(`Version "${ requestedVersion }" did not have a fallback plan; falling back to default version.`);
+        warn(`Version "${requestedVersion}" did not have a fallback plan; falling back to default version.`);
 
         requestedVersion = 'default';
         publicOnly = true;
@@ -78,13 +82,15 @@ export function findService(servicingPlan, bot, requestedVersion = 'default') {
       continue;
     }
 
-    log([
-      'Selecting version ',
-      traversedVersions
-        .map(version => typeof version === 'undefined' ? '<undefined>' : `"${ version }"`)
-        .join(' -> '),
-      '.'
-    ].join(''));
+    log(
+      [
+        'Selecting version ',
+        traversedVersions
+          .map(version => (typeof version === 'undefined' ? '<undefined>' : `"${version}"`))
+          .join(' -> '),
+        '.'
+      ].join('')
+    );
 
     return service;
   }
@@ -129,14 +135,11 @@ export default async function main(search) {
 
   try {
     bot = await fetchJSON(
-      embedConfigurationURL(
-        botId,
-        {
-          secret,
-          token,
-          userId: params.userId
-        }
-      ),
+      embedConfigurationURL(botId, {
+        secret,
+        token,
+        userId: params.userId
+      }),
       { credentials: 'include' }
     );
   } catch (err) {
@@ -154,23 +157,21 @@ export default async function main(search) {
 
   const { version: actualVersion } = await setup(service, bot, params);
   const dataPoints = {
-    [`actualversion:${ actualVersion }`]: 1,
-    [`expectversion:${ (version || '').substr(0, 10) }`]: version,
-    [`userid:${ bot.userIdSource }`]: 1,
+    [`actualversion:${actualVersion}`]: 1,
+    [`expectversion:${(version || '').substr(0, 10)}`]: version,
+    [`userid:${bot.userIdSource}`]: 1,
     speech: bot.speech,
     websocket: bot.webSocket
   };
 
   const res = await fetch(
-    embedTelemetryURL(
-      botId,
-      { secret, token },
-      Object.keys(dataPoints).filter(name => dataPoints[name])
-    ),
+    embedTelemetryURL(botId, { secret, token }, Object.keys(dataPoints).filter(name => dataPoints[name])),
     { mode: 'no-cors' }
   );
 
   res.text();
 }
 
-main(location.search).catch(({ stack = '' }) => error(['Unhandled exception caught when loading.', '', ...stack.split('\n')].join('\n')));
+main(location.search).catch(({ stack = '' }) =>
+  error(['Unhandled exception caught when loading.', '', ...stack.split('\n')].join('\n'))
+);

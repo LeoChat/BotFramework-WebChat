@@ -7,8 +7,10 @@ import {
   Image,
   OpenUrlAction,
   Size,
+  SizeAndUnit,
   SubmitAction,
   TextBlock,
+  TextColor,
   TextSize,
   TextWeight
 } from 'adaptivecards';
@@ -25,10 +27,10 @@ function addCardAction(cardAction: CardAction, includesOAuthButtons?: boolean) {
   let action;
 
   if (
-    type === 'imBack'
-    || type === 'messageBack'
-    || type === 'postBack'
-    || type === 'signin' && includesOAuthButtons
+    type === 'imBack' ||
+    type === 'messageBack' ||
+    type === 'postBack' ||
+    (type === 'signin' && includesOAuthButtons)
   ) {
     action = new SubmitAction();
 
@@ -42,7 +44,7 @@ function addCardAction(cardAction: CardAction, includesOAuthButtons?: boolean) {
     action = new OpenUrlAction();
 
     action.title = cardAction.title;
-    action.url = cardAction.type === 'call' ? `tel:${ cardAction.value }` : cardAction.value;
+    action.url = cardAction.type === 'call' ? `tel:${cardAction.value}` : cardAction.value;
   }
 
   return action;
@@ -51,10 +53,12 @@ function addCardAction(cardAction: CardAction, includesOAuthButtons?: boolean) {
 export default class AdaptiveCardBuilder {
   card: AdaptiveCard;
   container: Container;
+  styleOptions: any;
 
-  constructor(adaptiveCards) {
+  constructor(adaptiveCards, styleOptions) {
     this.card = new adaptiveCards.AdaptiveCard();
     this.container = new Container();
+    this.styleOptions = styleOptions;
 
     this.card.addItem(this.container);
   }
@@ -67,7 +71,7 @@ export default class AdaptiveCardBuilder {
     return sizes.map(size => {
       const column = new Column();
 
-      // column.width = SizeAndUnit.parse(size);
+      column.width = SizeAndUnit.parse(size);
 
       columnSet.addColumn(column);
 
@@ -88,7 +92,6 @@ export default class AdaptiveCardBuilder {
         textblock[prop] = template[prop];
       }
 
-      textblock.speak = text;
       textblock.text = text;
 
       container.addItem(textblock);
@@ -96,15 +99,22 @@ export default class AdaptiveCardBuilder {
   }
 
   addButtons(cardActions: CardAction[], includesOAuthButtons?: boolean) {
-    cardActions && cardActions.forEach(cardAction => {
-      this.card.addAction(addCardAction(cardAction, includesOAuthButtons));
-    });
+    cardActions &&
+      cardActions.forEach(cardAction => {
+        this.card.addAction(addCardAction(cardAction, includesOAuthButtons));
+      });
   }
 
   addCommonHeaders(content: ICommonContent) {
-    this.addTextBlock(content.title, { size: TextSize.Medium, weight: TextWeight.Bolder });
-    this.addTextBlock(content.subtitle, { isSubtle: true, wrap: true });
-    this.addTextBlock(content.text, { wrap: true });
+    const { richCardWrapTitle } = this.styleOptions;
+    this.addTextBlock(content.title, {
+      color: TextColor.Dark,
+      size: TextSize.Medium,
+      weight: TextWeight.Bolder,
+      wrap: richCardWrapTitle
+    });
+    this.addTextBlock(content.subtitle, { color: TextColor.Dark, isSubtle: true, wrap: richCardWrapTitle });
+    this.addTextBlock(content.text, { color: TextColor.Dark, wrap: true });
   }
 
   addCommon(content: ICommonContent) {

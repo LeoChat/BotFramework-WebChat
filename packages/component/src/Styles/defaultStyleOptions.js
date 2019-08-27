@@ -1,7 +1,7 @@
 /* eslint no-magic-numbers: "off" */
 
 function fontFamily(fonts) {
-  return fonts.map(font => `'${ font }'`).join(', ');
+  return fonts.map(font => `'${font}'`).join(', ');
 }
 
 const DEFAULT_ACCENT = '#0063B1';
@@ -14,7 +14,7 @@ const DEFAULT_OPTIONS = {
   backgroundColor: 'White',
   cardEmphasisBackgroundColor: '#F0F0F0',
   paddingRegular: PADDING_REGULAR,
-  paddingWide: 20,
+  paddingWide: PADDING_REGULAR * 2,
   subtle: DEFAULT_SUBTLE,
 
   // Word break
@@ -34,21 +34,38 @@ const DEFAULT_OPTIONS = {
 
   // Bubble
   bubbleBackground: 'White',
-  bubbleBorder: 'solid 1px #E6E6E6',
+  bubbleBorderColor: '#E6E6E6',
   bubbleBorderRadius: 2,
+  bubbleBorderStyle: 'solid',
+  bubbleBorderWidth: 1,
   bubbleFromUserBackground: 'White',
-  bubbleFromUserBorder: 'solid 1px #E6E6E6',
+  bubbleFromUserBorderColor: '#E6E6E6',
   bubbleFromUserBorderRadius: 2,
+  bubbleFromUserBorderStyle: 'solid',
+  bubbleFromUserBorderWidth: 1,
+  bubbleFromUserNubOffset: 'bottom',
+  bubbleFromUserNubSize: 0,
   bubbleFromUserTextColor: 'Black',
   bubbleImageHeight: 240,
   bubbleMaxWidth: 480, // screen width = 600px
   bubbleMinHeight: 40,
   bubbleMinWidth: 250, // min screen width = 300px, Edge requires 372px (https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/13621468/)
+  bubbleNubOffset: 'bottom',
+  bubbleNubSize: 0,
   bubbleTextColor: 'Black',
+
+  // Markdown
+  markdownRespectCRLF: true,
+
+  // Rich Cards
+  richCardWrapTitle: false, // Applies to subtitles as well
 
   // Root
   rootHeight: '100%',
   rootWidth: '100%',
+
+  // Scroll to end button
+  hideScrollToEndButton: false,
 
   // Send box
   hideSendBox: false,
@@ -59,7 +76,6 @@ const DEFAULT_OPTIONS = {
   sendBoxButtonColorOnDisabled: '#CCC',
   sendBoxButtonColorOnFocus: '#333',
   sendBoxButtonColorOnHover: '#333',
-  sendBoxTextBoxBorderColor: '#77d6f5',
   sendBoxHeight: 40,
   sendBoxMaxHeight: 200,
   sendBoxTextColor: 'Black',
@@ -67,6 +83,7 @@ const DEFAULT_OPTIONS = {
   sendBoxBorderLeft: '',
   sendBoxBorderRight: '',
   sendBoxBorderTop: 'solid 1px #E6E6E6',
+  sendBoxPlaceholderColor: '#767676',
   sendBoxTextWrap: false,
 
   // Visually show spoken text
@@ -74,7 +91,7 @@ const DEFAULT_OPTIONS = {
 
   // Suggested actions
   suggestedActionBackground: 'White',
-  suggestedActionBorder: `solid 2px ${ DEFAULT_ACCENT }`,
+  suggestedActionBorder: `solid 2px ${DEFAULT_ACCENT}`,
   suggestedActionBorderRadius: 0,
   suggestedActionImageHeight: 20,
   suggestedActionTextColor: DEFAULT_ACCENT,
@@ -85,6 +102,7 @@ const DEFAULT_OPTIONS = {
 
   // Timestamp
   timestampColor: DEFAULT_SUBTLE,
+  timestampFormat: 'relative', // 'absolute'
 
   // Transcript overlay buttons (e.g. carousel and suggested action flippers, scroll to bottom, etc.)
   transcriptOverlayButtonBackground: 'rgba(0, 0, 0, .6)',
@@ -107,6 +125,7 @@ const DEFAULT_OPTIONS = {
   notificationText: '#5E5E5E',
 
   typingAnimationBackgroundImage: null,
+  typingAnimationDuration: 5000,
   typingAnimationHeight: 20,
   typingAnimationWidth: 64,
 
@@ -114,7 +133,12 @@ const DEFAULT_OPTIONS = {
   spinnerAnimationHeight: 16,
   spinnerAnimationWidth: 16,
   spinnerAnimationPaddingRight: 12,
-  spinnerAnimationPaddingLeft: 'auto'
+
+  enableUploadThumbnail: true,
+  uploadThumbnailContentType: 'image/jpeg',
+  uploadThumbnailHeight: 360,
+  uploadThumbnailQuality: 0.6,
+  uploadThumbnailWidth: 720
 };
 
-export default DEFAULT_OPTIONS
+export default DEFAULT_OPTIONS;

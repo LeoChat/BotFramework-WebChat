@@ -55,7 +55,9 @@ class AdaptiveCardRenderer extends React.PureComponent {
     const { disabled, onCardAction } = this.props;
 
     // Some items, e.g. tappable image, cannot be disabled thru DOM attributes
-    if (disabled) { return; }
+    if (disabled) {
+      return;
+    }
 
     const actionTypeName = action.getJsonTypeName();
 
@@ -80,7 +82,7 @@ class AdaptiveCardRenderer extends React.PureComponent {
           });
         }
 
-        const {current} = this.contentRef;
+        const { current } = this.contentRef;
         if (current) {
           const inputs = current.querySelectorAll('button, input, select, textarea');
           if (inputs.length > 0) {
@@ -101,18 +103,9 @@ class AdaptiveCardRenderer extends React.PureComponent {
 
   renderCard() {
     const {
-      contentRef: {
-        current
-      },
-      props: {
-        adaptiveCard,
-        adaptiveCardHostConfig,
-        disabled,
-        renderMarkdown
-      },
-      state: {
-        error
-      }
+      contentRef: { current },
+      props: { adaptiveCard, adaptiveCardHostConfig, disabled, renderMarkdown },
+      state: { error }
     } = this;
 
     if (current && adaptiveCard) {
@@ -123,23 +116,25 @@ class AdaptiveCardRenderer extends React.PureComponent {
       //       Because there could be timing difference between .parse and .render, we could be using wrong Markdown engine
 
       adaptiveCard.constructor.onProcessMarkdown = (text, result) => {
-        // if (renderMarkdown) {
+        if (renderMarkdown) {
           result.outputHtml = renderMarkdown(text);
           result.didProcess = true;
-        // }
+        }
       };
 
       adaptiveCard.onExecuteAction = this.handleExecuteAction;
 
       if (adaptiveCardHostConfig) {
-        adaptiveCard.hostConfig = isPlainObject(adaptiveCardHostConfig) ? new HostConfig(adaptiveCardHostConfig) : adaptiveCardHostConfig;
+        adaptiveCard.hostConfig = isPlainObject(adaptiveCardHostConfig)
+          ? new HostConfig(adaptiveCardHostConfig)
+          : adaptiveCardHostConfig;
       }
 
-      const errors = adaptiveCard.validate();
+      const { failures } = adaptiveCard.validateProperties();
 
-      if (errors.length) {
+      if (failures.length) {
         // TODO: [P3] Since this can be called from `componentDidUpdate` and potentially error, we should fix a better way to propagate the error.
-
+        const errors = failures.reduce((items, { errors }) => [...items, ...errors], []);
         return this.setState(() => ({ error: errors }));
       }
 
@@ -190,19 +185,12 @@ class AdaptiveCardRenderer extends React.PureComponent {
       state: { error }
     } = this;
 
-    return (
-      error ?
-        <ErrorBox message={ localize('Adaptive Card render error', language) }>
-          <pre>
-            { JSON.stringify(error, null, 2) }
-          </pre>
-        </ErrorBox>
-      :
-        <div
-          className={ styleSet.adaptiveCardRenderer }
-          onClick={ this.handleClick }
-          ref={ this.contentRef }
-        />
+    return error ? (
+      <ErrorBox message={localize('Adaptive Card render error', language)}>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
+      </ErrorBox>
+    ) : (
+      <div className={styleSet.adaptiveCardRenderer} onClick={this.handleClick} ref={this.contentRef} />
     );
   }
 }
@@ -217,7 +205,10 @@ AdaptiveCardRenderer.propTypes = {
   styleSet: PropTypes.shape({
     adaptiveCardRenderer: PropTypes.any.isRequired
   }).isRequired,
-  tapAction: PropTypes.func
+  tapAction: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    value: PropTypes.string
+  })
 };
 
 AdaptiveCardRenderer.defaultProps = {
@@ -225,20 +216,11 @@ AdaptiveCardRenderer.defaultProps = {
   tapAction: undefined
 };
 
-export default connectToWebChat(
-  ({
-    disabled,
-    language,
-    onCardAction,
-    renderMarkdown,
-    styleSet,
-    tapAction
-  }) => ({
-    disabled,
-    language,
-    onCardAction,
-    renderMarkdown,
-    styleSet,
-    tapAction
-  })
-)(AdaptiveCardRenderer)
+export default connectToWebChat(({ disabled, language, onCardAction, renderMarkdown, styleSet, tapAction }) => ({
+  disabled,
+  language,
+  onCardAction,
+  renderMarkdown,
+  styleSet,
+  tapAction
+}))(AdaptiveCardRenderer);

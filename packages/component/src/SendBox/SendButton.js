@@ -6,37 +6,22 @@ import connectToWebChat from '../connectToWebChat';
 import IconButton from './IconButton';
 import SendIcon from './Assets/SendIcon';
 
-const connectSendButton = (...selectors) => connectToWebChat (
-  ({
-    disabled,
-    focusSendBox,
-    language,
-    direction,
-    sendBoxValue,
-    setSendBox,
-    submitSendBox
-  }) => ({
-    click: () => {
-      setSendBox(sendBoxValue.trim());
-      submitSendBox();
-      focusSendBox();
-    },
-    direction,
-    disabled,
-    language
-  }),
-  ...selectors
-)
+const connectSendButton = (...selectors) =>
+  connectToWebChat(
+    ({ direction, disabled, language, submitSendBox }) => ({
+      direction,
+      disabled,
+      language,
+      submitSendBox
+    }),
+    ...selectors
+  );
 
-const SendButton = ({ click, disabled, language, direction }) =>
-  <IconButton
-    alt={ localize('Send', language) }
-    direction={ direction }
-    disabled={ disabled }
-    onClick={ click }
-  >
+const SendButton = ({ direction, disabled, language, submitSendBox }) => (
+  <IconButton alt={localize('Send', language)} direction={direction} disabled={disabled} onClick={submitSendBox}>
     <SendIcon />
-  </IconButton>;
+  </IconButton>
+);
 
 SendButton.defaultProps = {
   direction: 'ltr',
@@ -44,12 +29,12 @@ SendButton.defaultProps = {
 };
 
 SendButton.propTypes = {
-  click: PropTypes.func.isRequired,
   direction: PropTypes.string,
   disabled: PropTypes.bool,
-  language: PropTypes.string.isRequired
+  language: PropTypes.string.isRequired,
+  submitSendBox: PropTypes.func.isRequired
 };
 
-export default connectSendButton()(SendButton)
+export default connectSendButton()(SendButton);
 
-export { connectSendButton }
+export { connectSendButton };

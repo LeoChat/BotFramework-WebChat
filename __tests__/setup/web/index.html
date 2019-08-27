@@ -35,9 +35,7 @@
     }();
     </script>
     <!--
-      For demonstration purposes, we are using development branch of Web Chat at "/master/webchat.js".
-      When you are using Web Chat for production, you should use the latest stable at "/latest/webchat.js".
-      Or locked down on a specific version "/4.1.0/webchat.js".
+      For demonstration purposes, we are using the latest official release of Web Chat at "/latest/webchat.js". When you are using Web Chat for production, you may lock down on a specific version with the following format: "/4.1.0/webchat.js".
     -->
     <style>
       html, body { height: 100% }
@@ -49,6 +47,9 @@
         width: 100%;
       }
     </style>
+    <script src="https://unpkg.com/event-target-shim@5.0.1/dist/event-target-shim.umd.js"></script>
+    <script src="/createProduceConsumeBroker.js"></script>
+    <script src="/mockWebSpeech.js"></script>
   </head>
   <body>
     <div id="webchat" role="main"></div>
@@ -91,7 +92,7 @@
       const PASSTHRU_MIDDLEWARE = store => next => action => next(action);
 
       async function main(options) {
-        let { createDirectLine, createStyleSet, props, setup, storeMiddleware = PASSTHRU_MIDDLEWARE } = unmarshal(options);
+        let { createDirectLine, createStyleSet, props, setup, storeInitialState = {}, storeMiddleware = PASSTHRU_MIDDLEWARE } = unmarshal(options);
 
         props = unmarshal(props);
 
@@ -112,7 +113,7 @@
           }
         }, 3);
 
-        const store = window.WebChatTest.store = window.WebChat.createStore({}, store => {
+        const store = window.WebChatTest.store = window.WebChat.createStore(storeInitialState, store => {
           const setupMiddleware = storeMiddleware(store);
 
           return next => {

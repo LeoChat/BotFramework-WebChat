@@ -1,6 +1,5 @@
-import memoize from 'memoize-one';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import AdaptiveCardRenderer from './AdaptiveCardRenderer';
 
@@ -12,31 +11,26 @@ function stripSubmitAction(card) {
   // Filter out HTTP action buttons
   const nextActions = card.actions
     .filter(action => action.type !== 'Action.Submit')
-    .map(action =>
-      action.type === 'Action.ShowCard' ?
-        { ...action, card: stripSubmitAction(action.card) }
-      :
-        action
-    );
+    .map(action => (action.type === 'Action.ShowCard' ? { ...action, card: stripSubmitAction(action.card) } : action));
 
   return { ...card, nextActions };
 }
 
-export default class AdaptiveCardAttachment extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.createAdaptiveCard = memoize((adaptiveCards, content) => {
+const AdaptiveCardAttachment = ({ adaptiveCardHostConfig, adaptiveCards, attachment: { content }, renderMarkdown }) => {
+  const { card } = useMemo(() => {
+    if (content) {
       const card = new adaptiveCards.AdaptiveCard();
       const errors = [];
 
       // TODO: [P3] Move from "onParseError" to "card.parse(json, errors)"
       adaptiveCards.AdaptiveCard.onParseError = error => errors.push(error);
 
-      card.parse(stripSubmitAction({
-        version: '1.0',
-        ...content
-      }));
+      card.parse(
+        stripSubmitAction({
+          version: '1.0',
+          ...content
+        })
+      );
 
       adaptiveCards.AdaptiveCard.onParseError = null;
 
@@ -44,21 +38,19 @@ export default class AdaptiveCardAttachment extends React.Component {
         card,
         errors
       };
-    });
-  }
+    }
+  }, [adaptiveCards, content]);
 
-  render() {
-    const { props: { adaptiveCardHostConfig, adaptiveCards, attachment, renderMarkdown } } = this;
-    const { card } = this.createAdaptiveCard(adaptiveCards, attachment.content, renderMarkdown);
+  return (
+    <AdaptiveCardRenderer
+      adaptiveCard={card}
+      adaptiveCardHostConfig={adaptiveCardHostConfig}
+      renderMarkdown={renderMarkdown}
+    />
+  );
+};
 
-    return (
-      <AdaptiveCardRenderer
-        adaptiveCard={ card }
-        adaptiveCardHostConfig={ adaptiveCardHostConfig }
-      />
-    );
-  }
-}
+export default AdaptiveCardAttachment;
 
 AdaptiveCardAttachment.propTypes = {
   // TODO: [P2] We should rename adaptiveCards to adaptiveCardsPolyfill
@@ -67,5 +59,5 @@ AdaptiveCardAttachment.propTypes = {
   attachment: PropTypes.shape({
     content: PropTypes.any.isRequired
   }).isRequired,
-  // renderMarkdown: PropTypes.any.isRequired
+  renderMarkdown: PropTypes.any.isRequired
 };

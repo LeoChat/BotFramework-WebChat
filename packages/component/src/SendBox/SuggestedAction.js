@@ -15,58 +15,33 @@ const SUGGESTED_ACTION_CSS = css({
 });
 
 const SUGGESTED_ACTION_BUTTON_CSS = css({
-    '&:focus, &:hover': {
-        textDecoration: 'none',
-        outline: 0
-    }
+  '&:focus, &:hover': {
+    textDecoration: 'none',
+    outline: 0
+  }
 });
 
-const connectSuggestedAction = (...selectors) => connectToWebChat(
-  ({
-    disabled,
-    language,
-    onCardAction
-  }, {
-    displayText,
-    text,
-    type,
-    value
-  }) => ({
-    click: () => {
-      onCardAction({ displayText, text, type, value });
-      // focusSendBox();
-    },
-    disabled,
-    language
-  }),
-  ...selectors
-)
+const connectSuggestedAction = (...selectors) =>
+  connectToWebChat(
+    ({ clearSuggestedActions, disabled, language, onCardAction }, { displayText, text, type, value }) => ({
+      click: () => {
+        onCardAction({ displayText, text, type, value });
+        type === 'openUrl' && clearSuggestedActions();
+      },
+      disabled,
+      language
+    }),
+    ...selectors
+  );
 
-const SuggestedAction = ({
-  buttonText,
-  click,
-  disabled,
-  image,
-  styleSet
-}) =>
-  <div
-    className={ classNames(
-      styleSet.suggestedAction + '',
-      SUGGESTED_ACTION_CSS + ''
-    ) }
-  >
-    <button
-      className={ SUGGESTED_ACTION_BUTTON_CSS }
-      disabled={ disabled }
-      onClick={ click }
-      type="button"
-    >
-      { image && <img src={ image } /> }
-      <nobr>
-        { buttonText }
-      </nobr>
+const SuggestedAction = ({ buttonText, click, disabled, image, styleSet }) => (
+  <div className={classNames(styleSet.suggestedAction + '', SUGGESTED_ACTION_CSS + '')}>
+    <button className={SUGGESTED_ACTION_BUTTON_CSS + ''} disabled={disabled} onClick={click} type="button">
+      {image && <img src={image} />}
+      <nobr>{buttonText}</nobr>
     </button>
-  </div>;
+  </div>
+);
 
 SuggestedAction.defaultProps = {
   disabled: false,
@@ -83,8 +58,6 @@ SuggestedAction.propTypes = {
   }).isRequired
 };
 
-export default connectSuggestedAction(
-  ({ styleSet }) => ({ styleSet })
-)(SuggestedAction)
+export default connectSuggestedAction(({ styleSet }) => ({ styleSet }))(SuggestedAction);
 
-export { connectSuggestedAction }
+export { connectSuggestedAction };

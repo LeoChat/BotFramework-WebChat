@@ -8,20 +8,21 @@ A simple web page with a maximized and full-featured Web Chat embed from a CDN, 
 
 # Test out the hosted sample
 
-- [Try out MockBot](https://microsoft.github.io/BotFramework-WebChat/06.b.cognitive-services-bing-speech-react)
+-  [Try out MockBot](https://microsoft.github.io/BotFramework-WebChat/06.b.cognitive-services-bing-speech-react)
 
 # How to run
-- Fork this repository
-- Navigate to `/Your-Local-WebChat/samples/06.a.cognitive-services-bing-speech-react` in command line
-- Run `npx serve`
-- Browse to [http://localhost:5000/](http://localhost:5000/)
+
+-  Fork this repository
+-  Navigate to `/Your-Local-WebChat/samples/06.a.cognitive-services-bing-speech-react` in command line
+-  Run `npx serve`
+-  Browse to [http://localhost:5000/](http://localhost:5000/)
 
 # Things to try out
 
-- Use the microphone button: you should be able to provide commands to the bot via speech
-- Speak `help`: you should see a full list of MockBot features
-- Speak `card weather`: you should see a weather card built using Adaptive Cards
-- Speak `carousel`: you should see a carousel of cards
+-  Use the microphone button: you should be able to provide commands to the bot via speech
+-  Speak `help`: you should see a full list of MockBot features
+-  Speak `card weather`: you should see a weather card built using Adaptive Cards
+-  Speak `carousel`: you should see a carousel of cards
 
 # Code
 
@@ -31,7 +32,7 @@ A simple web page with a maximized and full-featured Web Chat embed from a CDN, 
 
 The `index.html` page has one main goal:
 
-- To enable Cognitive Services Bing Speech to provide speech-to-text ability
+-  To enable Cognitive Services Bing Speech to provide speech-to-text ability
 
 We'll start by using the [host with React sample](../03.a.host-with-react) as our Web Chat React template.
 
@@ -58,7 +59,7 @@ Here is the finished `index.html` for subscription key flow:
     <script src="https://unpkg.com/react@16.5.0/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16.5.0/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/react-redux@5.0.7/dist/react-redux.min.js"></script>
-    <script src="https://cdn.botframework.com/botframework-webchat/master/webchat.js"></script>
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
     <style>
       html, body { height: 100% }
       body { margin: 0 }
@@ -123,7 +124,7 @@ Here is the finished `index.html` for authorization token flow:
     <script src="https://unpkg.com/react-dom@16.5.0/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/react-redux@5.0.7/dist/react-redux.min.js"></script>
 
-    <script src="https://cdn.botframework.com/botframework-webchat/master/webchat.js"></script>
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
     <style>
       html, body { height: 100% }
       body { margin: 0 }
@@ -170,11 +171,9 @@ Here is the finished `index.html` for authorization token flow:
 ```
 
 # Further reading
-- [Cognitive Services Speech Services bot](https://microsoft.github.io/BotFramework-WebChat/06.c.cognitive-services-speech-services-js) | [(Cognitive Services Speech Services source code)](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples/06.c.cognitive-services-speech-services-js)
 
-
-
+-  [Cognitive Services Speech Services bot](https://microsoft.github.io/BotFramework-WebChat/06.c.cognitive-services-speech-services-js) | [(Cognitive Services Speech Services source code)](https://github.com/microsoft/BotFramework-WebChat/tree/master/samples/06.c.cognitive-services-speech-services-js)
 
 ## Full list of Web Chat Hosted Samples
 
-View the list of [available Web Chat samples](https://github.com/Microsoft/BotFramework-WebChat/tree/master/samples)
+View the list of [available Web Chat samples](https://github.com/microsoft/BotFramework-WebChat/tree/master/samples)

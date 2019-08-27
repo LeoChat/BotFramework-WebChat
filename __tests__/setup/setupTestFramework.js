@@ -13,22 +13,29 @@ import setupTestEnvironment from './setupTestEnvironment';
 const BROWSER_NAME = process.env.WEBCHAT_TEST_ENV || 'chrome-docker';
 // const BROWSER_NAME = 'chrome-docker';
 // const BROWSER_NAME = 'chrome-local';
+const NUM_RETRIES = 3;
 
 function marshal(props) {
-  return props && Object.keys(props).reduce((nextProps, key) => {
-    const { [key]: value } = props;
+  return (
+    props &&
+    Object.keys(props).reduce(
+      (nextProps, key) => {
+        const { [key]: value } = props;
 
-    if (typeof value === 'function') {
-      nextProps[key] = `() => ${ value.toString() }`;
-      nextProps.__evalKeys.push(key);
-    } else {
-      nextProps[key] = value;
-    }
+        if (typeof value === 'function') {
+          nextProps[key] = `() => ${value.toString()}`;
+          nextProps.__evalKeys.push(key);
+        } else {
+          nextProps[key] = value;
+        }
 
-    return nextProps;
-  }, {
-    __evalKeys: []
-  });
+        return nextProps;
+      },
+      {
+        __evalKeys: []
+      }
+    )
+  );
 }
 
 expect.extend({
@@ -57,7 +64,7 @@ global.setupWebDriver = async options => {
         if (/\$PORT/i.test(baseURL)) {
           const { port } = await global.setupWebServer();
 
-          await driver.get(baseURL.replace(/\$PORT/ig, port));
+          await driver.get(baseURL.replace(/\$PORT/gi, port));
         } else {
           await driver.get(baseURL);
         }
@@ -66,10 +73,17 @@ global.setupWebDriver = async options => {
           (coverage, options, callback) => {
             window.__coverage__ = coverage;
 
-            main(options).then(() => callback(), err => {
-              console.error(err);
-              callback(err);
-            });
+            if (options.zoom) {
+              document.body.style.zoom = options.zoom;
+            }
+
+            main(options).then(
+              () => callback(),
+              err => {
+                console.error(err);
+                callback(err);
+              }
+            );
           },
           global.__coverage__,
           marshal({
@@ -80,7 +94,7 @@ global.setupWebDriver = async options => {
 
         const pageObjects = createPageObjects(driver);
 
-        options.pingBotOnLoad && await pageObjects.pingBot();
+        options.pingBotOnLoad && (await pageObjects.pingBot());
 
         return { driver, pageObjects };
       } catch (err) {
@@ -88,7 +102,7 @@ global.setupWebDriver = async options => {
 
         throw err;
       }
-    }, 3);
+    }, NUM_RETRIES);
   }
 
   return await driverPromise;
@@ -98,20 +112,30 @@ global.setupWebServer = async () => {
   if (!serverPromise) {
     serverPromise = new Promise(async (resolve, reject) => {
       const port = await getPort();
-      const httpServer = createServer((req, res) => handler(req, res, {
-        redirects: [
-          { source: '/', destination: '__tests__/setup/web/index.html' }
-        ],
-        rewrites: [
-          { source: '/webchat.js', destination: 'packages/bundle/dist/webchat.js' },
-          { source: '/webchat-es5.js', destination: 'packages/bundle/dist/webchat-es5.js' },
-          { source: '/webchat-instrumented.js', destination: 'packages/bundle/dist/webchat-instrumented.js' },
-          { source: '/webchat-instrumented-es5.js', destination: 'packages/bundle/dist/webchat-instrumented-es5.js' },
-          { source: '/webchat-instrumented-minimal.js', destination: 'packages/bundle/dist/webchat-instrumented-minimal.js' },
-          { source: '/webchat-minimal.js', destination: 'packages/bundle/dist/webchat-minimal.js' }
-        ],
-        public: join(__dirname, '../..'),
-      }));
+      const httpServer = createServer((req, res) =>
+        handler(req, res, {
+          redirects: [
+            { source: '/', destination: '__tests__/setup/web/index.html' },
+            {
+              source: '/createProduceConsumeBroker.js',
+              destination: '__tests__/setup/web/createProduceConsumeBroker.js'
+            },
+            { source: '/mockWebSpeech.js', destination: '__tests__/setup/web/mockWebSpeech.js' }
+          ],
+          rewrites: [
+            { source: '/webchat.js', destination: 'packages/bundle/dist/webchat.js' },
+            { source: '/webchat-es5.js', destination: 'packages/bundle/dist/webchat-es5.js' },
+            { source: '/webchat-instrumented.js', destination: 'packages/bundle/dist/webchat-instrumented.js' },
+            { source: '/webchat-instrumented-es5.js', destination: 'packages/bundle/dist/webchat-instrumented-es5.js' },
+            {
+              source: '/webchat-instrumented-minimal.js',
+              destination: 'packages/bundle/dist/webchat-instrumented-minimal.js'
+            },
+            { source: '/webchat-minimal.js', destination: 'packages/bundle/dist/webchat-minimal.js' }
+          ],
+          public: join(__dirname, '../..')
+        })
+      );
 
       httpServer.once('error', reject);
 
@@ -125,7 +149,7 @@ global.setupWebServer = async () => {
   }
 
   return await serverPromise;
-}
+};
 
 afterEach(async () => {
   if (driverPromise) {
@@ -137,7 +161,7 @@ afterEach(async () => {
       ((await driver.executeScript(() => window.__console__)) || [])
         .filter(([type]) => type === 'error' && type === 'warn')
         .forEach(([type, message]) => {
-          console.log(`${ type }: ${ message }`);
+          console.log(`${type}: ${message}`);
         });
     } finally {
       await driver.quit();
