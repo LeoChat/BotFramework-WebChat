@@ -12,6 +12,7 @@ import enUS from './en-US';
 import esES from './es-ES';
 import fiFI from './fi-FI';
 import frFR from './fr-FR';
+import heIL from './he-IL';
 import huHU from './hu-HU';
 import itIT from './it-IT';
 import jaJP from './ja-JP';
@@ -46,6 +47,8 @@ function normalizeLanguage(language) {
     return 'fi-FI';
   } else if (language.startsWith('fr')) {
     return 'fr-FR';
+  } else if (language.startsWith('he')) {
+    return 'he-IL';
   } else if (language.startsWith('hu')) {
     return 'hu-HU';
   } else if (language.startsWith('it')) {
@@ -99,6 +102,8 @@ function getStrings(language) {
       return fiFI;
     case 'fr-FR':
       return frFR;
+    case 'he-IL':
+      return heIL;
     case 'hu-HU':
       return huHU;
     case 'it-IT':
