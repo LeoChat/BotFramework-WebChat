@@ -1,0 +1,13 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports.default = fetchJSON;
+
+function fetchJSON(url, options) {
+  return window.fetch(url, options).then(function(res) {
+    return res.ok ? res.json() : Promise.reject(new Error('Server returned '.concat(res.status)));
+  });
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9mZXRjaEpTT04uanMiXSwibmFtZXMiOlsiZmV0Y2hKU09OIiwidXJsIiwib3B0aW9ucyIsIndpbmRvdyIsImZldGNoIiwidGhlbiIsInJlcyIsIm9rIiwianNvbiIsIlByb21pc2UiLCJyZWplY3QiLCJFcnJvciIsInN0YXR1cyJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFlLFNBQVNBLFNBQVQsQ0FBbUJDLEdBQW5CLEVBQXdCQyxPQUF4QixFQUFpQztBQUM5QyxTQUFPQyxNQUFNLENBQ1ZDLEtBREksQ0FDRUgsR0FERixFQUNPQyxPQURQLEVBRUpHLElBRkksQ0FFQyxVQUFBQyxHQUFHO0FBQUEsV0FBS0EsR0FBRyxDQUFDQyxFQUFKLEdBQVNELEdBQUcsQ0FBQ0UsSUFBSixFQUFULEdBQXNCQyxPQUFPLENBQUNDLE1BQVIsQ0FBZSxJQUFJQyxLQUFKLDJCQUE2QkwsR0FBRyxDQUFDTSxNQUFqQyxFQUFmLENBQTNCO0FBQUEsR0FGSixDQUFQO0FBR0QiLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBmZXRjaEpTT04odXJsLCBvcHRpb25zKSB7XG4gIHJldHVybiB3aW5kb3dcbiAgICAuZmV0Y2godXJsLCBvcHRpb25zKVxuICAgIC50aGVuKHJlcyA9PiAocmVzLm9rID8gcmVzLmpzb24oKSA6IFByb21pc2UucmVqZWN0KG5ldyBFcnJvcihgU2VydmVyIHJldHVybmVkICR7cmVzLnN0YXR1c31gKSkpKTtcbn1cbiJdfQ==
