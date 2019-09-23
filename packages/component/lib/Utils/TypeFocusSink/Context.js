@@ -1,54 +1,5 @@
 'use strict';
 
-var cov_6dmuteqw3 = (function() {
-  var path = '/Users/guy/Work/Leo/leo/BotFramework-WebChat/packages/component/src/Utils/TypeFocusSink/Context.js';
-  var hash = 'c38b9ed628f6ff5005f616dbf01ca83e9429cef7';
-  var global = new Function('return this')();
-  var gcv = '__coverage__';
-  var coverageData = {
-    path: '/Users/guy/Work/Leo/leo/BotFramework-WebChat/packages/component/src/Utils/TypeFocusSink/Context.js',
-    statementMap: {
-      '0': {
-        start: {
-          line: 3,
-          column: 16
-        },
-        end: {
-          line: 5,
-          column: 2
-        }
-      },
-      '1': {
-        start: {
-          line: 7,
-          column: 0
-        },
-        end: {
-          line: 7,
-          column: 45
-        }
-      }
-    },
-    fnMap: {},
-    branchMap: {},
-    s: {
-      '0': 0,
-      '1': 0
-    },
-    f: {},
-    b: {},
-    _coverageSchema: '43e27e138ebf9cfc5966b082cf9a028302ed4184',
-    hash: 'c38b9ed628f6ff5005f616dbf01ca83e9429cef7'
-  };
-  var coverage = global[gcv] || (global[gcv] = {});
-
-  if (coverage[path] && coverage[path].hash === hash) {
-    return coverage[path];
-  }
-
-  return (coverage[path] = coverageData);
-})();
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
@@ -60,13 +11,11 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
-var context =
-  (cov_6dmuteqw3.s[0]++,
-  _react.default.createContext({
-    focusableRef: undefined
-  }));
-cov_6dmuteqw3.s[1]++;
+var context = _react.default.createContext({
+  focusableRef: undefined
+});
+
 context.displayName = 'TypeFocusSinkContext';
 var _default = context;
 exports.default = _default;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9VdGlscy9UeXBlRm9jdXNTaW5rL0NvbnRleHQuanMiXSwibmFtZXMiOlsiY29udGV4dCIsIlJlYWN0IiwiY3JlYXRlQ29udGV4dCIsImZvY3VzYWJsZVJlZiIsInVuZGVmaW5lZCIsImRpc3BsYXlOYW1lIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQUFBOzs7O0FBRUEsSUFBTUEsT0FBTywwQkFBR0MsZUFBTUMsYUFBTixDQUFvQjtBQUNsQ0MsRUFBQUEsWUFBWSxFQUFFQztBQURvQixDQUFwQixDQUFILENBQWI7O0FBSUFKLE9BQU8sQ0FBQ0ssV0FBUixHQUFzQixzQkFBdEI7ZUFFZUwsTyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5cbmNvbnN0IGNvbnRleHQgPSBSZWFjdC5jcmVhdGVDb250ZXh0KHtcbiAgZm9jdXNhYmxlUmVmOiB1bmRlZmluZWRcbn0pO1xuXG5jb250ZXh0LmRpc3BsYXlOYW1lID0gJ1R5cGVGb2N1c1NpbmtDb250ZXh0JztcblxuZXhwb3J0IGRlZmF1bHQgY29udGV4dDtcbiJdfQ==
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9VdGlscy9UeXBlRm9jdXNTaW5rL0NvbnRleHQuanMiXSwibmFtZXMiOlsiY29udGV4dCIsIlJlYWN0IiwiY3JlYXRlQ29udGV4dCIsImZvY3VzYWJsZVJlZiIsInVuZGVmaW5lZCIsImRpc3BsYXlOYW1lIl0sIm1hcHBpbmdzIjoiOzs7Ozs7O0FBQUE7Ozs7QUFFQSxJQUFNQSxPQUFPLEdBQUdDLGVBQU1DLGFBQU4sQ0FBb0I7QUFDbENDLEVBQUFBLFlBQVksRUFBRUM7QUFEb0IsQ0FBcEIsQ0FBaEI7O0FBSUFKLE9BQU8sQ0FBQ0ssV0FBUixHQUFzQixzQkFBdEI7ZUFFZUwsTyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5cbmNvbnN0IGNvbnRleHQgPSBSZWFjdC5jcmVhdGVDb250ZXh0KHtcbiAgZm9jdXNhYmxlUmVmOiB1bmRlZmluZWRcbn0pO1xuXG5jb250ZXh0LmRpc3BsYXlOYW1lID0gJ1R5cGVGb2N1c1NpbmtDb250ZXh0JztcblxuZXhwb3J0IGRlZmF1bHQgY29udGV4dDtcbiJdfQ==

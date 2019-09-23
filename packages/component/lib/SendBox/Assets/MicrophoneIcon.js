@@ -1,81 +1,5 @@
 'use strict';
 
-var cov_xlusgfl5w = (function() {
-  var path = '/Users/guy/Work/Leo/leo/BotFramework-WebChat/packages/component/src/SendBox/Assets/MicrophoneIcon.js';
-  var hash = '288f6d9e8cd90f2496088db4e08b79b327563202';
-  var global = new Function('return this')();
-  var gcv = '__coverage__';
-  var coverageData = {
-    path: '/Users/guy/Work/Leo/leo/BotFramework-WebChat/packages/component/src/SendBox/Assets/MicrophoneIcon.js',
-    statementMap: {
-      '0': {
-        start: {
-          line: 3,
-          column: 23
-        },
-        end: {
-          line: 10,
-          column: 1
-        }
-      },
-      '1': {
-        start: {
-          line: 4,
-          column: 2
-        },
-        end: {
-          line: 9,
-          column: 8
-        }
-      }
-    },
-    fnMap: {
-      '0': {
-        name: '(anonymous_0)',
-        decl: {
-          start: {
-            line: 3,
-            column: 23
-          },
-          end: {
-            line: 3,
-            column: 24
-          }
-        },
-        loc: {
-          start: {
-            line: 4,
-            column: 2
-          },
-          end: {
-            line: 9,
-            column: 8
-          }
-        },
-        line: 4
-      }
-    },
-    branchMap: {},
-    s: {
-      '0': 0,
-      '1': 0
-    },
-    f: {
-      '0': 0
-    },
-    b: {},
-    _coverageSchema: '43e27e138ebf9cfc5966b082cf9a028302ed4184',
-    hash: '288f6d9e8cd90f2496088db4e08b79b327563202'
-  };
-  var coverage = global[gcv] || (global[gcv] = {});
-
-  if (coverage[path] && coverage[path].hash === hash) {
-    return coverage[path];
-  }
-
-  return (coverage[path] = coverageData);
-})();
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
@@ -87,11 +11,7 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
-cov_xlusgfl5w.s[0]++;
-
 var MicrophoneIcon = function MicrophoneIcon() {
-  cov_xlusgfl5w.f[0]++;
-  cov_xlusgfl5w.s[1]++;
   return _react.default.createElement(
     'svg',
     {
@@ -109,4 +29,4 @@ var MicrophoneIcon = function MicrophoneIcon() {
 
 var _default = MicrophoneIcon;
 exports.default = _default;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9TZW5kQm94L0Fzc2V0cy9NaWNyb3Bob25lSWNvbi5qcyJdLCJuYW1lcyI6WyJNaWNyb3Bob25lSWNvbiJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQTs7Ozs7O0FBRUEsSUFBTUEsY0FBYyxHQUFHLFNBQWpCQSxjQUFpQixHQUNyQjtBQUFBO0FBQUE7QUFBQTtBQUFLLElBQUEsTUFBTSxFQUFFLEVBQWI7QUFBaUIsSUFBQSxPQUFPLEVBQUMsY0FBekI7QUFBd0MsSUFBQSxLQUFLLEVBQUU7QUFBL0MsS0FDRTtBQUNFLElBQUEsU0FBUyxFQUFDLEdBRFo7QUFFRSxJQUFBLENBQUMsRUFBQztBQUZKLElBREY7QUFLTSxDQU5SOztlQVNlQSxjIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0IGZyb20gJ3JlYWN0JztcblxuY29uc3QgTWljcm9waG9uZUljb24gPSAoKSA9PiAoXG4gIDxzdmcgaGVpZ2h0PXsyOH0gdmlld0JveD1cIjAgMCAzNC43NSA0NlwiIHdpZHRoPXsyOH0+XG4gICAgPHBhdGhcbiAgICAgIGNsYXNzTmFtZT1cImFcIlxuICAgICAgZD1cIk0yOS43NSwyM3Y2LjM2YTcsNywwLDAsMS0uNTYsMi43OCw3LjE2LDcuMTYsMCwwLDEtMy44LDMuOCw3LDcsMCwwLDEtMi43OC41NkgxOC41djIuMjVIMjNWNDFIMTEuNzV2LTIuMjVoNC41VjM2LjVoLTQuMTFhNyw3LDAsMCwxLTIuNzgtLjU2LDcuMTYsNy4xNiwwLDAsMS0zLjgtMy44LDcsNywwLDAsMS0uNTYtMi43OFYyM2gyLjI1djYuMzZhNC43Miw0LjcyLDAsMCwwLC4zOSwxLjksNC43OCw0Ljc4LDAsMCwwLDIuNiwyLjYsNC43Miw0LjcyLDAsMCwwLDEuOS4zOWgxMC40N2E0LjcyLDQuNzIsMCwwLDAsMS45LS4zOSw0Ljc4LDQuNzgsMCwwLDAsMi42LTIuNiw0LjcyLDQuNzIsMCwwLDAsLjM5LTEuOVYyM1ptLTE4LDUuNjJhMS4xMywxLjEzLDAsMCwwLDEuMTMsMS4xM2g5YTEuMTMsMS4xMywwLDAsMCwxLjEyLTEuMTNWOC4zOGExLjEzLDEuMTMsMCwwLDAtMS4xMi0xLjEzaC05YTEuMTMsMS4xMywwLDAsMC0xLjEzLDEuMTNabTEuMTMsMy4zOGEzLjQxLDMuNDEsMCwwLDEtMS4zMi0uMjYsMy4zMSwzLjMxLDAsMCwxLTEuOC0xLjgsMy40MSwzLjQxLDAsMCwxLS4yNi0xLjMyVjguMzhhMy40MSwzLjQxLDAsMCwxLC4yNi0xLjMyLDMuMzEsMy4zMSwwLDAsMSwxLjgtMS44LDMuNDEsMy40MSwwLDAsMSwxLjMyLS4yNmg5YTMuNCwzLjQsMCwwLDEsMS4zMS4yNiwzLjMxLDMuMzEsMCwwLDEsMS44LDEuOCwzLjQxLDMuNDEsMCwwLDEsLjI2LDEuMzJ2MjAuMjRhMy40MSwzLjQxLDAsMCwxLS4yNiwxLjMyLDMuMzEsMy4zMSwwLDAsMS0xLjgsMS44LDMuNCwzLjQsMCwwLDEtMS4zMS4yNlpcIlxuICAgIC8+XG4gIDwvc3ZnPlxuKTtcblxuZXhwb3J0IGRlZmF1bHQgTWljcm9waG9uZUljb247XG4iXX0=
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9TZW5kQm94L0Fzc2V0cy9NaWNyb3Bob25lSWNvbi5qcyJdLCJuYW1lcyI6WyJNaWNyb3Bob25lSWNvbiJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBOzs7O0FBRUEsSUFBTUEsY0FBYyxHQUFHLFNBQWpCQSxjQUFpQjtBQUFBLFNBQ3JCO0FBQUssSUFBQSxNQUFNLEVBQUUsRUFBYjtBQUFpQixJQUFBLE9BQU8sRUFBQyxjQUF6QjtBQUF3QyxJQUFBLEtBQUssRUFBRTtBQUEvQyxLQUNFO0FBQ0UsSUFBQSxTQUFTLEVBQUMsR0FEWjtBQUVFLElBQUEsQ0FBQyxFQUFDO0FBRkosSUFERixDQURxQjtBQUFBLENBQXZCOztlQVNlQSxjIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0IGZyb20gJ3JlYWN0JztcblxuY29uc3QgTWljcm9waG9uZUljb24gPSAoKSA9PiAoXG4gIDxzdmcgaGVpZ2h0PXsyOH0gdmlld0JveD1cIjAgMCAzNC43NSA0NlwiIHdpZHRoPXsyOH0+XG4gICAgPHBhdGhcbiAgICAgIGNsYXNzTmFtZT1cImFcIlxuICAgICAgZD1cIk0yOS43NSwyM3Y2LjM2YTcsNywwLDAsMS0uNTYsMi43OCw3LjE2LDcuMTYsMCwwLDEtMy44LDMuOCw3LDcsMCwwLDEtMi43OC41NkgxOC41djIuMjVIMjNWNDFIMTEuNzV2LTIuMjVoNC41VjM2LjVoLTQuMTFhNyw3LDAsMCwxLTIuNzgtLjU2LDcuMTYsNy4xNiwwLDAsMS0zLjgtMy44LDcsNywwLDAsMS0uNTYtMi43OFYyM2gyLjI1djYuMzZhNC43Miw0LjcyLDAsMCwwLC4zOSwxLjksNC43OCw0Ljc4LDAsMCwwLDIuNiwyLjYsNC43Miw0LjcyLDAsMCwwLDEuOS4zOWgxMC40N2E0LjcyLDQuNzIsMCwwLDAsMS45LS4zOSw0Ljc4LDQuNzgsMCwwLDAsMi42LTIuNiw0LjcyLDQuNzIsMCwwLDAsLjM5LTEuOVYyM1ptLTE4LDUuNjJhMS4xMywxLjEzLDAsMCwwLDEuMTMsMS4xM2g5YTEuMTMsMS4xMywwLDAsMCwxLjEyLTEuMTNWOC4zOGExLjEzLDEuMTMsMCwwLDAtMS4xMi0xLjEzaC05YTEuMTMsMS4xMywwLDAsMC0xLjEzLDEuMTNabTEuMTMsMy4zOGEzLjQxLDMuNDEsMCwwLDEtMS4zMi0uMjYsMy4zMSwzLjMxLDAsMCwxLTEuOC0xLjgsMy40MSwzLjQxLDAsMCwxLS4yNi0xLjMyVjguMzhhMy40MSwzLjQxLDAsMCwxLC4yNi0xLjMyLDMuMzEsMy4zMSwwLDAsMSwxLjgtMS44LDMuNDEsMy40MSwwLDAsMSwxLjMyLS4yNmg5YTMuNCwzLjQsMCwwLDEsMS4zMS4yNiwzLjMxLDMuMzEsMCwwLDEsMS44LDEuOCwzLjQxLDMuNDEsMCwwLDEsLjI2LDEuMzJ2MjAuMjRhMy40MSwzLjQxLDAsMCwxLS4yNiwxLjMyLDMuMzEsMy4zMSwwLDAsMS0xLjgsMS44LDMuNCwzLjQsMCwwLDEtMS4zMS4yNlpcIlxuICAgIC8+XG4gIDwvc3ZnPlxuKTtcblxuZXhwb3J0IGRlZmF1bHQgTWljcm9waG9uZUljb247XG4iXX0=

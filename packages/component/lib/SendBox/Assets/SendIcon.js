@@ -1,81 +1,5 @@
 'use strict';
 
-var cov_12qvss3x17 = (function() {
-  var path = '/Users/guy/Work/Leo/leo/BotFramework-WebChat/packages/component/src/SendBox/Assets/SendIcon.js';
-  var hash = 'ce317e05bdd038945b3b6a7b0da6ae0b1449dc49';
-  var global = new Function('return this')();
-  var gcv = '__coverage__';
-  var coverageData = {
-    path: '/Users/guy/Work/Leo/leo/BotFramework-WebChat/packages/component/src/SendBox/Assets/SendIcon.js',
-    statementMap: {
-      '0': {
-        start: {
-          line: 3,
-          column: 17
-        },
-        end: {
-          line: 7,
-          column: 1
-        }
-      },
-      '1': {
-        start: {
-          line: 4,
-          column: 2
-        },
-        end: {
-          line: 6,
-          column: 8
-        }
-      }
-    },
-    fnMap: {
-      '0': {
-        name: '(anonymous_0)',
-        decl: {
-          start: {
-            line: 3,
-            column: 17
-          },
-          end: {
-            line: 3,
-            column: 18
-          }
-        },
-        loc: {
-          start: {
-            line: 4,
-            column: 2
-          },
-          end: {
-            line: 6,
-            column: 8
-          }
-        },
-        line: 4
-      }
-    },
-    branchMap: {},
-    s: {
-      '0': 0,
-      '1': 0
-    },
-    f: {
-      '0': 0
-    },
-    b: {},
-    _coverageSchema: '43e27e138ebf9cfc5966b082cf9a028302ed4184',
-    hash: 'ce317e05bdd038945b3b6a7b0da6ae0b1449dc49'
-  };
-  var coverage = global[gcv] || (global[gcv] = {});
-
-  if (coverage[path] && coverage[path].hash === hash) {
-    return coverage[path];
-  }
-
-  return (coverage[path] = coverageData);
-})();
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
@@ -87,11 +11,7 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
-cov_12qvss3x17.s[0]++;
-
 var SendIcon = function SendIcon() {
-  cov_12qvss3x17.f[0]++;
-  cov_12qvss3x17.s[1]++;
   return _react.default.createElement(
     'svg',
     {
@@ -108,4 +28,4 @@ var SendIcon = function SendIcon() {
 
 var _default = SendIcon;
 exports.default = _default;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9TZW5kQm94L0Fzc2V0cy9TZW5kSWNvbi5qcyJdLCJuYW1lcyI6WyJTZW5kSWNvbiJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQTs7Ozs7O0FBRUEsSUFBTUEsUUFBUSxHQUFHLFNBQVhBLFFBQVcsR0FDZjtBQUFBO0FBQUE7QUFBQTtBQUFLLElBQUEsTUFBTSxFQUFFLEVBQWI7QUFBaUIsSUFBQSxPQUFPLEVBQUMsZUFBekI7QUFBeUMsSUFBQSxLQUFLLEVBQUU7QUFBaEQsS0FDRTtBQUFNLElBQUEsUUFBUSxFQUFDLFNBQWY7QUFBeUIsSUFBQSxDQUFDLEVBQUM7QUFBM0IsSUFERjtBQUVNLENBSFI7O2VBTWVBLFEiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QgZnJvbSAncmVhY3QnO1xuXG5jb25zdCBTZW5kSWNvbiA9ICgpID0+IChcbiAgPHN2ZyBoZWlnaHQ9ezI4fSB2aWV3Qm94PVwiMCAwIDQ1LjcgMzMuOFwiIHdpZHRoPXsyOH0+XG4gICAgPHBhdGggY2xpcFJ1bGU9XCJldmVub2RkXCIgZD1cIk04LjU1IDI1LjI1bDIxLjY3LTcuMjVIMTF6bTIuNDEtOS40N2gxOS4yNmwtMjEuNjctNy4yM3ptLTYgMTNsNC0xMS45TDUgNWwzNS43IDExLjl6XCIgLz5cbiAgPC9zdmc+XG4pO1xuXG5leHBvcnQgZGVmYXVsdCBTZW5kSWNvbjtcbiJdfQ==
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9TZW5kQm94L0Fzc2V0cy9TZW5kSWNvbi5qcyJdLCJuYW1lcyI6WyJTZW5kSWNvbiJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBOzs7O0FBRUEsSUFBTUEsUUFBUSxHQUFHLFNBQVhBLFFBQVc7QUFBQSxTQUNmO0FBQUssSUFBQSxNQUFNLEVBQUUsRUFBYjtBQUFpQixJQUFBLE9BQU8sRUFBQyxlQUF6QjtBQUF5QyxJQUFBLEtBQUssRUFBRTtBQUFoRCxLQUNFO0FBQU0sSUFBQSxRQUFRLEVBQUMsU0FBZjtBQUF5QixJQUFBLENBQUMsRUFBQztBQUEzQixJQURGLENBRGU7QUFBQSxDQUFqQjs7ZUFNZUEsUSIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5cbmNvbnN0IFNlbmRJY29uID0gKCkgPT4gKFxuICA8c3ZnIGhlaWdodD17Mjh9IHZpZXdCb3g9XCIwIDAgNDUuNyAzMy44XCIgd2lkdGg9ezI4fT5cbiAgICA8cGF0aCBjbGlwUnVsZT1cImV2ZW5vZGRcIiBkPVwiTTguNTUgMjUuMjVsMjEuNjctNy4yNUgxMXptMi40MS05LjQ3aDE5LjI2bC0yMS42Ny03LjIzem0tNiAxM2w0LTExLjlMNSA1bDM1LjcgMTEuOXpcIiAvPlxuICA8L3N2Zz5cbik7XG5cbmV4cG9ydCBkZWZhdWx0IFNlbmRJY29uO1xuIl19

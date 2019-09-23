@@ -1,81 +1,5 @@
 'use strict';
 
-var cov_896yezbzp = (function() {
-  var path = '/Users/guy/Work/Leo/leo/BotFramework-WebChat/packages/component/src/SendBox/Assets/ArrowRight.js';
-  var hash = '819a2dcbfd3c680075e98054834fbb9e9ef32aca';
-  var global = new Function('return this')();
-  var gcv = '__coverage__';
-  var coverageData = {
-    path: '/Users/guy/Work/Leo/leo/BotFramework-WebChat/packages/component/src/SendBox/Assets/ArrowRight.js',
-    statementMap: {
-      '0': {
-        start: {
-          line: 3,
-          column: 13
-        },
-        end: {
-          line: 3,
-          column: 15
-        }
-      },
-      '1': {
-        start: {
-          line: 7,
-          column: 2
-        },
-        end: {
-          line: 9,
-          column: 8
-        }
-      }
-    },
-    fnMap: {
-      '0': {
-        name: '(anonymous_0)',
-        decl: {
-          start: {
-            line: 6,
-            column: 15
-          },
-          end: {
-            line: 6,
-            column: 16
-          }
-        },
-        loc: {
-          start: {
-            line: 7,
-            column: 2
-          },
-          end: {
-            line: 9,
-            column: 8
-          }
-        },
-        line: 7
-      }
-    },
-    branchMap: {},
-    s: {
-      '0': 0,
-      '1': 0
-    },
-    f: {
-      '0': 0
-    },
-    b: {},
-    _coverageSchema: '43e27e138ebf9cfc5966b082cf9a028302ed4184',
-    hash: '819a2dcbfd3c680075e98054834fbb9e9ef32aca'
-  };
-  var coverage = global[gcv] || (global[gcv] = {});
-
-  if (coverage[path] && coverage[path].hash === hash) {
-    return coverage[path];
-  }
-
-  return (coverage[path] = coverageData);
-})();
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
@@ -87,11 +11,9 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
-var size = (cov_896yezbzp.s[0]++, 22); // eslint-disable-next-line react/display-name
+var size = 22; // eslint-disable-next-line react/display-name
 
 var _default = function _default() {
-  cov_896yezbzp.f[0]++;
-  cov_896yezbzp.s[1]++;
   return _react.default.createElement(
     'svg',
     {
@@ -105,4 +27,4 @@ var _default = function _default() {
 };
 
 exports.default = _default;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9TZW5kQm94L0Fzc2V0cy9BcnJvd1JpZ2h0LmpzIl0sIm5hbWVzIjpbInNpemUiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUE7Ozs7QUFFQSxJQUFNQSxJQUFJLDBCQUFHLEVBQUgsQ0FBVixDLENBRUE7O2VBQ2Usb0JBQ2I7QUFBQTtBQUFBO0FBQUE7QUFBSyxJQUFBLE1BQU0sRUFBRUEsSUFBYjtBQUFtQixJQUFBLEtBQUssRUFBRUE7QUFBMUIsS0FDRTtBQUFNLElBQUEsQ0FBQyxFQUFDO0FBQVIsSUFERjtBQUVNLEMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QgZnJvbSAncmVhY3QnO1xuXG5jb25zdCBzaXplID0gMjI7XG5cbi8vIGVzbGludC1kaXNhYmxlLW5leHQtbGluZSByZWFjdC9kaXNwbGF5LW5hbWVcbmV4cG9ydCBkZWZhdWx0ICgpID0+IChcbiAgPHN2ZyBoZWlnaHQ9e3NpemV9IHdpZHRoPXtzaXplfT5cbiAgICA8cGF0aCBkPVwiTSAxMi41IDIyIEwgMTAgMTkuNSBMIDE1LjUgMTQgTCAxMCA4LjUgTCAxMi41IDYgTCAyMC41IDE0IEwgMTIuNSAyMiBaXCIgLz5cbiAgPC9zdmc+XG4pO1xuIl19
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9TZW5kQm94L0Fzc2V0cy9BcnJvd1JpZ2h0LmpzIl0sIm5hbWVzIjpbInNpemUiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFBQTs7OztBQUVBLElBQU1BLElBQUksR0FBRyxFQUFiLEMsQ0FFQTs7ZUFDZTtBQUFBLFNBQ2I7QUFBSyxJQUFBLE1BQU0sRUFBRUEsSUFBYjtBQUFtQixJQUFBLEtBQUssRUFBRUE7QUFBMUIsS0FDRTtBQUFNLElBQUEsQ0FBQyxFQUFDO0FBQVIsSUFERixDQURhO0FBQUEsQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5cbmNvbnN0IHNpemUgPSAyMjtcblxuLy8gZXNsaW50LWRpc2FibGUtbmV4dC1saW5lIHJlYWN0L2Rpc3BsYXktbmFtZVxuZXhwb3J0IGRlZmF1bHQgKCkgPT4gKFxuICA8c3ZnIGhlaWdodD17c2l6ZX0gd2lkdGg9e3NpemV9PlxuICAgIDxwYXRoIGQ9XCJNIDEyLjUgMjIgTCAxMCAxOS41IEwgMTUuNSAxNCBMIDEwIDguNSBMIDEyLjUgNiBMIDIwLjUgMTQgTCAxMi41IDIyIFpcIiAvPlxuICA8L3N2Zz5cbik7XG4iXX0=

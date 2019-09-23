@@ -1,92 +1,14 @@
 'use strict';
 
-var cov_65xs8w3ib = (function() {
-  var path = '/Users/guy/Work/Leo/leo/BotFramework-WebChat/packages/core/src/actions/incomingActivity.js';
-  var hash = 'ca1e67a35e0cef5c3d340502c3c753044320aaa1';
-  var global = new Function('return this')();
-  var gcv = '__coverage__';
-  var coverageData = {
-    path: '/Users/guy/Work/Leo/leo/BotFramework-WebChat/packages/core/src/actions/incomingActivity.js',
-    statementMap: {
-      '0': {
-        start: {
-          line: 1,
-          column: 26
-        },
-        end: {
-          line: 1,
-          column: 57
-        }
-      },
-      '1': {
-        start: {
-          line: 4,
-          column: 2
-        },
-        end: {
-          line: 7,
-          column: 4
-        }
-      }
-    },
-    fnMap: {
-      '0': {
-        name: 'incomingActivity',
-        decl: {
-          start: {
-            line: 3,
-            column: 24
-          },
-          end: {
-            line: 3,
-            column: 40
-          }
-        },
-        loc: {
-          start: {
-            line: 3,
-            column: 51
-          },
-          end: {
-            line: 8,
-            column: 1
-          }
-        },
-        line: 3
-      }
-    },
-    branchMap: {},
-    s: {
-      '0': 0,
-      '1': 0
-    },
-    f: {
-      '0': 0
-    },
-    b: {},
-    _coverageSchema: '43e27e138ebf9cfc5966b082cf9a028302ed4184',
-    hash: 'ca1e67a35e0cef5c3d340502c3c753044320aaa1'
-  };
-  var coverage = global[gcv] || (global[gcv] = {});
-
-  if (coverage[path] && coverage[path].hash === hash) {
-    return coverage[path];
-  }
-
-  return (coverage[path] = coverageData);
-})();
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 exports['default'] = incomingActivity;
 exports.INCOMING_ACTIVITY = void 0;
-var INCOMING_ACTIVITY = (cov_65xs8w3ib.s[0]++, 'DIRECT_LINE/INCOMING_ACTIVITY');
+var INCOMING_ACTIVITY = 'DIRECT_LINE/INCOMING_ACTIVITY';
 exports.INCOMING_ACTIVITY = INCOMING_ACTIVITY;
 
 function incomingActivity(activity) {
-  cov_65xs8w3ib.f[0]++;
-  cov_65xs8w3ib.s[1]++;
   return {
     type: INCOMING_ACTIVITY,
     payload: {
@@ -94,4 +16,4 @@ function incomingActivity(activity) {
     }
   };
 }
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9hY3Rpb25zL2luY29taW5nQWN0aXZpdHkuanMiXSwibmFtZXMiOlsiSU5DT01JTkdfQUNUSVZJVFkiLCJpbmNvbWluZ0FjdGl2aXR5IiwiYWN0aXZpdHkiLCJ0eXBlIiwicGF5bG9hZCJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQSxJQUFNQSxpQkFBaUIsMEJBQUcsK0JBQUgsQ0FBdkI7OztBQUVlLFNBQVNDLGdCQUFULENBQTBCQyxRQUExQixFQUFvQztBQUFBO0FBQUE7QUFDakQsU0FBTztBQUNMQyxJQUFBQSxJQUFJLEVBQUVILGlCQUREO0FBRUxJLElBQUFBLE9BQU8sRUFBRTtBQUFFRixNQUFBQSxRQUFRLEVBQVJBO0FBQUY7QUFGSixHQUFQO0FBSUQiLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBJTkNPTUlOR19BQ1RJVklUWSA9ICdESVJFQ1RfTElORS9JTkNPTUlOR19BQ1RJVklUWSc7XG5cbmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uIGluY29taW5nQWN0aXZpdHkoYWN0aXZpdHkpIHtcbiAgcmV0dXJuIHtcbiAgICB0eXBlOiBJTkNPTUlOR19BQ1RJVklUWSxcbiAgICBwYXlsb2FkOiB7IGFjdGl2aXR5IH1cbiAgfTtcbn1cblxuZXhwb3J0IHsgSU5DT01JTkdfQUNUSVZJVFkgfTtcbiJdfQ==
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9hY3Rpb25zL2luY29taW5nQWN0aXZpdHkuanMiXSwibmFtZXMiOlsiSU5DT01JTkdfQUNUSVZJVFkiLCJpbmNvbWluZ0FjdGl2aXR5IiwiYWN0aXZpdHkiLCJ0eXBlIiwicGF5bG9hZCJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBLElBQU1BLGlCQUFpQixHQUFHLCtCQUExQjs7O0FBRWUsU0FBU0MsZ0JBQVQsQ0FBMEJDLFFBQTFCLEVBQW9DO0FBQ2pELFNBQU87QUFDTEMsSUFBQUEsSUFBSSxFQUFFSCxpQkFERDtBQUVMSSxJQUFBQSxPQUFPLEVBQUU7QUFBRUYsTUFBQUEsUUFBUSxFQUFSQTtBQUFGO0FBRkosR0FBUDtBQUlEIiwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgSU5DT01JTkdfQUNUSVZJVFkgPSAnRElSRUNUX0xJTkUvSU5DT01JTkdfQUNUSVZJVFknO1xuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBpbmNvbWluZ0FjdGl2aXR5KGFjdGl2aXR5KSB7XG4gIHJldHVybiB7XG4gICAgdHlwZTogSU5DT01JTkdfQUNUSVZJVFksXG4gICAgcGF5bG9hZDogeyBhY3Rpdml0eSB9XG4gIH07XG59XG5cbmV4cG9ydCB7IElOQ09NSU5HX0FDVElWSVRZIH07XG4iXX0=
