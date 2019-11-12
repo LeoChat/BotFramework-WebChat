@@ -1,6 +1,6 @@
-const createHTMLWithPostMessage = require("../../../utils/createHTMLWithPostMessage");
-const exchangeAccessToken = require("../../../exchangeAccessToken");
-const generateOAuthState = require("../../../utils/generateOAuthState");
+const createHTMLWithPostMessage = require('../../../utils/createHTMLWithPostMessage');
+const exchangeAccessToken = require('../../../exchangeAccessToken');
+const generateOAuthState = require('../../../utils/generateOAuthState');
 
 const {
   GITHUB_OAUTH_ACCESS_TOKEN_URL,
@@ -17,12 +17,10 @@ module.exports = async (req, res) => {
   let data;
 
   try {
-    if ("error" in req.query) {
+    if ('error' in req.query) {
       console.warn(req.query);
 
-      throw new Error(
-        `OAuth: Failed to start authorization flow due to "${req.query.error}"`
-      );
+      throw new Error(`OAuth: Failed to start authorization flow due to "${req.query.error}"`);
     }
 
     const { code, seed } = req.query;
@@ -40,7 +38,5 @@ module.exports = async (req, res) => {
     data = { error: message };
   }
 
-  res.end(
-    createHTMLWithPostMessage(data, new URL(GITHUB_OAUTH_REDIRECT_URI).origin)
-  );
+  res.end(createHTMLWithPostMessage(data, new URL(GITHUB_OAUTH_REDIRECT_URI).origin));
 };

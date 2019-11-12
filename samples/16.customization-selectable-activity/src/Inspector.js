@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 function NothingSelected() {
   return (
@@ -16,13 +16,7 @@ export default class Inspector extends Component {
     return (
       <div className="inspector" tabIndex="-1" ref={inspectorRef}>
         <h2>Inspector</h2>
-        <div>
-          {inspectedObject ? (
-            <pre>{JSON.stringify(inspectedObject, null, 4)}</pre>
-          ) : (
-            <NothingSelected />
-          )}
-        </div>
+        <div>{inspectedObject ? <pre>{JSON.stringify(inspectedObject, null, 4)}</pre> : <NothingSelected />}</div>
       </div>
     );
   }

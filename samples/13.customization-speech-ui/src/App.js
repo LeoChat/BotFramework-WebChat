@@ -1,15 +1,18 @@
-import "./App.css";
+import './App.css';
 import {
   Components,
   createDirectLine,
   createCognitiveServicesSpeechServicesPonyfillFactory
-} from "botframework-webchat";
-import React, { Component } from "react";
+} from 'botframework-webchat';
+import React, { Component } from 'react';
 
-import CustomDictationInterims from "./CustomDictationInterims";
-import CustomMicrophoneButton from "./CustomMicrophoneButton";
-import fetchSpeechServicesToken from "./fetchSpeechServicesToken";
-import LastBotActivity from "./LastBotActivity";
+import CustomDictationInterims from './CustomDictationInterims';
+import CustomMicrophoneButton from './CustomMicrophoneButton';
+import {
+  region as fetchSpeechServicesRegion,
+  token as fetchSpeechServicesToken
+} from './fetchSpeechServicesCredentials';
+import LastBotActivity from './LastBotActivity';
 
 const { Composer } = Components;
 
@@ -24,18 +27,12 @@ export default class App extends Component {
   }
 
   async componentDidMount() {
-    const res = await fetch(
-      "https://webchat-mockbot.azurewebsites.net/directline/token",
-      { method: "POST" }
-    );
+    const res = await fetch('https://webchat-mockbot.azurewebsites.net/directline/token', { method: 'POST' });
     const { token } = await res.json();
-    const webSpeechPonyfillFactory = await createCognitiveServicesSpeechServicesPonyfillFactory(
-      {
-        // TODO: [P3] Fetch token should be able to return different region
-        authorizationToken: fetchSpeechServicesToken,
-        region: "westus"
-      }
-    );
+    const webSpeechPonyfillFactory = await createCognitiveServicesSpeechServicesPonyfillFactory({
+      authorizationToken: fetchSpeechServicesToken,
+      region: await fetchSpeechServicesRegion()
+    });
 
     this.setState(() => ({
       directLine: createDirectLine({
@@ -53,10 +50,7 @@ export default class App extends Component {
     return (
       !!directLine &&
       !!webSpeechPonyfillFactory && (
-        <Composer
-          directLine={directLine}
-          webSpeechPonyfillFactory={webSpeechPonyfillFactory}
-        >
+        <Composer directLine={directLine} webSpeechPonyfillFactory={webSpeechPonyfillFactory}>
           <div className="App">
             <header className="App-header">
               <CustomMicrophoneButton className="App-speech-button" />

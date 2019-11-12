@@ -243,7 +243,7 @@ const App = ({ store }) => {
 
   const handleLanguageChange = useCallback(
     ({ target: { value } }) => {
-      setLanguage(!!value);
+      setLanguage(value);
       document.querySelector('html').setAttribute('lang', value || window.navigator.language);
       window.sessionStorage.setItem('PLAYGROUND_LANGUAGE', value);
     },
@@ -444,6 +444,7 @@ const App = ({ store }) => {
             Language
             <select onChange={handleLanguageChange} value={language}>
               <option value="">Default ({window.navigator.language})</option>
+              <option value="bg-BG">Bulgarian</option>
               <option value="zh-HK">Chinese (Hong Kong)</option>
               <option value="zh-YUE">Chinese (Hong Kong, Yue)</option>
               <option value="zh-HANS">Chinese (Simplifies Chinese)</option>

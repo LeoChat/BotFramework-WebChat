@@ -1,36 +1,35 @@
 export default function createSendBoxTextBoxStyle({
-  sendBoxTextBoxBorderColor,
   primaryFont,
+  sendBoxBackground,
+  sendBoxDisabledTextColor,
   sendBoxPlaceholderColor,
-  sendBoxTextColor
+  sendBoxTextColor,
+  subtle
 }) {
   return {
     alignItems: 'center',
     fontFamily: primaryFont,
 
     '& > input': {
-      border: '1px solid #cccccc',
-      color: sendBoxTextColor,
+      backgroundColor: sendBoxBackground,
+      border: 0,
       fontFamily: 'inherit',
-      height: '35px',
-      borderRadius: '18px',
-      fontSize: '16px',
+      fontSize: 'inherit',
+      height: '100%',
       outline: 0,
-      paddingBottom: 0,
-      paddingLeft: 20,
-      paddingRight: 20,
-      paddingTop: 0,
-      margin: 0,
-      transition: 'box-shadow 0.3s ease-in-out'
-    },
+      padding: 0,
 
-    '&::placeholder': {
-      color: sendBoxPlaceholderColor
-    },
+      '&:not(:disabled)': {
+        color: sendBoxTextColor
+      },
 
-    '& > input:focus': {
-      border: '1px solid ' + sendBoxTextBoxBorderColor,
-      boxShadow: 'inset 0 0 3px 1px rgba(198, 198, 198, 0.5)'
+      '&:disabled': {
+        color: sendBoxDisabledTextColor || subtle
+      },
+
+      '&::placeholder': {
+        color: sendBoxPlaceholderColor || subtle
+      }
     }
   };
 }

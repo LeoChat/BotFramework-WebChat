@@ -1,6 +1,7 @@
 import { timeouts } from './constants.json';
 
 import minNumActivitiesShown from './setup/conditions/minNumActivitiesShown';
+import negateCondition from './setup/conditions/negate';
 import speechRecognitionStartCalled from './setup/conditions/speechRecognitionStartCalled';
 import speechSynthesisUtterancePended from './setup/conditions/speechSynthesisUtterancePended';
 
@@ -73,5 +74,78 @@ describe('speech synthesis', () => {
     await pageObjects.errorSpeechSynthesize();
 
     await expect(speechRecognitionStartCalled().fn(driver)).resolves.toBeTruthy();
+  });
+
+  test('should not synthesis if engine is explicitly configured off', async () => {
+    const { driver, pageObjects } = await setupWebDriver({
+      props: {
+        webSpeechPonyfillFactory: () => {
+          const { SpeechGrammarList, SpeechRecognition } = window.WebSpeechMock;
+
+          return {
+            SpeechGrammarList,
+            SpeechRecognition,
+            speechSynthesis: null,
+            SpeechSynthesisUtterance: null
+          };
+        }
+      }
+    });
+
+    await pageObjects.sendMessageViaMicrophone('Hello, World!');
+
+    await expect(speechRecognitionStartCalled().fn(driver)).resolves.toBeFalsy();
+    await driver.wait(minNumActivitiesShown(2), timeouts.directLine);
+
+    expect((await pageObjects.getConsoleLogs()).filter(([type]) => type === 'error')).toEqual([]);
+  });
+
+  test('should stop synthesis after clicking on microphone button', async () => {
+    const { driver, pageObjects } = await setupWebDriver({
+      props: {
+        webSpeechPonyfillFactory: () => window.WebSpeechMock
+      }
+    });
+
+    await pageObjects.sendMessageViaMicrophone('echo Hello, World!');
+
+    await expect(speechRecognitionStartCalled().fn(driver)).resolves.toBeFalsy();
+    await driver.wait(minNumActivitiesShown(2), timeouts.directLine);
+
+    await expect(pageObjects.startSpeechSynthesize()).resolves.toHaveProperty(
+      'text',
+      'Echoing back in a separate activity.'
+    );
+
+    await driver.wait(speechSynthesisUtterancePended(), timeouts.ui);
+
+    await pageObjects.clickMicrophoneButton();
+
+    await expect(speechRecognitionStartCalled().fn(driver)).resolves.toBeTruthy();
+    await driver.wait(negateCondition(speechSynthesisUtterancePended()), timeouts.ui);
+  });
+
+  describe('without speech synthesis', () => {
+    test('should start recognition immediately after receiving expected input hint', async () => {
+      const { driver, pageObjects } = await setupWebDriver({
+        props: {
+          webSpeechPonyfillFactory: () => {
+            const { SpeechGrammarList, SpeechRecognition } = window.WebSpeechMock;
+
+            return {
+              SpeechGrammarList,
+              SpeechRecognition
+            };
+          }
+        }
+      });
+
+      await pageObjects.sendMessageViaMicrophone('input hint expected');
+
+      await driver.wait(minNumActivitiesShown(2), timeouts.directLine);
+
+      await expect(speechRecognitionStartCalled().fn(driver)).resolves.toBeTruthy();
+      await driver.wait(negateCondition(speechSynthesisUtterancePended()), timeouts.ui);
+    });
   });
 });

@@ -3,7 +3,7 @@ export default async function fetchJSON(url, options) {
     ...options,
     headers: {
       ...(options || {}).headers,
-      accept: "application/json"
+      accept: 'application/json'
     }
   });
 

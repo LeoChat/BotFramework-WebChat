@@ -1,34 +1,32 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from 'react';
 
-import "./App.css";
-import GitHubProfileMenu from "./ui/GitHubProfileMenu";
-import MicrosoftGraphProfileMenu from "./ui/MicrosoftGraphProfileMenu";
+import './App.css';
+import GitHubProfileMenu from './ui/GitHubProfileMenu';
+import MicrosoftGraphProfileMenu from './ui/MicrosoftGraphProfileMenu';
 
-const GITHUB_OAUTH_ACCESS_TOKEN = "GITHUB_OAUTH_ACCESS_TOKEN";
-const MICROSOFT_GRAPH_OAUTH_ACCESS_TOKEN = "MICROSOFT_GRAPH_OAUTH_ACCESS_TOKEN";
+const GITHUB_OAUTH_ACCESS_TOKEN = 'GITHUB_OAUTH_ACCESS_TOKEN';
+const MICROSOFT_GRAPH_OAUTH_ACCESS_TOKEN = 'MICROSOFT_GRAPH_OAUTH_ACCESS_TOKEN';
 
 const App = () => {
-  const [gitHubAccessToken, setGitHubAccessToken] = useState(
-    sessionStorage.getItem(GITHUB_OAUTH_ACCESS_TOKEN) || ""
-  );
+  const [gitHubAccessToken, setGitHubAccessToken] = useState(sessionStorage.getItem(GITHUB_OAUTH_ACCESS_TOKEN) || '');
   const [microsoftGraphAccessToken, setMicrosoftGraphAccessToken] = useState(
-    sessionStorage.getItem(MICROSOFT_GRAPH_OAUTH_ACCESS_TOKEN) || ""
+    sessionStorage.getItem(MICROSOFT_GRAPH_OAUTH_ACCESS_TOKEN) || ''
   );
 
   // We will fire "accesstokenchange" event to the browser if gitHubAccessToken or microsoftGraphAccessToken changed.
   // Custom code in Web Chat will monitor "accesstokenchange" event and send to the bot when it is connected.
   useMemo(() => {
-    const event = new Event("accesstokenchange");
+    const event = new Event('accesstokenchange');
 
     if (gitHubAccessToken) {
       event.data = {
         accessToken: gitHubAccessToken,
-        provider: "github"
+        provider: 'github'
       };
     } else if (microsoftGraphAccessToken) {
       event.data = {
         accessToken: microsoftGraphAccessToken,
-        provider: "microsoft"
+        provider: 'microsoft'
       };
     } else {
       event.data = {};
@@ -53,10 +51,7 @@ const App = () => {
     accessToken => {
       setMicrosoftGraphAccessToken(accessToken);
       accessToken
-        ? sessionStorage.setItem(
-            MICROSOFT_GRAPH_OAUTH_ACCESS_TOKEN,
-            accessToken
-          )
+        ? sessionStorage.setItem(MICROSOFT_GRAPH_OAUTH_ACCESS_TOKEN, accessToken)
         : sessionStorage.removeItem(MICROSOFT_GRAPH_OAUTH_ACCESS_TOKEN);
     },
     [setMicrosoftGraphAccessToken]
@@ -66,10 +61,7 @@ const App = () => {
   return (
     <div className="sso__upperRight">
       {!microsoftGraphAccessToken && (
-        <GitHubProfileMenu
-          accessToken={gitHubAccessToken}
-          onAccessTokenChange={handleGitHubAccessTokenChange}
-        />
+        <GitHubProfileMenu accessToken={gitHubAccessToken} onAccessTokenChange={handleGitHubAccessTokenChange} />
       )}
       {!gitHubAccessToken && (
         <MicrosoftGraphProfileMenu

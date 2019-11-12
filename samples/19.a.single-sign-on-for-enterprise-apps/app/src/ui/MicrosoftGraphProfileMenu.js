@@ -1,17 +1,17 @@
-import PropTypes from "prop-types";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import "./ProfileMenu.css";
-import compose from "../utils/compose";
-import fetchJSON from "../utils/fetchJSON";
+import './ProfileMenu.css';
+import compose from '../utils/compose';
+import fetchJSON from '../utils/fetchJSON';
 
-import connectMicrosoftGraphProfileAvatar from "../microsoftGraphProfile/hoc/avatarURL";
-import connectMicrosoftGraphProfileName from "../microsoftGraphProfile/hoc/name";
-import connectMicrosoftGraphSignInButton from "../microsoftGraphProfile/hoc/signInButton";
-import connectMicrosoftGraphSignOutButton from "../microsoftGraphProfile/hoc/signOutButton";
-import MicrosoftGraphProfileComposer from "../microsoftGraphProfile/Composer";
+import connectMicrosoftGraphProfileAvatar from '../microsoftGraphProfile/hoc/avatarURL';
+import connectMicrosoftGraphProfileName from '../microsoftGraphProfile/hoc/name';
+import connectMicrosoftGraphSignInButton from '../microsoftGraphProfile/hoc/signInButton';
+import connectMicrosoftGraphSignOutButton from '../microsoftGraphProfile/hoc/signOutButton';
+import MicrosoftGraphProfileComposer from '../microsoftGraphProfile/Composer';
 
-const AAD_SETTINGS_URL = "/api/aad/settings";
+const AAD_SETTINGS_URL = '/api/aad/settings';
 
 // We will fetch authorize URL and client ID for Azure AD sign-in flow from the server.
 // This help decouples the server settings (e.g. client ID) from the HTML code.
@@ -21,7 +21,7 @@ async function fetchSettings() {
 
     return { authorizeURL, clientId };
   } catch (err) {
-    throw new Error("OAuth: Failed to fetch settings");
+    throw new Error('OAuth: Failed to fetch settings');
   }
 }
 
@@ -38,29 +38,24 @@ const MicrosoftGraphProfileMenu = ({
   // Listen to "signin" event from the window.
   // The "signin" event is fired when the user click on the "Sign in" button in Web Chat.
   useEffect(() => {
-    window.addEventListener(
-      "signin",
-      ({ data: { provider } = {} }) =>
-        provider === "aad" && onSignIn && onSignIn()
-    );
+    window.addEventListener('signin', ({ data: { provider } = {} }) => provider === 'aad' && onSignIn && onSignIn());
 
-    return () => window.removeEventListener("signin", onSignIn);
+    return () => window.removeEventListener('signin', onSignIn);
   });
 
   // Listen to "signout" event from the window.
   // The "signout" event is fired when the bot request the webpage to sign out.
   useEffect(() => {
-    window.addEventListener("signout", onSignOut);
+    window.addEventListener('signout', onSignOut);
 
-    return () => window.removeEventListener("signout", onSignOut);
+    return () => window.removeEventListener('signout', onSignOut);
   });
 
   // CSS style for displaying avatar as background image.
   // Background image will ease handling 404 or other HTTP errors by not showing the image.
   const avatarStyle = useMemo(
     () => ({
-      backgroundImage: `url(${avatarURL ||
-        "/images/Microsoft-Graph-64px-DDD-White.png"})`
+      backgroundImage: `url(${avatarURL || '/images/Microsoft-Graph-64px-DDD-White.png'})`
     }),
     [avatarURL]
   );
@@ -77,9 +72,7 @@ const MicrosoftGraphProfileMenu = ({
     setExpanded(false);
   }, [onSignOut]);
 
-  const handleToggleExpand = useCallback(() => setExpanded(!expanded), [
-    expanded
-  ]);
+  const handleToggleExpand = useCallback(() => setExpanded(!expanded), [expanded]);
 
   return (
     <div aria-expanded={expanded} className="sso__profile">
@@ -89,9 +82,7 @@ const MicrosoftGraphProfileMenu = ({
         onClick={signedIn ? handleToggleExpand : handleSignIn}
         style={avatarStyle}
       >
-        {signedIn && (
-          <div className="sso__profileAvatarBadge sso__profileAvatarBadge__microsoft" />
-        )}
+        {signedIn && <div className="sso__profileAvatarBadge sso__profileAvatarBadge__microsoft" />}
       </button>
       {signedIn && expanded && (
         <ul className="sso__profileMenu">
@@ -104,11 +95,7 @@ const MicrosoftGraphProfileMenu = ({
           )}
           {onSignOut && (
             <li className="sso__profileMenuItem">
-              <a
-                href="https://portal.office.com/account/#apps"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
+              <a href="https://portal.office.com/account/#apps" rel="noopener noreferrer" target="_blank">
                 Review access on Office.com
               </a>
             </li>
@@ -127,10 +114,10 @@ const MicrosoftGraphProfileMenu = ({
 };
 
 MicrosoftGraphProfileMenu.defaultProps = {
-  accessToken: "",
-  avatarURL: "",
-  name: "",
-  oauthReviewAccessURL: "",
+  accessToken: '',
+  avatarURL: '',
+  name: '',
+  oauthReviewAccessURL: '',
   onSignIn: undefined,
   onSignOut: undefined,
   setAccessToken: undefined
@@ -155,11 +142,8 @@ const ComposedMicrosoftGraphProfileMenu = compose(
   connectMicrosoftGraphSignOutButton(({ onClick }) => ({ onSignOut: onClick }))
 )(MicrosoftGraphProfileMenu);
 
-const ConnectedMicrosoftGraphProfileMenu = ({
-  accessToken,
-  onAccessTokenChange
-}) => {
-  const [oauthAuthorizeURL, setOAuthAuthorizeURL] = useState("");
+const ConnectedMicrosoftGraphProfileMenu = ({ accessToken, onAccessTokenChange }) => {
+  const [oauthAuthorizeURL, setOAuthAuthorizeURL] = useState('');
 
   useMemo(async () => {
     const { authorizeURL } = await fetchSettings();

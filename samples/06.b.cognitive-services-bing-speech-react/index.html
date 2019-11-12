@@ -2,22 +2,27 @@
 <html lang="en-US">
   <head>
     <title>Web Chat: Cognitive Services Bing Speech using React</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--
       For simplicity and code clarity, we are using Babel and React from unpkg.com.
     -->
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <script src="https://unpkg.com/react@16.5.0/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@16.5.0/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/react-redux@5.0.7/dist/react-redux.min.js"></script>
+    <script src="https://unpkg.com/react@16.8.6/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.8.6/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/react-redux@7.1.0/dist/react-redux.min.js"></script>
     <!--
       This CDN points to the latest official release of Web Chat. If you need to test against Web Chat's latest bits, please refer to pointing to Web Chat's MyGet feed:
       https://github.com/microsoft/BotFramework-WebChat#how-to-test-with-web-chats-latest-bits
     -->
     <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
     <style>
-      html, body { height: 100% }
-      body { margin: 0 }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+      }
 
       #webchat {
         height: 100%;
@@ -28,7 +33,7 @@
   <body>
     <div id="webchat" role="main"></div>
     <script type="text/babel">
-      (async function () {
+      (async function() {
         'use strict';
 
         const { render } = window.ReactDOM;
@@ -63,13 +68,10 @@
         }
 
         // Pass a Web Speech ponyfill factory to renderWebChat.
-        // You can also use your own speech engine given it is complaint to W3C Web Speech API, https://w3c.github.io/speech-api/.
+        // You can also use your own speech engine given it is complaint to W3C Web Speech API: https://w3c.github.io/speech-api/.
         // For implementor, look at createBrowserWebSpeechPonyfill.js for details.
         render(
-          <ReactWebChat
-            directLine={ createDirectLine({ token }) }
-            webSpeechPonyfillFactory={ webSpeechPonyfillFactory }
-          />,
+          <ReactWebChat directLine={createDirectLine({ token })} webSpeechPonyfillFactory={webSpeechPonyfillFactory} />,
           document.getElementById('webchat')
         );
 

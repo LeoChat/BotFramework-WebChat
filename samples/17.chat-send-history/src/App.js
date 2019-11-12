@@ -1,8 +1,8 @@
-import React from "react";
-import { createStore } from "botframework-webchat";
+import React from 'react';
+import { createStore } from 'botframework-webchat';
 
-import SendHistory from "./SendHistory";
-import ReactWebChat from "./WebChat";
+import SendHistory from './SendHistory';
+import ReactWebChat from './WebChat';
 
 export default class App extends React.Component {
   history = new SendHistory();
@@ -11,12 +11,12 @@ export default class App extends React.Component {
   };
 
   store = createStore({}, () => next => action => {
-    if (action.type === "WEB_CHAT/SEND_MESSAGE") {
+    if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
       // add to history
       this.history.add(action.payload.text);
-    } else if (!action.fromHistory && action.type === "WEB_CHAT/SET_SEND_BOX") {
+    } else if (!action.fromHistory && action.type === 'WEB_CHAT/SET_SEND_BOX') {
       // sendbox was modified by the user, not history
-      this.setState({ isDirty: action.payload.text !== "" });
+      this.setState({ isDirty: action.payload.text !== '' });
       this.history.reset();
     }
 
@@ -34,23 +34,23 @@ export default class App extends React.Component {
   handleKeyDown = e => {
     const { target } = e;
 
-    if (!this.state.isDirty && target.dataset.id === "webchat-sendbox-input") {
+    if (!this.state.isDirty && target.dataset.id === 'webchat-sendbox-input') {
       let text;
 
       switch (e.key) {
-        case "ArrowUp":
+        case 'ArrowUp':
           text = this.history.getNext();
           break;
-        case "ArrowDown":
+        case 'ArrowDown':
           text = this.history.getPrevious();
           break;
         default:
           return;
       }
 
-      if (typeof text === "string") {
+      if (typeof text === 'string') {
         this.store.dispatch({
-          type: "WEB_CHAT/SET_SEND_BOX",
+          type: 'WEB_CHAT/SET_SEND_BOX',
           fromHistory: true,
           payload: { text }
         });

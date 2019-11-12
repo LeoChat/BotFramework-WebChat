@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import ReactWebChat, { createDirectLine } from "botframework-webchat";
+import ReactWebChat, { createDirectLine } from 'botframework-webchat';
 
 export default class extends React.Component {
   constructor(props) {
@@ -16,10 +16,7 @@ export default class extends React.Component {
   }
 
   async fetchToken() {
-    const res = await fetch(
-      "https://webchat-mockbot.azurewebsites.net/directline/token",
-      { method: "POST" }
-    );
+    const res = await fetch('https://webchat-mockbot.azurewebsites.net/directline/token', { method: 'POST' });
     const { token } = await res.json();
 
     this.setState(() => ({
@@ -29,11 +26,7 @@ export default class extends React.Component {
 
   render() {
     return this.state.directLine ? (
-      <ReactWebChat
-        className="chat"
-        directLine={this.state.directLine}
-        {...this.props}
-      />
+      <ReactWebChat className="chat" directLine={this.state.directLine} {...this.props} />
     ) : (
       <div>Connecting to bot&hellip;</div>
     );

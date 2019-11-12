@@ -1,29 +1,29 @@
-const { ActivityHandler, TurnContext } = require("botbuilder");
-const { findBestMatch } = require("string-similarity");
+const { ActivityHandler, TurnContext } = require('botbuilder');
+const { findBestMatch } = require('string-similarity');
 
-const createBotAdapter = require("./createBotAdapter");
-const fetchGitHubProfileName = require("./fetchGitHubProfileName");
-const fetchMicrosoftGraphProfileName = require("./fetchMicrosoftGraphProfileName");
+const createBotAdapter = require('./createBotAdapter');
+const fetchGitHubProfileName = require('./fetchGitHubProfileName');
+const fetchMicrosoftGraphProfileName = require('./fetchMicrosoftGraphProfileName');
 
 const QUESTIONS = {
-  bye1: "bye",
-  bye2: "goodbye",
-  hello1: "hello",
-  hello2: "hi",
-  order: "where are my orders",
-  time: "what time is it"
+  bye1: 'bye',
+  bye2: 'goodbye',
+  hello1: 'hello',
+  hello2: 'hi',
+  order: 'where are my orders',
+  time: 'what time is it'
 };
 
 const SUGGESTED_ACTIONS = {
   suggestedActions: {
     actions: [
       {
-        type: "imBack",
-        value: "What time is it?"
+        type: 'imBack',
+        value: 'What time is it?'
       },
       {
-        type: "imBack",
-        value: "Where are my orders?"
+        type: 'imBack',
+        value: 'Where are my orders?'
       }
     ],
     to: []
@@ -49,16 +49,16 @@ module.exports = () => {
     } = context;
 
     // When we receive an event activity of "oauth/signin", set the access token to conversation state.
-    if (name === "oauth/signin") {
+    if (name === 'oauth/signin') {
       const { oauthAccessToken, oauthProvider } = channelData;
 
       // For async operations that are outside of BotBuilder, we should use proactive messaging.
       const reference = TurnContext.getConversationReference(context.activity);
 
-      await context.sendActivity({ type: "typing" });
+      await context.sendActivity({ type: 'typing' });
 
       switch (oauthProvider) {
-        case "github":
+        case 'github':
           // We are using .then() here to detach the background job.
           fetchGitHubProfileName(oauthAccessToken).then(async name => {
             // When the GitHub profile is fetched, send a welcome message.
@@ -74,7 +74,7 @@ module.exports = () => {
 
           break;
 
-        case "microsoft":
+        case 'microsoft':
           // We are using .then() here to detach the background job.
           fetchMicrosoftGraphProfileName(oauthAccessToken).then(async name => {
             // When the Microsoft Graph profile is fetched, send a welcome message.
@@ -90,9 +90,9 @@ module.exports = () => {
 
           break;
       }
-    } else if (name === "oauth/signout") {
+    } else if (name === 'oauth/signout') {
       // If we receive the event activity with no access token inside, this means the user is signing out from the website.
-      await context.sendActivity("See you later!");
+      await context.sendActivity('See you later!');
     }
 
     await next();
@@ -111,57 +111,57 @@ module.exports = () => {
     if (/^hello\d+$/.test(match)) {
       // When the user say, "hello" or "hi".
       await context.sendActivity({
-        text: "Hello there. What can I help you with?",
+        text: 'Hello there. What can I help you with?',
         ...SUGGESTED_ACTIONS
       });
     } else if (/^bye\d+$/.test(match)) {
       // When the user say "bye" or "goodbye".
       await context.sendActivity({
-        name: "oauth/signout",
-        type: "event"
+        name: 'oauth/signout',
+        type: 'event'
       });
-    } else if (match === "time") {
+    } else if (match === 'time') {
       // When the user say "what time is it".
       const now = new Date();
 
       await context.sendActivity({
         text: `The time is now ${now.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit"
+          hour: '2-digit',
+          minute: '2-digit'
         })}. What can I do to help?`,
         ...SUGGESTED_ACTIONS
       });
-    } else if (match === "order") {
+    } else if (match === 'order') {
       // When the user says "where are my orders".
 
       if (oauthAccessToken) {
         // Tell them they have a package if they are signed in.
         await context.sendActivity({
-          text: "There is a package arriving later today.",
+          text: 'There is a package arriving later today.',
           ...SUGGESTED_ACTIONS
         });
       } else {
         // Send them a sign in card if they are not signed in.
         await context.sendActivity({
-          type: "message",
+          type: 'message',
           attachments: [
             {
               content: {
                 buttons: [
                   {
-                    title: "Sign into Azure Active Directory",
-                    type: "openUrl",
-                    value: "about:blank#sign-into-aad"
+                    title: 'Sign into Azure Active Directory',
+                    type: 'openUrl',
+                    value: 'about:blank#sign-into-aad'
                   },
                   {
-                    title: "Sign into GitHub",
-                    type: "openUrl",
-                    value: "about:blank#sign-into-github"
+                    title: 'Sign into GitHub',
+                    type: 'openUrl',
+                    value: 'about:blank#sign-into-github'
                   }
                 ],
-                text: "Please sign in so I can help tracking your orders."
+                text: 'Please sign in so I can help tracking your orders.'
               },
-              contentType: "application/vnd.microsoft.card.hero"
+              contentType: 'application/vnd.microsoft.card.hero'
             }
           ]
         });

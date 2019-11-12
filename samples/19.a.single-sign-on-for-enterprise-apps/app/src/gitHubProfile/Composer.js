@@ -1,22 +1,17 @@
-import PropTypes from "prop-types";
-import React, { useMemo, useState } from "react";
+import PropTypes from 'prop-types';
+import React, { useMemo, useState } from 'react';
 
-import compose from "../utils/compose";
-import connectSignInButton from "../oauth/hoc/signInButton";
-import connectSignOutButton from "../oauth/hoc/signOutButton";
-import fetchUserProfile from "./fetchUserProfile";
-import GitHubProfileContext from "./Context";
-import OAuthComposer from "../oauth/Composer";
+import compose from '../utils/compose';
+import connectSignInButton from '../oauth/hoc/signInButton';
+import connectSignOutButton from '../oauth/hoc/signOutButton';
+import fetchUserProfile from './fetchUserProfile';
+import GitHubProfileContext from './Context';
+import OAuthComposer from '../oauth/Composer';
 
 // Composer is a React component with a React context
-const GitHubProfileComposer = ({
-  accessToken,
-  children,
-  onSignIn,
-  onSignOut
-}) => {
-  const [avatarURL, setAvatarURL] = useState("");
-  const [name, setName] = useState("");
+const GitHubProfileComposer = ({ accessToken, children, onSignIn, onSignOut }) => {
+  const [avatarURL, setAvatarURL] = useState('');
+  const [name, setName] = useState('');
 
   // If access token change, refresh the profile name and picture from GitHub.
   useMemo(async () => {
@@ -37,15 +32,11 @@ const GitHubProfileComposer = ({
     [avatarURL, name, onSignIn, onSignOut]
   );
 
-  return (
-    <GitHubProfileContext.Provider value={context}>
-      {children}
-    </GitHubProfileContext.Provider>
-  );
+  return <GitHubProfileContext.Provider value={context}>{children}</GitHubProfileContext.Provider>;
 };
 
 GitHubProfileComposer.defaultProps = {
-  accessToken: "",
+  accessToken: '',
   children: undefined,
   onSignIn: undefined,
   onSignOut: undefined
@@ -67,20 +58,13 @@ const ComposedGitHubProfileComposer = compose(
 )(GitHubProfileComposer);
 
 // This is the exported React component, provide basic UI-less functionality to its descendants.
-const ConnectedGitHubProfileComposer = ({
-  accessToken,
-  children,
-  oauthAuthorizeURL,
-  onAccessTokenChange
-}) => (
+const ConnectedGitHubProfileComposer = ({ accessToken, children, oauthAuthorizeURL, onAccessTokenChange }) => (
   <OAuthComposer
     accessToken={accessToken}
     oauthAuthorizeURL={oauthAuthorizeURL}
     onAccessTokenChange={onAccessTokenChange}
   >
-    <ComposedGitHubProfileComposer accessToken={accessToken}>
-      {children}
-    </ComposedGitHubProfileComposer>
+    <ComposedGitHubProfileComposer accessToken={accessToken}>{children}</ComposedGitHubProfileComposer>
   </OAuthComposer>
 );
 

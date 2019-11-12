@@ -1,23 +1,18 @@
-import PropTypes from "prop-types";
-import React, { useMemo, useState } from "react";
+import PropTypes from 'prop-types';
+import React, { useMemo, useState } from 'react';
 
-import compose from "../utils/compose";
-import connectSignInButton from "../oauth/hoc/signInButton";
-import connectSignOutButton from "../oauth/hoc/signOutButton";
-import fetchProfileDisplayName from "./fetchProfileDisplayName";
-import fetchProfilePhotoAsBase64 from "./fetchProfilePhotoAsBase64";
-import MicrosoftGraphProfileContext from "./Context";
-import OAuthComposer from "../oauth/Composer";
+import compose from '../utils/compose';
+import connectSignInButton from '../oauth/hoc/signInButton';
+import connectSignOutButton from '../oauth/hoc/signOutButton';
+import fetchProfileDisplayName from './fetchProfileDisplayName';
+import fetchProfilePhotoAsBase64 from './fetchProfilePhotoAsBase64';
+import MicrosoftGraphProfileContext from './Context';
+import OAuthComposer from '../oauth/Composer';
 
 // Composer is a React component with a React context
-const MicrosoftGraphProfileComposer = ({
-  accessToken,
-  children,
-  onSignIn,
-  onSignOut
-}) => {
-  const [avatarURL, setAvatarURL] = useState("");
-  const [name, setName] = useState("");
+const MicrosoftGraphProfileComposer = ({ accessToken, children, onSignIn, onSignOut }) => {
+  const [avatarURL, setAvatarURL] = useState('');
+  const [name, setName] = useState('');
 
   // If access token change, we will refresh the profile name and picture from Azure AD
   useMemo(async () => {
@@ -41,15 +36,11 @@ const MicrosoftGraphProfileComposer = ({
     [avatarURL, name, onSignIn, onSignOut]
   );
 
-  return (
-    <MicrosoftGraphProfileContext.Provider value={context}>
-      {children}
-    </MicrosoftGraphProfileContext.Provider>
-  );
+  return <MicrosoftGraphProfileContext.Provider value={context}>{children}</MicrosoftGraphProfileContext.Provider>;
 };
 
 MicrosoftGraphProfileComposer.defaultProps = {
-  accessToken: "",
+  accessToken: '',
   children: undefined,
   onSignIn: undefined,
   onSignOut: undefined
@@ -71,20 +62,13 @@ const ComposedMicrosoftGraphProfileComposer = compose(
 )(MicrosoftGraphProfileComposer);
 
 // This is the exported React component, which provides basic UI-less functionality to its descendants.
-const ConnectedMicrosoftGraphProfileComposer = ({
-  accessToken,
-  children,
-  oauthAuthorizeURL,
-  onAccessTokenChange
-}) => (
+const ConnectedMicrosoftGraphProfileComposer = ({ accessToken, children, oauthAuthorizeURL, onAccessTokenChange }) => (
   <OAuthComposer
     accessToken={accessToken}
     oauthAuthorizeURL={oauthAuthorizeURL}
     onAccessTokenChange={onAccessTokenChange}
   >
-    <ComposedMicrosoftGraphProfileComposer accessToken={accessToken}>
-      {children}
-    </ComposedMicrosoftGraphProfileComposer>
+    <ComposedMicrosoftGraphProfileComposer accessToken={accessToken}>{children}</ComposedMicrosoftGraphProfileComposer>
   </OAuthComposer>
 );
 

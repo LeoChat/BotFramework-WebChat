@@ -1,6 +1,6 @@
-const createHTMLWithPostMessage = require("../../../utils/createHTMLWithPostMessage");
-const createPKCECodeVerifier = require("./createPKCECodeVerifier");
-const exchangeAccessToken = require("../../../exchangeAccessToken");
+const createHTMLWithPostMessage = require('../../../utils/createHTMLWithPostMessage');
+const createPKCECodeVerifier = require('./createPKCECodeVerifier');
+const exchangeAccessToken = require('../../../exchangeAccessToken');
 
 const {
   AAD_OAUTH_ACCESS_TOKEN_URL,
@@ -16,16 +16,14 @@ module.exports = async (req, res) => {
   let data;
 
   try {
-    if ("error" in req.query) {
+    if ('error' in req.query) {
       console.warn(req.query);
 
-      throw new Error(
-        `OAuth: Failed to start authorization flow due to "${req.query.error}"`
-      );
+      throw new Error(`OAuth: Failed to start authorization flow due to "${req.query.error}"`);
     }
 
     const { code, state } = req.query;
-    const seed = Buffer.from(state, "base64");
+    const seed = Buffer.from(state, 'base64');
     const codeVerifier = createPKCECodeVerifier(seed);
 
     const accessToken = await exchangeAccessToken(
@@ -43,7 +41,5 @@ module.exports = async (req, res) => {
     data = { error: message };
   }
 
-  res.end(
-    createHTMLWithPostMessage(data, new URL(AAD_OAUTH_REDIRECT_URI).origin)
-  );
+  res.end(createHTMLWithPostMessage(data, new URL(AAD_OAUTH_REDIRECT_URI).origin));
 };

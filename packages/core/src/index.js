@@ -4,6 +4,7 @@ import clearSuggestedActions from './actions/clearSuggestedActions';
 import connect from './actions/connect';
 import createStore from './createStore';
 import disconnect from './actions/disconnect';
+import emitTypingIndicator from './actions/emitTypingIndicator';
 import markActivity from './actions/markActivity';
 import postActivity from './actions/postActivity';
 import sendEvent from './actions/sendEvent';
@@ -28,7 +29,7 @@ import * as ActivityClientState from './constants/ActivityClientState';
 import * as DictateState from './constants/DictateState';
 
 const Constants = { ActivityClientState, DictateState };
-const version = process.env.NPM_PACKAGE_VERSION;
+const version = process.env.npm_package_version;
 
 export {
   clearSuggestedActions,
@@ -36,6 +37,7 @@ export {
   Constants,
   createStore,
   disconnect,
+  emitTypingIndicator,
   markActivity,
   postActivity,
   sendEvent,

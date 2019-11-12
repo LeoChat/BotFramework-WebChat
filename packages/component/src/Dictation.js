@@ -1,9 +1,12 @@
 import { Composer as DictateComposer } from 'react-dictate-button';
 import { Constants } from 'botframework-webchat-core';
 import PropTypes from 'prop-types';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import connectToWebChat from './connectToWebChat';
+
+import useActivities from './hooks/useActivities';
+import useLanguage from './hooks/useLanguage';
 
 const {
   DictateState: { DICTATING, IDLE, STARTING }
@@ -12,10 +15,8 @@ const {
 const Dictation = ({
   dictateState,
   disabled,
-  language,
-  numSpeakingActivities,
+  emitTypingIndicator,
   onError,
-  postActivity,
   sendTypingIndicator,
   setDictateInterims,
   setDictateState,
@@ -25,6 +26,13 @@ const Dictation = ({
   submitSendBox,
   webSpeechPonyfill: { SpeechGrammarList, SpeechRecognition } = {}
 }) => {
+  const [activities] = useActivities();
+  const [language] = useLanguage();
+
+  const numSpeakingActivities = useMemo(() => activities.filter(({ channelData: { speak } = {} }) => speak).length, [
+    activities
+  ]);
+
   const handleDictate = useCallback(
     ({ result: { transcript } = {} }) => {
       if (dictateState === DICTATING || dictateState === STARTING) {
@@ -49,10 +57,10 @@ const Dictation = ({
 
         setDictateInterims(interims);
         setDictateState(DICTATING);
-        sendTypingIndicator && postActivity({ type: 'typing' });
+        sendTypingIndicator && emitTypingIndicator();
       }
     },
-    [dictateState, postActivity, sendTypingIndicator, setDictateInterims, setDictateState]
+    [dictateState, emitTypingIndicator, sendTypingIndicator, setDictateInterims, setDictateState]
   );
 
   const handleError = useCallback(() => {
@@ -84,10 +92,8 @@ Dictation.defaultProps = {
 Dictation.propTypes = {
   dictateState: PropTypes.number.isRequired,
   disabled: PropTypes.bool,
-  language: PropTypes.string.isRequired,
-  numSpeakingActivities: PropTypes.number.isRequired,
+  emitTypingIndicator: PropTypes.func.isRequired,
   onError: PropTypes.func,
-  postActivity: PropTypes.func.isRequired,
   sendTypingIndicator: PropTypes.bool.isRequired,
   setDictateInterims: PropTypes.func.isRequired,
   setDictateState: PropTypes.func.isRequired,
@@ -103,10 +109,9 @@ Dictation.propTypes = {
 
 export default connectToWebChat(
   ({
-    activities,
     dictateState,
     disabled,
-    language,
+    emitTypingIndicator,
     postActivity,
     sendTypingIndicator,
     setDictateInterims,
@@ -119,8 +124,7 @@ export default connectToWebChat(
   }) => ({
     dictateState,
     disabled,
-    language,
-    numSpeakingActivities: activities.filter(({ channelData: { speak } = {} }) => speak).length,
+    emitTypingIndicator,
     postActivity,
     sendTypingIndicator,
     setDictateInterims,

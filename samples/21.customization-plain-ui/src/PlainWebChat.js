@@ -1,25 +1,37 @@
-import { connectToWebChat } from "botframework-webchat-component";
-import React, { useState } from "react";
+import { connectToWebChat, hooks } from 'botframework-webchat-component';
+import React, { useCallback, useState } from 'react';
 
-import Attachment from "./Attachment";
-import SuggestedActions from "./SuggestedActions";
+import Attachment from './Attachment';
+import SuggestedActions from './SuggestedActions';
 
-import getValueOrUndefined from "./util/getValueOrUndefined";
+import getValueOrUndefined from './util/getValueOrUndefined';
 
-const PlainWebChat = ({ activities, sendMessage }) => {
-  const [sendBoxValue, setSendBoxValue] = useState("");
+const { useActivities } = hooks;
+
+const PlainWebChat = ({ sendMessage }) => {
+  const [activities] = useActivities();
+  const [sendBoxValue, setSendBoxValue] = useState('');
+
+  const handleChange = useCallback(({ target: { value } }) => setSendBoxValue(value), [setSendBoxValue]);
+
+  const handleSubmit = useCallback(
+    event => {
+      event.preventDefault();
+
+      sendMessage(sendBoxValue);
+      setSendBoxValue('');
+    },
+    [sendMessage, setSendBoxValue]
+  );
 
   return (
     <div>
       <ul>
         {activities
           // Currently, this sample only displays an activity of type "message"
-          .filter(({ type }) => type === "message")
+          .filter(({ type }) => type === 'message')
           // We need to hide "postBack" message sent by the user
-          .filter(
-            ({ channelData: { postBack } = {}, from: { role } }) =>
-              !(role === "user" && postBack)
-          )
+          .filter(({ channelData: { postBack } = {}, from: { role } }) => !(role === 'user' && postBack))
           // Normalize the activity:
           // - Every activity should have an "attachments" array, consisting of zero or more attachments:
           // - If this is a "messageBack" message, we should use the "displayText",
@@ -27,13 +39,7 @@ const PlainWebChat = ({ activities, sendMessage }) => {
           .map(activity => ({
             ...activity,
             attachments: activity.attachments || [],
-            text:
-              getValueOrUndefined(
-                activity,
-                "channelData",
-                "messageBack",
-                "displayText"
-              ) || activity.text
+            text: getValueOrUndefined(activity, 'channelData', 'messageBack', 'displayText') || activity.text
           }))
           // Filter out all empty messages (no attachments or text)
           .filter(({ attachments, text }) => attachments.length || text)
@@ -46,11 +52,7 @@ const PlainWebChat = ({ activities, sendMessage }) => {
                   // In this case, we prefer to have a single component for both of them.
                   <Attachment
                     content={activity.text}
-                    contentType={
-                      activity.textFormat === "markdown"
-                        ? "text/markdown"
-                        : "text/plain"
-                    }
+                    contentType={activity.textFormat === 'markdown' ? 'text/markdown' : 'text/plain'}
                   />
                 )}
                 {!!activity.attachments.length && (
@@ -69,20 +71,8 @@ const PlainWebChat = ({ activities, sendMessage }) => {
       <div>
         {/* This is the send box, and suggested actions change based on the send box, not activity */}
         <SuggestedActions />
-        <form
-          onSubmit={event => {
-            event.preventDefault();
-
-            sendMessage(sendBoxValue);
-            setSendBoxValue("");
-          }}
-        >
-          <input
-            autoFocus={true}
-            onChange={({ target: { value } }) => setSendBoxValue(value)}
-            type="textbox"
-            value={sendBoxValue}
-          />
+        <form onSubmit={handleSubmit}>
+          <input autoFocus={true} onChange={handleChange} type="textbox" value={sendBoxValue} />
         </form>
       </div>
     </div>

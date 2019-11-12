@@ -1,5 +1,5 @@
-const generateOAuthState = require("../../../utils/generateOAuthState");
-const random = require("math-random");
+const generateOAuthState = require('../../../utils/generateOAuthState');
+const random = require('math-random');
 
 const {
   GITHUB_OAUTH_AUTHORIZE_URL,
@@ -18,14 +18,12 @@ module.exports = (_, res) => {
   const state = generateOAuthState(seed, GITHUB_OAUTH_STATE_SALT);
   const params = new URLSearchParams({
     client_id: GITHUB_OAUTH_CLIENT_ID,
-    redirect_uri: `${GITHUB_OAUTH_REDIRECT_URI}?${new URLSearchParams({
-      seed
-    })}`,
-    response_type: "code",
+    redirect_uri: `${GITHUB_OAUTH_REDIRECT_URI}?${new URLSearchParams({ seed })}`,
+    response_type: 'code',
     scope: GITHUB_OAUTH_SCOPE,
     state
   });
 
-  res.setHeader("location", `${GITHUB_OAUTH_AUTHORIZE_URL}?${params}`);
+  res.setHeader('location', `${GITHUB_OAUTH_AUTHORIZE_URL}?${params}`);
   res.send(302);
 };

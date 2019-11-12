@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import connectToWebChat from '../connectToWebChat';
+import useStyleSet from '../hooks/useStyleSet';
 
 const SUGGESTED_ACTION_CSS = css({
   display: 'inline-block',
@@ -11,13 +12,6 @@ const SUGGESTED_ACTION_CSS = css({
 
   '& > button': {
     display: 'flex'
-  }
-});
-
-const SUGGESTED_ACTION_BUTTON_CSS = css({
-  '&:focus, &:hover': {
-    textDecoration: 'none',
-    outline: 0
   }
 });
 
@@ -34,14 +28,18 @@ const connectSuggestedAction = (...selectors) =>
     ...selectors
   );
 
-const SuggestedAction = ({ buttonText, click, disabled, image, styleSet }) => (
-  <div className={classNames(styleSet.suggestedAction + '', SUGGESTED_ACTION_CSS + '')}>
-    <button className={SUGGESTED_ACTION_BUTTON_CSS + ''} disabled={disabled} onClick={click} type="button">
-      {image && <img src={image} />}
-      <nobr>{buttonText}</nobr>
-    </button>
-  </div>
-);
+const SuggestedAction = ({ buttonText, click, disabled, image }) => {
+  const [{ suggestedAction: suggestedActionStyleSet }] = useStyleSet();
+
+  return (
+    <div className={classNames(suggestedActionStyleSet + '', SUGGESTED_ACTION_CSS + '')}>
+      <button disabled={disabled} onClick={click} type="button">
+        {image && <img src={image} />}
+        <nobr>{buttonText}</nobr>
+      </button>
+    </div>
+  );
+};
 
 SuggestedAction.defaultProps = {
   disabled: false,
@@ -52,12 +50,9 @@ SuggestedAction.propTypes = {
   buttonText: PropTypes.string.isRequired,
   click: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-  image: PropTypes.string,
-  styleSet: PropTypes.shape({
-    suggestedAction: PropTypes.any.isRequired
-  }).isRequired
+  image: PropTypes.string
 };
 
-export default connectSuggestedAction(({ styleSet }) => ({ styleSet }))(SuggestedAction);
+export default connectSuggestedAction()(SuggestedAction);
 
 export { connectSuggestedAction };

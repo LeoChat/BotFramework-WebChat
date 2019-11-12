@@ -134,7 +134,7 @@ For deeper styling, you can also modify the style set manually by setting the CS
 
 ## Change the avatar of the bot within the dialog box
 
-The latest Web Chat support avatar, you can customize them using `botAvatarInitials` and `userAvatarInitials` props.
+The latest version of Web Chat supports avatars, which you can customize by setting `botAvatarInitials` and `userAvatarInitials` in the `styleOptions` prop.
 
 <img alt="Screenshot with avatar initials" src="https://raw.githubusercontent.com/microsoft/BotFramework-WebChat/master/media/sample-avatar-initials.png" width="396" />
 
@@ -145,15 +145,17 @@ The latest Web Chat support avatar, you can customize them using `botAvatarIniti
       <div id="webchat" role="main"></div>
       <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
       <script>
+         const styleOptions = {
+            botAvatarInitials: 'BF',
+            userAvatarInitials: 'WC'
+         };
+
          window.WebChat.renderWebChat(
             {
                directLine: window.WebChat.createDirectLine({
                   secret: 'YOUR_BOT_SECRET'
                }),
-
-               // Passing avatar initials when rendering Web Chat
-               botAvatarInitials: 'BF',
-               userAvatarInitials: 'WC'
+               styleOptions
             },
             document.getElementById('webchat')
          );
@@ -162,14 +164,14 @@ The latest Web Chat support avatar, you can customize them using `botAvatarIniti
 </html>
 ```
 
-Inside the `renderWebChat` code, we added `botAvatarInitials` and `userAvatarInitials`:
+Inside Web Chat's `styleOptions` prop, we added `botAvatarInitials` and `userAvatarInitials`:
 
 ```js
 botAvatarInitials: 'BF',
 userAvatarInitials: 'WC'
 ```
 
-`botAvatarInitials` will set the text inside the avatar on the left-hand side. If it is set to falsy value, the avatar on the bot side will be hidden. In contrast, `userAvatarInitials` will set the avatar text on the right-hand side.
+`botAvatarInitials` will set the text inside the avatar on the left-hand side. If it is set to a falsy value, the avatar on the bot side will be hidden. In contrast, `userAvatarInitials` will set the avatar text on the right-hand side.
 
 # Custom rendering activity or attachment
 
@@ -199,14 +201,25 @@ const GitHubRepositoryAttachment = props => (
          textAlign: 'center'
       }}
    >
-      <svg height="64" viewBox="0 0 16 16" version="1.1" width="64" aria-hidden="true">
+      <svg
+         height="64"
+         viewBox="0 0 16 16"
+         version="1.1"
+         width="64"
+         aria-hidden="true"
+      >
          <path
             fillRule="evenodd"
             d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"
          />
       </svg>
       <p>
-         <a href={`https://github.com/${encodeURI(props.owner)}/${encodeURI(props.repo)}`} target="_blank">
+         <a
+            href={`https://github.com/${encodeURI(props.owner)}/${encodeURI(
+               props.repo
+            )}`}
+            target="_blank"
+         >
             {props.owner}/<br />
             {props.repo}
          </a>
@@ -219,7 +232,10 @@ const attachmentMiddleware = () => next => card => {
    switch (card.attachment.contentType) {
       case 'application/vnd.microsoft.botframework.samples.github-repository':
          return (
-            <GitHubRepositoryAttachment owner={card.attachment.content.owner} repo={card.attachment.content.repo} />
+            <GitHubRepositoryAttachment
+               owner={card.attachment.content.owner}
+               repo={card.attachment.content.repo}
+            />
          );
 
       default:
@@ -250,14 +266,25 @@ const GitHubRepositoryAttachment = props => (
          textAlign: 'center'
       }}
    >
-      <svg height="64" viewBox="0 0 16 16" version="1.1" width="64" aria-hidden="true">
+      <svg
+         height="64"
+         viewBox="0 0 16 16"
+         version="1.1"
+         width="64"
+         aria-hidden="true"
+      >
          <path
             fillRule="evenodd"
             d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"
          />
       </svg>
       <p>
-         <a href={`https://github.com/${encodeURI(props.owner)}/${encodeURI(props.repo)}`} target="_blank">
+         <a
+            href={`https://github.com/${encodeURI(props.owner)}/${encodeURI(
+               props.repo
+            )}`}
+            target="_blank"
+         >
             {props.owner}/<br />
             {props.repo}
          </a>
@@ -273,7 +300,10 @@ const attachmentMiddleware = () => next => card => {
    switch (card.attachment.contentType) {
       case 'application/vnd.microsoft.botframework.samples.github-repository':
          return (
-            <GitHubRepositoryAttachment owner={card.attachment.content.owner} repo={card.attachment.content.repo} />
+            <GitHubRepositoryAttachment
+               owner={card.attachment.content.owner}
+               repo={card.attachment.content.repo}
+            />
          );
 
       default:

@@ -1,17 +1,17 @@
-import PropTypes from "prop-types";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import "./ProfileMenu.css";
-import compose from "../utils/compose";
-import fetchJSON from "../utils/fetchJSON";
+import './ProfileMenu.css';
+import compose from '../utils/compose';
+import fetchJSON from '../utils/fetchJSON';
 
-import connectGitHubProfileAvatar from "../gitHubProfile/hoc/avatarURL";
-import connectGitHubProfileName from "../gitHubProfile/hoc/name";
-import connectGitHubSignInButton from "../gitHubProfile/hoc/signInButton";
-import connectGitHubSignOutButton from "../gitHubProfile/hoc/signOutButton";
-import GitHubProfileComposer from "../gitHubProfile/Composer";
+import connectGitHubProfileAvatar from '../gitHubProfile/hoc/avatarURL';
+import connectGitHubProfileName from '../gitHubProfile/hoc/name';
+import connectGitHubSignInButton from '../gitHubProfile/hoc/signInButton';
+import connectGitHubSignOutButton from '../gitHubProfile/hoc/signOutButton';
+import GitHubProfileComposer from '../gitHubProfile/Composer';
 
-const SETTINGS_URL = "/api/github/settings";
+const SETTINGS_URL = '/api/github/settings';
 
 // We will fetch the authorize URL and client ID for the GitHub sign-in flow from the server.
 // This helps decouple the server settings (e.g. client ID) from the HTML code.
@@ -24,7 +24,7 @@ async function fetchSettings() {
       clientId
     };
   } catch (err) {
-    throw new Error("OAuth: Failed to fetch settings");
+    throw new Error('OAuth: Failed to fetch settings');
   }
 }
 
@@ -42,29 +42,24 @@ const GitHubProfileMenu = ({
   // Listen to "signin" event from the window.
   // The "signin" event is fired when the user click on the "Sign in" button in Web Chat.
   useEffect(() => {
-    window.addEventListener(
-      "signin",
-      ({ data: { provider } = {} }) =>
-        provider === "github" && onSignIn && onSignIn()
-    );
+    window.addEventListener('signin', ({ data: { provider } = {} }) => provider === 'github' && onSignIn && onSignIn());
 
-    return () => window.removeEventListener("signin", onSignIn);
+    return () => window.removeEventListener('signin', onSignIn);
   });
 
   // Listen to "signout" event from the window.
   // The "signout" event is fired when the bot requests the webpage to sign out.
   useEffect(() => {
-    window.addEventListener("signout", onSignOut);
+    window.addEventListener('signout', onSignOut);
 
-    return () => window.removeEventListener("signout", onSignOut);
+    return () => window.removeEventListener('signout', onSignOut);
   });
 
   // CSS style for displaying avatar as background image.
   // Background image will ease handling 404 or other HTTP errors by not showing the image.
   const avatarStyle = useMemo(
     () => ({
-      backgroundImage: `url(${avatarURL ||
-        "/images/GitHub-Mark-64px-DDD-White.png"})`
+      backgroundImage: `url(${avatarURL || '/images/GitHub-Mark-64px-DDD-White.png'})`
     }),
     [avatarURL]
   );
@@ -81,9 +76,7 @@ const GitHubProfileMenu = ({
     setExpanded(false);
   }, [onSignOut]);
 
-  const handleToggleExpand = useCallback(() => setExpanded(!expanded), [
-    expanded
-  ]);
+  const handleToggleExpand = useCallback(() => setExpanded(!expanded), [expanded]);
 
   return (
     <div aria-expanded={expanded} className="sso__profile">
@@ -93,9 +86,7 @@ const GitHubProfileMenu = ({
         onClick={signedIn ? handleToggleExpand : handleSignIn}
         style={avatarStyle}
       >
-        {signedIn && (
-          <div className="sso__profileAvatarBadge sso__profileAvatarBadge__gitHub" />
-        )}
+        {signedIn && <div className="sso__profileAvatarBadge sso__profileAvatarBadge__gitHub" />}
       </button>
       {signedIn && expanded && (
         <ul className="sso__profileMenu">
@@ -108,11 +99,7 @@ const GitHubProfileMenu = ({
           )}
           {onSignOut && oauthReviewAccessURL && (
             <li className="sso__profileMenuItem">
-              <a
-                href={oauthReviewAccessURL}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
+              <a href={oauthReviewAccessURL} rel="noopener noreferrer" target="_blank">
                 Review access on GitHub
               </a>
             </li>
@@ -131,10 +118,10 @@ const GitHubProfileMenu = ({
 };
 
 GitHubProfileMenu.defaultProps = {
-  accessToken: "",
-  avatarURL: "",
-  name: "",
-  oauthReviewAccessURL: "",
+  accessToken: '',
+  avatarURL: '',
+  name: '',
+  oauthReviewAccessURL: '',
   onSignIn: undefined,
   onSignOut: undefined,
   setAccessToken: undefined
@@ -160,8 +147,8 @@ const ComposedGitHubProfileMenu = compose(
 )(GitHubProfileMenu);
 
 const ConnectedGitHubProfileMenu = ({ accessToken, onAccessTokenChange }) => {
-  const [oauthAuthorizeURL, setOAuthAuthorizeURL] = useState("");
-  const [oauthReviewAccessURL, setOAuthReviewAccessURL] = useState("");
+  const [oauthAuthorizeURL, setOAuthAuthorizeURL] = useState('');
+  const [oauthReviewAccessURL, setOAuthReviewAccessURL] = useState('');
 
   useMemo(async () => {
     const { authorizeURL, clientId } = await fetchSettings();
@@ -169,9 +156,7 @@ const ConnectedGitHubProfileMenu = ({ accessToken, onAccessTokenChange }) => {
     setOAuthAuthorizeURL(authorizeURL);
 
     // The OAuth review access URL is constructed based on OAuth client ID.
-    setOAuthReviewAccessURL(
-      `https://github.com/settings/connections/applications/${clientId}`
-    );
+    setOAuthReviewAccessURL(`https://github.com/settings/connections/applications/${clientId}`);
   }, []);
 
   return (

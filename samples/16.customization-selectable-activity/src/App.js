@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import ReactWebChat from "./WebChat";
-import Inspector from "./Inspector";
+import ReactWebChat from './WebChat';
+import Inspector from './Inspector';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -19,20 +19,15 @@ export default class App extends React.Component {
     return (
       <div className="app">
         <ReactWebChat activityMiddleware={this.activityMiddleware} />
-        <Inspector
-          inspectedObject={selectedActivity}
-          inspectorRef={this.inspectorRef}
-        />
+        <Inspector inspectedObject={selectedActivity} inspectorRef={this.inspectorRef} />
       </div>
     );
   }
 
   activityMiddleware = () => next => card => children => {
     const isSelected = card.activity === this.state.selectedActivity;
-    const selectedClass = isSelected ? "selected" : "";
-    const label = isSelected
-      ? "Selected activity. Click to deselect activity."
-      : "Click to inspect activity.";
+    const selectedClass = isSelected ? 'selected' : '';
+    const label = isSelected ? 'Selected activity. Click to deselect activity.' : 'Click to inspect activity.';
 
     return (
       <div
@@ -51,10 +46,7 @@ export default class App extends React.Component {
   selectActivity = selectedActivity => () => {
     this.setState(
       prevState => ({
-        selectedActivity:
-          prevState.selectedActivity === selectedActivity
-            ? null
-            : selectedActivity
+        selectedActivity: prevState.selectedActivity === selectedActivity ? null : selectedActivity
       }),
       () => {
         if (this.state.selectedActivity) {
@@ -65,7 +57,7 @@ export default class App extends React.Component {
   };
 
   handleKeyDown = selectActivity => e => {
-    if ([" ", "Enter"].includes(e.key)) {
+    if ([' ', 'Enter'].includes(e.key)) {
       this.selectActivity(selectActivity)(e);
     }
   };

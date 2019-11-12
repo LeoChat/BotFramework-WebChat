@@ -1,19 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import ReactWebChat, {
-  createDirectLine,
-  createStore
-} from "botframework-webchat";
-import dispatchIncomingActivityMiddleware from "./dispatchIncomingActivityMiddleware";
+import ReactWebChat, { createDirectLine, createStore } from 'botframework-webchat';
+import dispatchIncomingActivityMiddleware from './dispatchIncomingActivityMiddleware';
 
 export default class extends React.Component {
   constructor(props) {
     super(props);
 
-    this.store = createStore(
-      {},
-      dispatchIncomingActivityMiddleware(props.appDispatch)
-    );
+    this.store = createStore({}, dispatchIncomingActivityMiddleware(props.appDispatch));
 
     this.state = {};
   }
@@ -24,10 +18,7 @@ export default class extends React.Component {
   }
 
   async fetchToken() {
-    const res = await fetch(
-      "https://webchat-mockbot.azurewebsites.net/directline/token",
-      { method: "POST" }
-    );
+    const res = await fetch('https://webchat-mockbot.azurewebsites.net/directline/token', { method: 'POST' });
     const { token } = await res.json();
 
     this.setState(() => ({
@@ -37,8 +28,8 @@ export default class extends React.Component {
 
   setSendBox() {
     this.store.dispatch({
-      type: "WEB_CHAT/SET_SEND_BOX",
-      payload: { text: "sample:redux-middleware" }
+      type: 'WEB_CHAT/SET_SEND_BOX',
+      payload: { text: 'sample:redux-middleware' }
     });
   }
 
@@ -49,7 +40,7 @@ export default class extends React.Component {
         directLine={this.state.directLine}
         store={this.store}
         styleOptions={{
-          backgroundColor: "Transparent"
+          backgroundColor: 'Transparent'
         }}
       />
     ) : (

@@ -2,25 +2,28 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import connectToWebChat from '../connectToWebChat';
+import useStyleSet from '../hooks/useStyleSet';
 
-const IconButton = ({ alt, children, className, direction, disabled, onClick, styleSet }) => (
-  <button
-    className={classNames(styleSet.sendBoxButton + '', className + '', 'btn-' + direction)}
-    disabled={disabled}
-    onClick={onClick}
-    title={alt}
-    type="button"
-  >
-    {children}
-  </button>
-);
+const IconButton = ({ alt, children, className, disabled, onClick }) => {
+  const [{ sendBoxButton: sendBoxButtonStyleSet }] = useStyleSet();
+
+  return (
+    <button
+      className={classNames(sendBoxButtonStyleSet + '', className + '')}
+      disabled={disabled}
+      onClick={onClick}
+      title={alt}
+      type="button"
+    >
+      {children}
+    </button>
+  );
+};
 
 IconButton.defaultProps = {
   alt: '',
   children: undefined,
   className: '',
-  direction: 'ltr',
   disabled: false,
   onClick: undefined
 };
@@ -29,12 +32,8 @@ IconButton.propTypes = {
   alt: PropTypes.string,
   children: PropTypes.any,
   className: PropTypes.string,
-  direction: PropTypes.string,
   disabled: PropTypes.bool,
-  onClick: PropTypes.func,
-  styleSet: PropTypes.shape({
-    sendBoxButton: PropTypes.any.isRequired
-  }).isRequired
+  onClick: PropTypes.func
 };
 
-export default connectToWebChat(({ direction, styleSet }) => ({ direction, styleSet }))(IconButton);
+export default IconButton;

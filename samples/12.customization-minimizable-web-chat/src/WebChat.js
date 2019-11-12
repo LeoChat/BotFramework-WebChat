@@ -1,11 +1,8 @@
-import memoize from "memoize-one";
-import React from "react";
-import ReactWebChat, {
-  createDirectLine,
-  createStyleSet
-} from "botframework-webchat";
+import memoize from 'memoize-one';
+import React from 'react';
+import ReactWebChat, { createDirectLine, createStyleSet } from 'botframework-webchat';
 
-import "./WebChat.css";
+import './WebChat.css';
 
 export default class extends React.Component {
   constructor(props) {
@@ -15,7 +12,7 @@ export default class extends React.Component {
 
     this.state = {
       styleSet: createStyleSet({
-        backgroundColor: "Transparent"
+        backgroundColor: 'Transparent'
       })
     };
   }
@@ -32,13 +29,13 @@ export default class extends React.Component {
 
     return token ? (
       <ReactWebChat
-        className={`${className || ""} web-chat`}
+        className={`${className || ''} web-chat`}
         directLine={this.createDirectLine(token)}
         store={store}
         styleSet={styleSet}
       />
     ) : (
-      <div className={`${className || ""} connect-spinner`}>
+      <div className={`${className || ''} connect-spinner`}>
         <div className="content">
           <div className="icon">
             <span className="ms-Icon ms-Icon--Robot" />

@@ -47,7 +47,11 @@
         width: 100%;
       }
     </style>
+    <script src="https://tdurnford.github.io/BotFramework-Offline-MockBot/index.js"></script>
     <script src="https://unpkg.com/event-target-shim@5.0.1/dist/event-target-shim.umd.js"></script>
+    <script src="https://unpkg.com/simple-update-in"></script>
+    <script src="https://unpkg.com/react@16.8.6/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.8.6/umd/react-dom.development.js"></script>
     <script src="/createProduceConsumeBroker.js"></script>
     <script src="/mockWebSpeech.js"></script>
   </head>
@@ -60,6 +64,23 @@
         });
 
         return obj;
+      }
+
+      async function runHook(name, args) {
+        return new Promise((resolve, reject) => {
+          window.WebChatTest.store.dispatch({
+            type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+            payload: {
+              activity: {
+                from: { id: 'bot' },
+                id: Math.random().toString(36).substr(2, 10),
+                name: 'hook',
+                type: 'event',
+                value: { args, name, reject, resolve }
+              }
+            }
+          });
+        });
       }
 
       function loadScript(src) {
@@ -92,7 +113,7 @@
       const PASSTHRU_MIDDLEWARE = store => next => action => next(action);
 
       async function main(options) {
-        let { createDirectLine, createStyleSet, props, setup, storeInitialState = {}, storeMiddleware = PASSTHRU_MIDDLEWARE } = unmarshal(options);
+        let { createDirectLine, createStyleSet, props, setup, storeInitialState = {}, storeMiddleware = PASSTHRU_MIDDLEWARE, useProductionBot } = unmarshal(options);
 
         props = unmarshal(props);
 
@@ -100,18 +121,27 @@
 
         await loadScript('/webchat-instrumented.js');
 
-        const { token } = await retry(async () => {
-          try {
-            const res = await fetch('https://webchat-mockbot.azurewebsites.net/directline/token', { method: 'POST', timeout: 2000 });
+        let directLine;
 
-            return await res.json();
-          } catch (err) {
-            console.error('Failed to fetch Direct Line token from Mockbot.');
-            console.error(err);
+        if (!useProductionBot && !createDirectLine) {
+          directLine = window.MockBotAdapter.createDirectLine({});
+        } else {
+          const { token } = await retry(async () => {
+            try {
+              const res = await fetch('https://webchat-mockbot.azurewebsites.net/directline/token', { method: 'POST', timeout: 2000 });
 
-            throw err;
-          }
-        }, 3);
+              return await res.json();
+            } catch (err) {
+              console.error('Failed to fetch Direct Line token from Mockbot.');
+              console.error(err);
+
+              throw err;
+            }
+          }, 3);
+
+          createDirectLine || (createDirectLine = window.WebChat.createDirectLine);
+          directLine = (createDirectLine || window.WebChat.createDirectLine)({ token });
+        }
 
         const store = window.WebChatTest.store = window.WebChat.createStore(storeInitialState, store => {
           const setupMiddleware = storeMiddleware(store);
@@ -127,22 +157,58 @@
           };
         });
 
-        createDirectLine || (createDirectLine = window.WebChat.createDirectLine);
+        const activityMiddleware = () => next => card => {
+          const { activity } = card;
 
-        window.WebChat.renderWebChat({
-          directLine: createDirectLine({ token }),
+          if (activity.type === 'event' && activity.name === 'hook') {
+            return children => React.createElement(() => {
+              const { args, name, reject, resolve } = activity.value;
+
+              try {
+                const hookFn = window.WebChat.hooks[name];
+
+                if (!hookFn) {
+                  console.log(`No hooks named "${ name }" were found. Valid hooks are:`, Object.keys(window.WebChat.hooks).sort());
+
+                  throw new Error(`No hooks named "${ name }" were found.`);
+                }
+
+                resolve(hookFn(args));
+              } catch (err) {
+                reject(err);
+              }
+
+              return false;
+            });
+          }
+          return next(card);
+        };
+
+        props = {
+          activityMiddleware,
+          directLine,
           store,
           styleSet: createStyleSet && createStyleSet(props.styleOptions),
           username: 'Happy Web Chat user',
           ...props
-        }, document.getElementById('webchat'));
+        };
+
+        renderWebChat = props => window.WebChat.renderWebChat(props, document.getElementById('webchat'));
+        renderWebChat(props);
 
         document.querySelector('#webchat > *').focus();
+
+        window.WebChatTest.updateProps = mergeProps => {
+          props = { ...props, ...mergeProps };
+
+          renderWebChat(props);
+        };
       }
 
       window.WebChatTest = {
         actions: [],
-        loadScript
+        loadScript,
+        runHook
       };
     </script>
   </body>

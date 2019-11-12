@@ -4,6 +4,7 @@ import clearSuggestedActionsOnPostActivitySaga from './sagas/clearSuggestedActio
 import connectionStatusUpdateSaga from './sagas/connectionStatusUpdateSaga';
 import connectSaga from './sagas/connectSaga';
 import detectSlowConnectionSaga from './sagas/detectSlowConnectionSaga';
+import emitTypingIndicatorToPostActivitySaga from './sagas/emitTypingIndicatorToPostActivitySaga';
 import incomingActivitySaga from './sagas/incomingActivitySaga';
 import markAllAsSpokenOnStopSpeakActivitySaga from './sagas/markAllAsSpokenOnStopSpeakActivitySaga';
 import postActivitySaga from './sagas/postActivitySaga';
@@ -14,6 +15,7 @@ import sendMessageToPostActivitySaga from './sagas/sendMessageToPostActivitySaga
 import sendPostBackToPostActivitySaga from './sagas/sendPostBackToPostActivitySaga';
 import sendTypingIndicatorOnSetSendBoxSaga from './sagas/sendTypingIndicatorOnSetSendBoxSaga';
 import speakActivityAndStartDictateOnIncomingActivityFromOthersSaga from './sagas/speakActivityAndStartDictateOnIncomingActivityFromOthersSaga';
+import startDictateOnSpeakCompleteSaga from './sagas/startDictateOnSpeakCompleteSaga';
 import startSpeakActivityOnPostActivitySaga from './sagas/startSpeakActivityOnPostActivitySaga';
 import stopDictateOnCardActionSaga from './sagas/stopDictateOnCardActionSaga';
 import stopSpeakingActivityOnInputSaga from './sagas/stopSpeakingActivityOnInputSaga';
@@ -26,6 +28,7 @@ export default function* sagas() {
   yield fork(connectionStatusUpdateSaga);
   yield fork(connectSaga);
   yield fork(detectSlowConnectionSaga);
+  yield fork(emitTypingIndicatorToPostActivitySaga);
   yield fork(incomingActivitySaga);
   yield fork(markAllAsSpokenOnStopSpeakActivitySaga);
   yield fork(postActivitySaga);
@@ -36,6 +39,7 @@ export default function* sagas() {
   yield fork(sendPostBackToPostActivitySaga);
   yield fork(sendTypingIndicatorOnSetSendBoxSaga);
   yield fork(speakActivityAndStartDictateOnIncomingActivityFromOthersSaga);
+  yield fork(startDictateOnSpeakCompleteSaga);
   yield fork(startSpeakActivityOnPostActivitySaga);
   yield fork(stopDictateOnCardActionSaga);
   yield fork(stopSpeakingActivityOnInputSaga);
