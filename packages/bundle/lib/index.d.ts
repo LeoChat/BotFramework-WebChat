@@ -1,4 +1,5 @@
 export * from './index-minimal';
+import { hooks } from './index-minimal';
 import createCognitiveServicesBingSpeechPonyfillFactory from './createCognitiveServicesBingSpeechPonyfillFactory';
 import createCognitiveServicesSpeechServicesPonyfillFactory from './createCognitiveServicesSpeechServicesPonyfillFactory';
 import createStyleSet from './adaptiveCards/Styles/createStyleSetWithAdaptiveCards';
@@ -11,6 +12,7 @@ export {
   createCognitiveServicesBingSpeechPonyfillFactory,
   createCognitiveServicesSpeechServicesPonyfillFactory,
   createStyleSet,
+  hooks,
   renderMarkdown,
   renderWebChat
 };

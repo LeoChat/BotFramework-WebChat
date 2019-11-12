@@ -1,5 +1,217 @@
 'use strict';
 
+var cov_2denw4ddba = (function() {
+  var path = '/home/guy/leo/BotFramework-WebChat/packages/core/src/sagas/sendMessageToPostActivitySaga.js';
+  var hash = 'a99f1b21f29166c3dffd24232e006fe74cbbd099';
+  var global = new Function('return this')();
+  var gcv = '__coverage__';
+  var coverageData = {
+    path: '/home/guy/leo/BotFramework-WebChat/packages/core/src/sagas/sendMessageToPostActivitySaga.js',
+    statementMap: {
+      '0': {
+        start: {
+          line: 8,
+          column: 2
+        },
+        end: {
+          line: 17,
+          column: 4
+        }
+      },
+      '1': {
+        start: {
+          line: 21,
+          column: 2
+        },
+        end: {
+          line: 21,
+          column: 105
+        }
+      },
+      '2': {
+        start: {
+          line: 21,
+          column: 41
+        },
+        end: {
+          line: 21,
+          column: 78
+        }
+      },
+      '3': {
+        start: {
+          line: 25,
+          column: 2
+        },
+        end: {
+          line: 25,
+          column: 50
+        }
+      }
+    },
+    fnMap: {
+      '0': {
+        name: 'postActivityWithMessage',
+        decl: {
+          start: {
+            line: 7,
+            column: 10
+          },
+          end: {
+            line: 7,
+            column: 33
+          }
+        },
+        loc: {
+          start: {
+            line: 7,
+            column: 65
+          },
+          end: {
+            line: 18,
+            column: 1
+          }
+        },
+        line: 7
+      },
+      '1': {
+        name: 'sendMessageToPostActivity',
+        decl: {
+          start: {
+            line: 20,
+            column: 10
+          },
+          end: {
+            line: 20,
+            column: 35
+          }
+        },
+        loc: {
+          start: {
+            line: 20,
+            column: 38
+          },
+          end: {
+            line: 22,
+            column: 1
+          }
+        },
+        line: 20
+      },
+      '2': {
+        name: '(anonymous_2)',
+        decl: {
+          start: {
+            line: 21,
+            column: 18
+          },
+          end: {
+            line: 21,
+            column: 19
+          }
+        },
+        loc: {
+          start: {
+            line: 21,
+            column: 41
+          },
+          end: {
+            line: 21,
+            column: 78
+          }
+        },
+        line: 21
+      },
+      '3': {
+        name: 'sendMessageToPostActivitySaga',
+        decl: {
+          start: {
+            line: 24,
+            column: 25
+          },
+          end: {
+            line: 24,
+            column: 54
+          }
+        },
+        loc: {
+          start: {
+            line: 24,
+            column: 57
+          },
+          end: {
+            line: 26,
+            column: 1
+          }
+        },
+        line: 24
+      }
+    },
+    branchMap: {
+      '0': {
+        loc: {
+          start: {
+            line: 21,
+            column: 41
+          },
+          end: {
+            line: 21,
+            column: 78
+          }
+        },
+        type: 'binary-expr',
+        locations: [
+          {
+            start: {
+              line: 21,
+              column: 41
+            },
+            end: {
+              line: 21,
+              column: 62
+            }
+          },
+          {
+            start: {
+              line: 21,
+              column: 66
+            },
+            end: {
+              line: 21,
+              column: 78
+            }
+          }
+        ],
+        line: 21
+      }
+    },
+    s: {
+      '0': 0,
+      '1': 0,
+      '2': 0,
+      '3': 0
+    },
+    f: {
+      '0': 0,
+      '1': 0,
+      '2': 0,
+      '3': 0
+    },
+    b: {
+      '0': [0, 0]
+    },
+    _coverageSchema: '43e27e138ebf9cfc5966b082cf9a028302ed4184',
+    hash: 'a99f1b21f29166c3dffd24232e006fe74cbbd099'
+  };
+  var coverage = global[gcv] || (global[gcv] = {});
+
+  if (coverage[path] && coverage[path].hash === hash) {
+    return coverage[path];
+  }
+
+  return (coverage[path] = coverageData);
+})();
+
 var _interopRequireDefault = require('@babel/runtime/helpers/interopRequireDefault');
 
 Object.defineProperty(exports, '__esModule', {
@@ -35,7 +247,9 @@ function postActivityWithMessage(_ref) {
       switch ((_context.prev = _context.next)) {
         case 0:
           (_ref$payload = _ref.payload), (method = _ref$payload.method), (text = _ref$payload.text);
-          _context.next = 3;
+          cov_2denw4ddba.f[0]++;
+          cov_2denw4ddba.s[0]++;
+          _context.next = 5;
           return (0, _effects.put)(
             (0, _postActivity['default'])(
               {
@@ -47,7 +261,7 @@ function postActivityWithMessage(_ref) {
             )
           );
 
-        case 3:
+        case 5:
         case 'end':
           return _context.stop();
       }
@@ -60,14 +274,20 @@ function sendMessageToPostActivity() {
     while (1) {
       switch ((_context2.prev = _context2.next)) {
         case 0:
-          _context2.next = 2;
+          cov_2denw4ddba.f[1]++;
+          cov_2denw4ddba.s[1]++;
+          _context2.next = 4;
           return (0, _effects.takeEvery)(function(_ref2) {
             var payload = _ref2.payload,
               type = _ref2.type;
-            return type === _sendMessage.SEND_MESSAGE && payload.text;
+            cov_2denw4ddba.f[2]++;
+            cov_2denw4ddba.s[2]++;
+            return (
+              (cov_2denw4ddba.b[0][0]++, type === _sendMessage.SEND_MESSAGE) && (cov_2denw4ddba.b[0][1]++, payload.text)
+            );
           }, postActivityWithMessage);
 
-        case 2:
+        case 4:
         case 'end':
           return _context2.stop();
       }
@@ -80,14 +300,16 @@ function sendMessageToPostActivitySaga() {
     while (1) {
       switch ((_context3.prev = _context3.next)) {
         case 0:
-          _context3.next = 2;
+          cov_2denw4ddba.f[3]++;
+          cov_2denw4ddba.s[3]++;
+          _context3.next = 4;
           return (0, _whileConnected['default'])(sendMessageToPostActivity);
 
-        case 2:
+        case 4:
         case 'end':
           return _context3.stop();
       }
     }
   }, _marked3);
 }
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9zYWdhcy9zZW5kTWVzc2FnZVRvUG9zdEFjdGl2aXR5U2FnYS5qcyJdLCJuYW1lcyI6WyJwb3N0QWN0aXZpdHlXaXRoTWVzc2FnZSIsInNlbmRNZXNzYWdlVG9Qb3N0QWN0aXZpdHkiLCJzZW5kTWVzc2FnZVRvUG9zdEFjdGl2aXR5U2FnYSIsInBheWxvYWQiLCJtZXRob2QiLCJ0ZXh0IiwidGV4dEZvcm1hdCIsInR5cGUiLCJTRU5EX01FU1NBR0UiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0FBQUE7O0FBRUE7O0FBQ0E7O0FBQ0E7Ozs7NkJBRVVBLHVCOzs7NkJBYUFDLHlCOzs7NkJBSWVDLDZCOztBQWpCekIsU0FBVUYsdUJBQVY7QUFBQTs7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLDhCQUFvQ0csT0FBcEMsRUFBK0NDLE1BQS9DLGdCQUErQ0EsTUFBL0MsRUFBdURDLElBQXZELGdCQUF1REEsSUFBdkQ7QUFBQTtBQUNFLGlCQUFNLGtCQUNKLDhCQUNFO0FBQ0VBLFlBQUFBLElBQUksRUFBSkEsSUFERjtBQUVFQyxZQUFBQSxVQUFVLEVBQUUsT0FGZDtBQUdFQyxZQUFBQSxJQUFJLEVBQUU7QUFIUixXQURGLEVBTUVILE1BTkYsQ0FESSxDQUFOOztBQURGO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBOztBQWFBLFNBQVVILHlCQUFWO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUNFLGlCQUFNLHdCQUFVO0FBQUEsZ0JBQUdFLE9BQUgsU0FBR0EsT0FBSDtBQUFBLGdCQUFZSSxJQUFaLFNBQVlBLElBQVo7QUFBQSxtQkFBdUJBLElBQUksS0FBS0MseUJBQVQsSUFBeUJMLE9BQU8sQ0FBQ0UsSUFBeEQ7QUFBQSxXQUFWLEVBQXdFTCx1QkFBeEUsQ0FBTjs7QUFERjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTs7QUFJZSxTQUFVRSw2QkFBVjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFDYixpQkFBTSxnQ0FBZUQseUJBQWYsQ0FBTjs7QUFEYTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHB1dCwgdGFrZUV2ZXJ5IH0gZnJvbSAncmVkdXgtc2FnYS9lZmZlY3RzJztcblxuaW1wb3J0IHsgU0VORF9NRVNTQUdFIH0gZnJvbSAnLi4vYWN0aW9ucy9zZW5kTWVzc2FnZSc7XG5pbXBvcnQgcG9zdEFjdGl2aXR5IGZyb20gJy4uL2FjdGlvbnMvcG9zdEFjdGl2aXR5JztcbmltcG9ydCB3aGlsZUNvbm5lY3RlZCBmcm9tICcuL2VmZmVjdHMvd2hpbGVDb25uZWN0ZWQnO1xuXG5mdW5jdGlvbiogcG9zdEFjdGl2aXR5V2l0aE1lc3NhZ2UoeyBwYXlsb2FkOiB7IG1ldGhvZCwgdGV4dCB9IH0pIHtcbiAgeWllbGQgcHV0KFxuICAgIHBvc3RBY3Rpdml0eShcbiAgICAgIHtcbiAgICAgICAgdGV4dCxcbiAgICAgICAgdGV4dEZvcm1hdDogJ3BsYWluJyxcbiAgICAgICAgdHlwZTogJ21lc3NhZ2UnXG4gICAgICB9LFxuICAgICAgbWV0aG9kXG4gICAgKVxuICApO1xufVxuXG5mdW5jdGlvbiogc2VuZE1lc3NhZ2VUb1Bvc3RBY3Rpdml0eSgpIHtcbiAgeWllbGQgdGFrZUV2ZXJ5KCh7IHBheWxvYWQsIHR5cGUgfSkgPT4gdHlwZSA9PT0gU0VORF9NRVNTQUdFICYmIHBheWxvYWQudGV4dCwgcG9zdEFjdGl2aXR5V2l0aE1lc3NhZ2UpO1xufVxuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiogc2VuZE1lc3NhZ2VUb1Bvc3RBY3Rpdml0eVNhZ2EoKSB7XG4gIHlpZWxkIHdoaWxlQ29ubmVjdGVkKHNlbmRNZXNzYWdlVG9Qb3N0QWN0aXZpdHkpO1xufVxuIl19
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9zYWdhcy9zZW5kTWVzc2FnZVRvUG9zdEFjdGl2aXR5U2FnYS5qcyJdLCJuYW1lcyI6WyJwb3N0QWN0aXZpdHlXaXRoTWVzc2FnZSIsInNlbmRNZXNzYWdlVG9Qb3N0QWN0aXZpdHkiLCJzZW5kTWVzc2FnZVRvUG9zdEFjdGl2aXR5U2FnYSIsInBheWxvYWQiLCJtZXRob2QiLCJ0ZXh0IiwidGV4dEZvcm1hdCIsInR5cGUiLCJTRU5EX01FU1NBR0UiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFBQTs7QUFFQTs7QUFDQTs7QUFDQTs7Ozs2QkFFVUEsdUI7Ozs2QkFhQUMseUI7Ozs2QkFJZUMsNkI7O0FBakJ6QixTQUFVRix1QkFBVjtBQUFBOztBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsOEJBQW9DRyxPQUFwQyxFQUErQ0MsTUFBL0MsZ0JBQStDQSxNQUEvQyxFQUF1REMsSUFBdkQsZ0JBQXVEQSxJQUF2RDtBQUFBO0FBQUE7QUFBQTtBQUNFLGlCQUFNLGtCQUNKLDhCQUNFO0FBQ0VBLFlBQUFBLElBQUksRUFBSkEsSUFERjtBQUVFQyxZQUFBQSxVQUFVLEVBQUUsT0FGZDtBQUdFQyxZQUFBQSxJQUFJLEVBQUU7QUFIUixXQURGLEVBTUVILE1BTkYsQ0FESSxDQUFOOztBQURGO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBOztBQWFBLFNBQVVILHlCQUFWO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFDRSxpQkFBTSx3QkFBVSxpQkFBdUI7QUFBQSxnQkFBcEJFLE9BQW9CLFNBQXBCQSxPQUFvQjtBQUFBLGdCQUFYSSxJQUFXLFNBQVhBLElBQVc7QUFBQTtBQUFBO0FBQUEsOENBQUFBLElBQUksS0FBS0MseUJBQVQsZ0NBQXlCTCxPQUFPLENBQUNFLElBQWpDO0FBQXFDLFdBQXRFLEVBQXdFTCx1QkFBeEUsQ0FBTjs7QUFERjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTs7QUFJZSxTQUFVRSw2QkFBVjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQ2IsaUJBQU0sZ0NBQWVELHlCQUFmLENBQU47O0FBRGE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBwdXQsIHRha2VFdmVyeSB9IGZyb20gJ3JlZHV4LXNhZ2EvZWZmZWN0cyc7XG5cbmltcG9ydCB7IFNFTkRfTUVTU0FHRSB9IGZyb20gJy4uL2FjdGlvbnMvc2VuZE1lc3NhZ2UnO1xuaW1wb3J0IHBvc3RBY3Rpdml0eSBmcm9tICcuLi9hY3Rpb25zL3Bvc3RBY3Rpdml0eSc7XG5pbXBvcnQgd2hpbGVDb25uZWN0ZWQgZnJvbSAnLi9lZmZlY3RzL3doaWxlQ29ubmVjdGVkJztcblxuZnVuY3Rpb24qIHBvc3RBY3Rpdml0eVdpdGhNZXNzYWdlKHsgcGF5bG9hZDogeyBtZXRob2QsIHRleHQgfSB9KSB7XG4gIHlpZWxkIHB1dChcbiAgICBwb3N0QWN0aXZpdHkoXG4gICAgICB7XG4gICAgICAgIHRleHQsXG4gICAgICAgIHRleHRGb3JtYXQ6ICdwbGFpbicsXG4gICAgICAgIHR5cGU6ICdtZXNzYWdlJ1xuICAgICAgfSxcbiAgICAgIG1ldGhvZFxuICAgIClcbiAgKTtcbn1cblxuZnVuY3Rpb24qIHNlbmRNZXNzYWdlVG9Qb3N0QWN0aXZpdHkoKSB7XG4gIHlpZWxkIHRha2VFdmVyeSgoeyBwYXlsb2FkLCB0eXBlIH0pID0+IHR5cGUgPT09IFNFTkRfTUVTU0FHRSAmJiBwYXlsb2FkLnRleHQsIHBvc3RBY3Rpdml0eVdpdGhNZXNzYWdlKTtcbn1cblxuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24qIHNlbmRNZXNzYWdlVG9Qb3N0QWN0aXZpdHlTYWdhKCkge1xuICB5aWVsZCB3aGlsZUNvbm5lY3RlZChzZW5kTWVzc2FnZVRvUG9zdEFjdGl2aXR5KTtcbn1cbiJdfQ==

@@ -3,7 +3,8 @@ import ReactWebChat, {
   Components,
   concatMiddleware,
   connectToWebChat,
-  createStyleSet
+  createStyleSet,
+  hooks
 } from 'botframework-webchat-component';
 import createBrowserWebSpeechPonyfillFactory from './createBrowserWebSpeechPonyfillFactory';
 declare const renderWebChat: any;
@@ -17,6 +18,7 @@ export {
   createBrowserWebSpeechPonyfillFactory,
   createStore,
   createStyleSet,
+  hooks,
   renderWebChat,
   version
 };

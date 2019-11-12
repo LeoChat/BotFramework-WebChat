@@ -2,12 +2,13 @@ import BasicWebChat from './BasicWebChat';
 import { localize } from './Localization/Localize';
 import concatMiddleware from './Middleware/concatMiddleware';
 import connectToWebChat from './connectToWebChat';
-import Context from './Context';
+import Context from './WebChatUIContext';
 import createCoreActivityMiddleware from './Middleware/Activity/createCoreMiddleware';
 import createCoreAttachmentMiddleware from './Middleware/Attachment/createCoreMiddleware';
 import createStyleSet from './Styles/createStyleSet';
 import defaultStyleOptions from './Styles/defaultStyleOptions';
 import getTabIndex from './Utils/TypeFocusSink/getTabIndex';
+import * as hooks from './hooks/index';
 declare const version: string;
 declare const Components: {
   Composer: any;
@@ -54,6 +55,7 @@ export {
   createStyleSet,
   defaultStyleOptions,
   getTabIndex,
+  hooks,
   localize,
   version
 };
