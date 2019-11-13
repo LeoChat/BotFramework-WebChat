@@ -1,128 +1,5 @@
 'use strict';
 
-var cov_1r5wi7geck = (function() {
-  var path = '/home/guy/leo/BotFramework-WebChat/packages/core/src/sagas/markAllAsSpokenOnStopSpeakActivitySaga.js';
-  var hash = 'e377cc17ab87798298b82810f63cb9da8821fba1';
-  var global = new Function('return this')();
-  var gcv = '__coverage__';
-  var coverageData = {
-    path: '/home/guy/leo/BotFramework-WebChat/packages/core/src/sagas/markAllAsSpokenOnStopSpeakActivitySaga.js',
-    statementMap: {
-      '0': {
-        start: {
-          line: 9,
-          column: 29
-        },
-        end: {
-          line: 9,
-          column: 73
-        }
-      },
-      '1': {
-        start: {
-          line: 11,
-          column: 2
-        },
-        end: {
-          line: 13,
-          column: 3
-        }
-      },
-      '2': {
-        start: {
-          line: 12,
-          column: 4
-        },
-        end: {
-          line: 12,
-          column: 54
-        }
-      },
-      '3': {
-        start: {
-          line: 18,
-          column: 2
-        },
-        end: {
-          line: 18,
-          column: 59
-        }
-      }
-    },
-    fnMap: {
-      '0': {
-        name: 'markAllAsSpoken',
-        decl: {
-          start: {
-            line: 8,
-            column: 10
-          },
-          end: {
-            line: 8,
-            column: 25
-          }
-        },
-        loc: {
-          start: {
-            line: 8,
-            column: 28
-          },
-          end: {
-            line: 14,
-            column: 1
-          }
-        },
-        line: 8
-      },
-      '1': {
-        name: 'markAllAsSpokenOnStopSpeakActivitySaga',
-        decl: {
-          start: {
-            line: 17,
-            column: 25
-          },
-          end: {
-            line: 17,
-            column: 63
-          }
-        },
-        loc: {
-          start: {
-            line: 17,
-            column: 66
-          },
-          end: {
-            line: 19,
-            column: 1
-          }
-        },
-        line: 17
-      }
-    },
-    branchMap: {},
-    s: {
-      '0': 0,
-      '1': 0,
-      '2': 0,
-      '3': 0
-    },
-    f: {
-      '0': 0,
-      '1': 0
-    },
-    b: {},
-    _coverageSchema: '43e27e138ebf9cfc5966b082cf9a028302ed4184',
-    hash: 'e377cc17ab87798298b82810f63cb9da8821fba1'
-  };
-  var coverage = global[gcv] || (global[gcv] = {});
-
-  if (coverage[path] && coverage[path].hash === hash) {
-    return coverage[path];
-  }
-
-  return (coverage[path] = coverageData);
-})();
-
 var _interopRequireDefault = require('@babel/runtime/helpers/interopRequireDefault');
 
 Object.defineProperty(exports, '__esModule', {
@@ -157,71 +34,67 @@ function markAllAsSpoken() {
       while (1) {
         switch ((_context.prev = _context.next)) {
           case 0:
-            cov_1r5wi7geck.f[0]++;
-            cov_1r5wi7geck.s[0]++;
-            _context.next = 4;
+            _context.next = 2;
             return (0, _effects.select)((0, _activities.of)(_speakingActivity['default']));
 
-          case 4:
+          case 2:
             speakingActivities = _context.sent;
-            cov_1r5wi7geck.s[1]++;
             _iteratorNormalCompletion = true;
             _didIteratorError = false;
             _iteratorError = undefined;
-            _context.prev = 9;
+            _context.prev = 6;
             _iterator = speakingActivities[Symbol.iterator]();
 
-          case 11:
+          case 8:
             if ((_iteratorNormalCompletion = (_step = _iterator.next()).done)) {
-              _context.next = 19;
+              _context.next = 15;
               break;
             }
 
             activity = _step.value;
-            cov_1r5wi7geck.s[2]++;
-            _context.next = 16;
+            _context.next = 12;
             return (0, _effects.put)((0, _markActivity['default'])(activity, 'speak', false));
 
-          case 16:
+          case 12:
             _iteratorNormalCompletion = true;
-            _context.next = 11;
+            _context.next = 8;
             break;
 
-          case 19:
-            _context.next = 25;
+          case 15:
+            _context.next = 21;
             break;
 
-          case 21:
-            _context.prev = 21;
-            _context.t0 = _context['catch'](9);
+          case 17:
+            _context.prev = 17;
+            _context.t0 = _context['catch'](6);
             _didIteratorError = true;
             _iteratorError = _context.t0;
 
-          case 25:
-            _context.prev = 25;
-            _context.prev = 26;
+          case 21:
+            _context.prev = 21;
+            _context.prev = 22;
 
             if (!_iteratorNormalCompletion && _iterator['return'] != null) {
               _iterator['return']();
             }
 
-          case 28:
-            _context.prev = 28;
+          case 24:
+            _context.prev = 24;
 
             if (!_didIteratorError) {
-              _context.next = 31;
+              _context.next = 27;
               break;
             }
 
             throw _iteratorError;
 
-          case 31:
-            return _context.finish(28);
+          case 27:
+            return _context.finish(24);
 
-          case 32:
-            return _context.finish(25);
+          case 28:
+            return _context.finish(21);
 
-          case 33:
+          case 29:
           case 'end':
             return _context.stop();
         }
@@ -229,7 +102,7 @@ function markAllAsSpoken() {
     },
     _marked,
     null,
-    [[9, 21, 25, 33], [26, , 28, 32]]
+    [[6, 17, 21, 29], [22, , 24, 28]]
   );
 } // TODO: [P4] We should turn this into a reducer instead
 
@@ -238,16 +111,14 @@ function markAllAsSpokenOnStopSpeakActivitySaga() {
     while (1) {
       switch ((_context2.prev = _context2.next)) {
         case 0:
-          cov_1r5wi7geck.f[1]++;
-          cov_1r5wi7geck.s[3]++;
-          _context2.next = 4;
+          _context2.next = 2;
           return (0, _effects.takeEvery)(_stopSpeakingActivity.STOP_SPEAKING_ACTIVITY, markAllAsSpoken);
 
-        case 4:
+        case 2:
         case 'end':
           return _context2.stop();
       }
     }
   }, _marked2);
 }
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9zYWdhcy9tYXJrQWxsQXNTcG9rZW5PblN0b3BTcGVha0FjdGl2aXR5U2FnYS5qcyJdLCJuYW1lcyI6WyJtYXJrQWxsQXNTcG9rZW4iLCJtYXJrQWxsQXNTcG9rZW5PblN0b3BTcGVha0FjdGl2aXR5U2FnYSIsInNwZWFraW5nQWN0aXZpdHkiLCJzcGVha2luZ0FjdGl2aXRpZXMiLCJhY3Rpdml0eSIsIlNUT1BfU1BFQUtJTkdfQUNUSVZJVFkiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUE7O0FBRUE7O0FBQ0E7O0FBQ0E7O0FBQ0E7Ozs7NkJBRVVBLGU7Ozs2QkFTZUMsc0M7O0FBVHpCLFNBQVVELGVBQVY7QUFBQTs7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUM2QixpQkFBTSxxQkFBTyxvQkFBYUUsNEJBQWIsQ0FBUCxDQUFOOztBQUQ3QjtBQUNRQyxVQUFBQSxrQkFEUjtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxzQkFHeUJBLGtCQUh6Qjs7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBOztBQUdhQyxVQUFBQSxRQUhiO0FBQUE7QUFBQTtBQUlJLGlCQUFNLGtCQUFJLDhCQUFhQSxRQUFiLEVBQXVCLE9BQXZCLEVBQWdDLEtBQWhDLENBQUosQ0FBTjs7QUFKSjtBQUFBO0FBQUE7QUFBQTs7QUFBQTtBQUFBO0FBQUE7O0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTs7QUFBQTtBQUFBO0FBQUE7O0FBQUE7QUFBQTtBQUFBOztBQUFBO0FBQUE7O0FBQUE7QUFBQTtBQUFBO0FBQUE7O0FBQUE7O0FBQUE7QUFBQTs7QUFBQTtBQUFBOztBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLEMsQ0FRQTs7O0FBQ2UsU0FBVUgsc0NBQVY7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUNiLGlCQUFNLHdCQUFVSSw0Q0FBVixFQUFrQ0wsZUFBbEMsQ0FBTjs7QUFEYTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHB1dCwgc2VsZWN0LCB0YWtlRXZlcnkgfSBmcm9tICdyZWR1eC1zYWdhL2VmZmVjdHMnO1xuXG5pbXBvcnQgeyBvZiBhcyBhY3Rpdml0aWVzT2YgfSBmcm9tICcuLi9zZWxlY3RvcnMvYWN0aXZpdGllcyc7XG5pbXBvcnQgeyBTVE9QX1NQRUFLSU5HX0FDVElWSVRZIH0gZnJvbSAnLi4vYWN0aW9ucy9zdG9wU3BlYWtpbmdBY3Rpdml0eSc7XG5pbXBvcnQgbWFya0FjdGl2aXR5IGZyb20gJy4uL2FjdGlvbnMvbWFya0FjdGl2aXR5JztcbmltcG9ydCBzcGVha2luZ0FjdGl2aXR5IGZyb20gJy4uL2RlZmluaXRpb25zL3NwZWFraW5nQWN0aXZpdHknO1xuXG5mdW5jdGlvbiogbWFya0FsbEFzU3Bva2VuKCkge1xuICBjb25zdCBzcGVha2luZ0FjdGl2aXRpZXMgPSB5aWVsZCBzZWxlY3QoYWN0aXZpdGllc09mKHNwZWFraW5nQWN0aXZpdHkpKTtcblxuICBmb3IgKGNvbnN0IGFjdGl2aXR5IG9mIHNwZWFraW5nQWN0aXZpdGllcykge1xuICAgIHlpZWxkIHB1dChtYXJrQWN0aXZpdHkoYWN0aXZpdHksICdzcGVhaycsIGZhbHNlKSk7XG4gIH1cbn1cblxuLy8gVE9ETzogW1A0XSBXZSBzaG91bGQgdHVybiB0aGlzIGludG8gYSByZWR1Y2VyIGluc3RlYWRcbmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uKiBtYXJrQWxsQXNTcG9rZW5PblN0b3BTcGVha0FjdGl2aXR5U2FnYSgpIHtcbiAgeWllbGQgdGFrZUV2ZXJ5KFNUT1BfU1BFQUtJTkdfQUNUSVZJVFksIG1hcmtBbGxBc1Nwb2tlbik7XG59XG4iXX0=
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9zYWdhcy9tYXJrQWxsQXNTcG9rZW5PblN0b3BTcGVha0FjdGl2aXR5U2FnYS5qcyJdLCJuYW1lcyI6WyJtYXJrQWxsQXNTcG9rZW4iLCJtYXJrQWxsQXNTcG9rZW5PblN0b3BTcGVha0FjdGl2aXR5U2FnYSIsInNwZWFraW5nQWN0aXZpdHkiLCJzcGVha2luZ0FjdGl2aXRpZXMiLCJhY3Rpdml0eSIsIlNUT1BfU1BFQUtJTkdfQUNUSVZJVFkiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0FBQUE7O0FBRUE7O0FBQ0E7O0FBQ0E7O0FBQ0E7Ozs7NkJBRVVBLGU7Ozs2QkFTZUMsc0M7O0FBVHpCLFNBQVVELGVBQVY7QUFBQTs7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQzZCLGlCQUFNLHFCQUFPLG9CQUFhRSw0QkFBYixDQUFQLENBQU47O0FBRDdCO0FBQ1FDLFVBQUFBLGtCQURSO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxzQkFHeUJBLGtCQUh6Qjs7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBOztBQUdhQyxVQUFBQSxRQUhiO0FBQUE7QUFJSSxpQkFBTSxrQkFBSSw4QkFBYUEsUUFBYixFQUF1QixPQUF2QixFQUFnQyxLQUFoQyxDQUFKLENBQU47O0FBSko7QUFBQTtBQUFBO0FBQUE7O0FBQUE7QUFBQTtBQUFBOztBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7O0FBQUE7QUFBQTtBQUFBOztBQUFBO0FBQUE7QUFBQTs7QUFBQTtBQUFBOztBQUFBO0FBQUE7QUFBQTtBQUFBOztBQUFBOztBQUFBO0FBQUE7O0FBQUE7QUFBQTs7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxDLENBUUE7OztBQUNlLFNBQVVILHNDQUFWO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUNiLGlCQUFNLHdCQUFVSSw0Q0FBVixFQUFrQ0wsZUFBbEMsQ0FBTjs7QUFEYTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHB1dCwgc2VsZWN0LCB0YWtlRXZlcnkgfSBmcm9tICdyZWR1eC1zYWdhL2VmZmVjdHMnO1xuXG5pbXBvcnQgeyBvZiBhcyBhY3Rpdml0aWVzT2YgfSBmcm9tICcuLi9zZWxlY3RvcnMvYWN0aXZpdGllcyc7XG5pbXBvcnQgeyBTVE9QX1NQRUFLSU5HX0FDVElWSVRZIH0gZnJvbSAnLi4vYWN0aW9ucy9zdG9wU3BlYWtpbmdBY3Rpdml0eSc7XG5pbXBvcnQgbWFya0FjdGl2aXR5IGZyb20gJy4uL2FjdGlvbnMvbWFya0FjdGl2aXR5JztcbmltcG9ydCBzcGVha2luZ0FjdGl2aXR5IGZyb20gJy4uL2RlZmluaXRpb25zL3NwZWFraW5nQWN0aXZpdHknO1xuXG5mdW5jdGlvbiogbWFya0FsbEFzU3Bva2VuKCkge1xuICBjb25zdCBzcGVha2luZ0FjdGl2aXRpZXMgPSB5aWVsZCBzZWxlY3QoYWN0aXZpdGllc09mKHNwZWFraW5nQWN0aXZpdHkpKTtcblxuICBmb3IgKGNvbnN0IGFjdGl2aXR5IG9mIHNwZWFraW5nQWN0aXZpdGllcykge1xuICAgIHlpZWxkIHB1dChtYXJrQWN0aXZpdHkoYWN0aXZpdHksICdzcGVhaycsIGZhbHNlKSk7XG4gIH1cbn1cblxuLy8gVE9ETzogW1A0XSBXZSBzaG91bGQgdHVybiB0aGlzIGludG8gYSByZWR1Y2VyIGluc3RlYWRcbmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uKiBtYXJrQWxsQXNTcG9rZW5PblN0b3BTcGVha0FjdGl2aXR5U2FnYSgpIHtcbiAgeWllbGQgdGFrZUV2ZXJ5KFNUT1BfU1BFQUtJTkdfQUNUSVZJVFksIG1hcmtBbGxBc1Nwb2tlbik7XG59XG4iXX0=

@@ -1,160 +1,27 @@
 'use strict';
 
-var cov_n7yn7asp = (function() {
-  var path = '/home/guy/leo/BotFramework-WebChat/packages/core/src/actions/connect.js';
-  var hash = '6f8efeb584417bcc7a1484aa1ab13d8be2317fed';
-  var global = new Function('return this')();
-  var gcv = '__coverage__';
-  var coverageData = {
-    path: '/home/guy/leo/BotFramework-WebChat/packages/core/src/actions/connect.js',
-    statementMap: {
-      '0': {
-        start: {
-          line: 1,
-          column: 16
-        },
-        end: {
-          line: 1,
-          column: 37
-        }
-      },
-      '1': {
-        start: {
-          line: 2,
-          column: 26
-        },
-        end: {
-          line: 2,
-          column: 48
-        }
-      },
-      '2': {
-        start: {
-          line: 3,
-          column: 27
-        },
-        end: {
-          line: 3,
-          column: 50
-        }
-      },
-      '3': {
-        start: {
-          line: 4,
-          column: 24
-        },
-        end: {
-          line: 4,
-          column: 44
-        }
-      },
-      '4': {
-        start: {
-          line: 5,
-          column: 25
-        },
-        end: {
-          line: 5,
-          column: 46
-        }
-      },
-      '5': {
-        start: {
-          line: 6,
-          column: 30
-        },
-        end: {
-          line: 6,
-          column: 56
-        }
-      },
-      '6': {
-        start: {
-          line: 9,
-          column: 2
-        },
-        end: {
-          line: 16,
-          column: 4
-        }
-      }
-    },
-    fnMap: {
-      '0': {
-        name: 'connect',
-        decl: {
-          start: {
-            line: 8,
-            column: 24
-          },
-          end: {
-            line: 8,
-            column: 31
-          }
-        },
-        loc: {
-          start: {
-            line: 8,
-            column: 66
-          },
-          end: {
-            line: 17,
-            column: 1
-          }
-        },
-        line: 8
-      }
-    },
-    branchMap: {},
-    s: {
-      '0': 0,
-      '1': 0,
-      '2': 0,
-      '3': 0,
-      '4': 0,
-      '5': 0,
-      '6': 0
-    },
-    f: {
-      '0': 0
-    },
-    b: {},
-    _coverageSchema: '43e27e138ebf9cfc5966b082cf9a028302ed4184',
-    hash: '6f8efeb584417bcc7a1484aa1ab13d8be2317fed'
-  };
-  var coverage = global[gcv] || (global[gcv] = {});
-
-  if (coverage[path] && coverage[path].hash === hash) {
-    return coverage[path];
-  }
-
-  return (coverage[path] = coverageData);
-})();
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 exports['default'] = connect;
 exports.CONNECT_STILL_PENDING = exports.CONNECT_REJECTED = exports.CONNECT_PENDING = exports.CONNECT_FULFILLING = exports.CONNECT_FULFILLED = exports.CONNECT = void 0;
-var CONNECT = (cov_n7yn7asp.s[0]++, 'DIRECT_LINE/CONNECT');
+var CONNECT = 'DIRECT_LINE/CONNECT';
 exports.CONNECT = CONNECT;
-var CONNECT_FULFILLED = (cov_n7yn7asp.s[1]++, ''.concat(CONNECT, '_FULFILLED'));
+var CONNECT_FULFILLED = ''.concat(CONNECT, '_FULFILLED');
 exports.CONNECT_FULFILLED = CONNECT_FULFILLED;
-var CONNECT_FULFILLING = (cov_n7yn7asp.s[2]++, ''.concat(CONNECT, '_FULFILLING'));
+var CONNECT_FULFILLING = ''.concat(CONNECT, '_FULFILLING');
 exports.CONNECT_FULFILLING = CONNECT_FULFILLING;
-var CONNECT_PENDING = (cov_n7yn7asp.s[3]++, ''.concat(CONNECT, '_PENDING'));
+var CONNECT_PENDING = ''.concat(CONNECT, '_PENDING');
 exports.CONNECT_PENDING = CONNECT_PENDING;
-var CONNECT_REJECTED = (cov_n7yn7asp.s[4]++, ''.concat(CONNECT, '_REJECTED'));
+var CONNECT_REJECTED = ''.concat(CONNECT, '_REJECTED');
 exports.CONNECT_REJECTED = CONNECT_REJECTED;
-var CONNECT_STILL_PENDING = (cov_n7yn7asp.s[5]++, ''.concat(CONNECT, '_STILL_PENDING'));
+var CONNECT_STILL_PENDING = ''.concat(CONNECT, '_STILL_PENDING');
 exports.CONNECT_STILL_PENDING = CONNECT_STILL_PENDING;
 
 function connect(_ref) {
   var directLine = _ref.directLine,
     userID = _ref.userID,
     username = _ref.username;
-  cov_n7yn7asp.f[0]++;
-  cov_n7yn7asp.s[6]++;
   return {
     type: CONNECT,
     payload: {
@@ -164,4 +31,4 @@ function connect(_ref) {
     }
   };
 }
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9hY3Rpb25zL2Nvbm5lY3QuanMiXSwibmFtZXMiOlsiQ09OTkVDVCIsIkNPTk5FQ1RfRlVMRklMTEVEIiwiQ09OTkVDVF9GVUxGSUxMSU5HIiwiQ09OTkVDVF9QRU5ESU5HIiwiQ09OTkVDVF9SRUpFQ1RFRCIsIkNPTk5FQ1RfU1RJTExfUEVORElORyIsImNvbm5lY3QiLCJkaXJlY3RMaW5lIiwidXNlcklEIiwidXNlcm5hbWUiLCJ0eXBlIiwicGF5bG9hZCJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsSUFBTUEsT0FBTyx5QkFBRyxxQkFBSCxDQUFiOztBQUNBLElBQU1DLGlCQUFpQixtQ0FBTUQsT0FBTixnQkFBdkI7O0FBQ0EsSUFBTUUsa0JBQWtCLG1DQUFNRixPQUFOLGlCQUF4Qjs7QUFDQSxJQUFNRyxlQUFlLG1DQUFNSCxPQUFOLGNBQXJCOztBQUNBLElBQU1JLGdCQUFnQixtQ0FBTUosT0FBTixlQUF0Qjs7QUFDQSxJQUFNSyxxQkFBcUIsbUNBQU1MLE9BQU4sb0JBQTNCOzs7QUFFZSxTQUFTTSxPQUFULE9BQW1EO0FBQUEsTUFBaENDLFVBQWdDLFFBQWhDQSxVQUFnQztBQUFBLE1BQXBCQyxNQUFvQixRQUFwQkEsTUFBb0I7QUFBQSxNQUFaQyxRQUFZLFFBQVpBLFFBQVk7QUFBQTtBQUFBO0FBQ2hFLFNBQU87QUFDTEMsSUFBQUEsSUFBSSxFQUFFVixPQUREO0FBRUxXLElBQUFBLE9BQU8sRUFBRTtBQUNQSixNQUFBQSxVQUFVLEVBQVZBLFVBRE87QUFFUEMsTUFBQUEsTUFBTSxFQUFOQSxNQUZPO0FBR1BDLE1BQUFBLFFBQVEsRUFBUkE7QUFITztBQUZKLEdBQVA7QUFRRCIsInNvdXJjZXNDb250ZW50IjpbImNvbnN0IENPTk5FQ1QgPSAnRElSRUNUX0xJTkUvQ09OTkVDVCc7XG5jb25zdCBDT05ORUNUX0ZVTEZJTExFRCA9IGAke0NPTk5FQ1R9X0ZVTEZJTExFRGA7XG5jb25zdCBDT05ORUNUX0ZVTEZJTExJTkcgPSBgJHtDT05ORUNUfV9GVUxGSUxMSU5HYDtcbmNvbnN0IENPTk5FQ1RfUEVORElORyA9IGAke0NPTk5FQ1R9X1BFTkRJTkdgO1xuY29uc3QgQ09OTkVDVF9SRUpFQ1RFRCA9IGAke0NPTk5FQ1R9X1JFSkVDVEVEYDtcbmNvbnN0IENPTk5FQ1RfU1RJTExfUEVORElORyA9IGAke0NPTk5FQ1R9X1NUSUxMX1BFTkRJTkdgO1xuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBjb25uZWN0KHsgZGlyZWN0TGluZSwgdXNlcklELCB1c2VybmFtZSB9KSB7XG4gIHJldHVybiB7XG4gICAgdHlwZTogQ09OTkVDVCxcbiAgICBwYXlsb2FkOiB7XG4gICAgICBkaXJlY3RMaW5lLFxuICAgICAgdXNlcklELFxuICAgICAgdXNlcm5hbWVcbiAgICB9XG4gIH07XG59XG5cbmV4cG9ydCB7IENPTk5FQ1QsIENPTk5FQ1RfRlVMRklMTEVELCBDT05ORUNUX0ZVTEZJTExJTkcsIENPTk5FQ1RfUEVORElORywgQ09OTkVDVF9SRUpFQ1RFRCwgQ09OTkVDVF9TVElMTF9QRU5ESU5HIH07XG4iXX0=
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9hY3Rpb25zL2Nvbm5lY3QuanMiXSwibmFtZXMiOlsiQ09OTkVDVCIsIkNPTk5FQ1RfRlVMRklMTEVEIiwiQ09OTkVDVF9GVUxGSUxMSU5HIiwiQ09OTkVDVF9QRU5ESU5HIiwiQ09OTkVDVF9SRUpFQ1RFRCIsIkNPTk5FQ1RfU1RJTExfUEVORElORyIsImNvbm5lY3QiLCJkaXJlY3RMaW5lIiwidXNlcklEIiwidXNlcm5hbWUiLCJ0eXBlIiwicGF5bG9hZCJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBLElBQU1BLE9BQU8sR0FBRyxxQkFBaEI7O0FBQ0EsSUFBTUMsaUJBQWlCLGFBQU1ELE9BQU4sZUFBdkI7O0FBQ0EsSUFBTUUsa0JBQWtCLGFBQU1GLE9BQU4sZ0JBQXhCOztBQUNBLElBQU1HLGVBQWUsYUFBTUgsT0FBTixhQUFyQjs7QUFDQSxJQUFNSSxnQkFBZ0IsYUFBTUosT0FBTixjQUF0Qjs7QUFDQSxJQUFNSyxxQkFBcUIsYUFBTUwsT0FBTixtQkFBM0I7OztBQUVlLFNBQVNNLE9BQVQsT0FBbUQ7QUFBQSxNQUFoQ0MsVUFBZ0MsUUFBaENBLFVBQWdDO0FBQUEsTUFBcEJDLE1BQW9CLFFBQXBCQSxNQUFvQjtBQUFBLE1BQVpDLFFBQVksUUFBWkEsUUFBWTtBQUNoRSxTQUFPO0FBQ0xDLElBQUFBLElBQUksRUFBRVYsT0FERDtBQUVMVyxJQUFBQSxPQUFPLEVBQUU7QUFDUEosTUFBQUEsVUFBVSxFQUFWQSxVQURPO0FBRVBDLE1BQUFBLE1BQU0sRUFBTkEsTUFGTztBQUdQQyxNQUFBQSxRQUFRLEVBQVJBO0FBSE87QUFGSixHQUFQO0FBUUQiLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBDT05ORUNUID0gJ0RJUkVDVF9MSU5FL0NPTk5FQ1QnO1xuY29uc3QgQ09OTkVDVF9GVUxGSUxMRUQgPSBgJHtDT05ORUNUfV9GVUxGSUxMRURgO1xuY29uc3QgQ09OTkVDVF9GVUxGSUxMSU5HID0gYCR7Q09OTkVDVH1fRlVMRklMTElOR2A7XG5jb25zdCBDT05ORUNUX1BFTkRJTkcgPSBgJHtDT05ORUNUfV9QRU5ESU5HYDtcbmNvbnN0IENPTk5FQ1RfUkVKRUNURUQgPSBgJHtDT05ORUNUfV9SRUpFQ1RFRGA7XG5jb25zdCBDT05ORUNUX1NUSUxMX1BFTkRJTkcgPSBgJHtDT05ORUNUfV9TVElMTF9QRU5ESU5HYDtcblxuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gY29ubmVjdCh7IGRpcmVjdExpbmUsIHVzZXJJRCwgdXNlcm5hbWUgfSkge1xuICByZXR1cm4ge1xuICAgIHR5cGU6IENPTk5FQ1QsXG4gICAgcGF5bG9hZDoge1xuICAgICAgZGlyZWN0TGluZSxcbiAgICAgIHVzZXJJRCxcbiAgICAgIHVzZXJuYW1lXG4gICAgfVxuICB9O1xufVxuXG5leHBvcnQgeyBDT05ORUNULCBDT05ORUNUX0ZVTEZJTExFRCwgQ09OTkVDVF9GVUxGSUxMSU5HLCBDT05ORUNUX1BFTkRJTkcsIENPTk5FQ1RfUkVKRUNURUQsIENPTk5FQ1RfU1RJTExfUEVORElORyB9O1xuIl19

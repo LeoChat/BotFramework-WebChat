@@ -1,92 +1,14 @@
 'use strict';
 
-var cov_20eckli80e = (function() {
-  var path = '/home/guy/leo/BotFramework-WebChat/packages/core/src/actions/sendPostBack.js';
-  var hash = 'c30b138350a029a8167945f466e673f778ffeaf7';
-  var global = new Function('return this')();
-  var gcv = '__coverage__';
-  var coverageData = {
-    path: '/home/guy/leo/BotFramework-WebChat/packages/core/src/actions/sendPostBack.js',
-    statementMap: {
-      '0': {
-        start: {
-          line: 1,
-          column: 23
-        },
-        end: {
-          line: 1,
-          column: 48
-        }
-      },
-      '1': {
-        start: {
-          line: 4,
-          column: 2
-        },
-        end: {
-          line: 7,
-          column: 4
-        }
-      }
-    },
-    fnMap: {
-      '0': {
-        name: 'sendPostback',
-        decl: {
-          start: {
-            line: 3,
-            column: 24
-          },
-          end: {
-            line: 3,
-            column: 36
-          }
-        },
-        loc: {
-          start: {
-            line: 3,
-            column: 44
-          },
-          end: {
-            line: 8,
-            column: 1
-          }
-        },
-        line: 3
-      }
-    },
-    branchMap: {},
-    s: {
-      '0': 0,
-      '1': 0
-    },
-    f: {
-      '0': 0
-    },
-    b: {},
-    _coverageSchema: '43e27e138ebf9cfc5966b082cf9a028302ed4184',
-    hash: 'c30b138350a029a8167945f466e673f778ffeaf7'
-  };
-  var coverage = global[gcv] || (global[gcv] = {});
-
-  if (coverage[path] && coverage[path].hash === hash) {
-    return coverage[path];
-  }
-
-  return (coverage[path] = coverageData);
-})();
-
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 exports['default'] = sendPostback;
 exports.SEND_POST_BACK = void 0;
-var SEND_POST_BACK = (cov_20eckli80e.s[0]++, 'WEB_CHAT/SEND_POST_BACK');
+var SEND_POST_BACK = 'WEB_CHAT/SEND_POST_BACK';
 exports.SEND_POST_BACK = SEND_POST_BACK;
 
 function sendPostback(value) {
-  cov_20eckli80e.f[0]++;
-  cov_20eckli80e.s[1]++;
   return {
     type: SEND_POST_BACK,
     payload: {
@@ -94,4 +16,4 @@ function sendPostback(value) {
     }
   };
 }
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9hY3Rpb25zL3NlbmRQb3N0QmFjay5qcyJdLCJuYW1lcyI6WyJTRU5EX1BPU1RfQkFDSyIsInNlbmRQb3N0YmFjayIsInZhbHVlIiwidHlwZSIsInBheWxvYWQiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsSUFBTUEsY0FBYywyQkFBRyx5QkFBSCxDQUFwQjs7O0FBRWUsU0FBU0MsWUFBVCxDQUFzQkMsS0FBdEIsRUFBNkI7QUFBQTtBQUFBO0FBQzFDLFNBQU87QUFDTEMsSUFBQUEsSUFBSSxFQUFFSCxjQUREO0FBRUxJLElBQUFBLE9BQU8sRUFBRTtBQUFFRixNQUFBQSxLQUFLLEVBQUxBO0FBQUY7QUFGSixHQUFQO0FBSUQiLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBTRU5EX1BPU1RfQkFDSyA9ICdXRUJfQ0hBVC9TRU5EX1BPU1RfQkFDSyc7XG5cbmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uIHNlbmRQb3N0YmFjayh2YWx1ZSkge1xuICByZXR1cm4ge1xuICAgIHR5cGU6IFNFTkRfUE9TVF9CQUNLLFxuICAgIHBheWxvYWQ6IHsgdmFsdWUgfVxuICB9O1xufVxuXG5leHBvcnQgeyBTRU5EX1BPU1RfQkFDSyB9O1xuIl19
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9hY3Rpb25zL3NlbmRQb3N0QmFjay5qcyJdLCJuYW1lcyI6WyJTRU5EX1BPU1RfQkFDSyIsInNlbmRQb3N0YmFjayIsInZhbHVlIiwidHlwZSIsInBheWxvYWQiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFBQSxJQUFNQSxjQUFjLEdBQUcseUJBQXZCOzs7QUFFZSxTQUFTQyxZQUFULENBQXNCQyxLQUF0QixFQUE2QjtBQUMxQyxTQUFPO0FBQ0xDLElBQUFBLElBQUksRUFBRUgsY0FERDtBQUVMSSxJQUFBQSxPQUFPLEVBQUU7QUFBRUYsTUFBQUEsS0FBSyxFQUFMQTtBQUFGO0FBRkosR0FBUDtBQUlEIiwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgU0VORF9QT1NUX0JBQ0sgPSAnV0VCX0NIQVQvU0VORF9QT1NUX0JBQ0snO1xuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBzZW5kUG9zdGJhY2sodmFsdWUpIHtcbiAgcmV0dXJuIHtcbiAgICB0eXBlOiBTRU5EX1BPU1RfQkFDSyxcbiAgICBwYXlsb2FkOiB7IHZhbHVlIH1cbiAgfTtcbn1cblxuZXhwb3J0IHsgU0VORF9QT1NUX0JBQ0sgfTtcbiJdfQ==
