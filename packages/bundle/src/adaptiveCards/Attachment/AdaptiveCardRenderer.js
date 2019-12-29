@@ -85,13 +85,11 @@ class AdaptiveCardRenderer extends React.PureComponent {
         const { current } = this.contentRef;
         if (current) {
           const inputs = current.querySelectorAll('button, input, select, textarea');
+
           if (inputs.length > 0) {
-            for (const inputsKey in inputs) {
-              if (inputs.hasOwnProperty(inputsKey)) {
-                inputs[inputsKey].setAttribute('disabled', 'disabled');
-                inputs[inputsKey].setAttribute('style', 'background: #dcdcdc;');
-              }
-            }
+            [].forEach.call(inputs, input => {
+              input.disabled = true;
+            });
           }
         }
       }
